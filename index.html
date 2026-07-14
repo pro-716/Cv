@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ريسبون | مركز القيادة الكوني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        spaceDark: '#02020a', 
+                        neonCyan: '#00f2ff', 
+                        deepBlue: '#0066ff', 
+                        neonViolet: '#bc13fe', 
+                        neonRed: '#ff0055' 
+                    },
+                    fontFamily: { 
+                        cairo: ['Cairo', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root { --electric-cyan: #00f2ff; }
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #02020a; 
+            color: #fff; 
+            overflow: hidden;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
+                        url('https://www.transparenttextures.com/patterns/stardust.png'), #02020a;
+        }
+        body::before {
+            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px) saturate(200%); 
+            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative; overflow: hidden;
+        }
+        .electric-border { animation: electric-pulse 3s infinite; }
+        @keyframes electric-pulse {
+            0% { border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+            50% { border-color: rgba(0, 242, 255, 0.8); box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
+            100% { border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+        }
+        .table-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+        .table-open { border-right: 8px solid var(--electric-cyan); background: linear-gradient(90deg, rgba(0, 242, 255, 0.15) 0%, rgba(2, 2, 10, 0.8) 100%); animation: heartbeat 2s infinite; }
+        .table-empty { border-right: 8px solid #374151; background: rgba(10, 10, 20, 0.6); }
+        @keyframes heartbeat {
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        }
+        .rush-mode { background: radial-gradient(circle at center, rgba(255, 0, 85, 0.15) 0%, transparent 70%) !important; }
+        .rush-mode .electric-border { animation: electric-pulse-red 1s infinite; }
+        @keyframes electric-pulse-red {
+            0% { border-color: rgba(255, 0, 85, 0.3); } 50% { border-color: rgba(255, 0, 85, 0.8); } 100% { border-color: rgba(255, 0, 85, 0.3); }
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .side-menu { transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000; }
+    </style>
+</head>
+<body class="h-screen overflow-hidden flex" id="main-body">
+
+    <!-- Side Navigation -->
+    <aside id="sidebar" class="fixed top-0 right-0 w-80 h-full glass-panel side-menu translate-x-full p-8 flex flex-col gap-8">
+        <div class="flex justify-between items-center mb-10">
+            <span class="text-2xl font-black text-neonCyan font-orbitron">القائمة الرئيسية</span>
+            <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-3xl transition-all">✕</button>
+        </div>
+        <nav class="flex flex-col gap-6">
+            <button onclick="switchTab('map')" id="btn-map" class="flex items-center gap-4 p-4 rounded-xl bg-neonCyan text-black font-black transition-all shadow-[0_0_15px_#00f2ff]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                خريطة الصالة
+            </button>
+            <button onclick="switchTab('log')" id="btn-log" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                سجل العمليات
+            </button>
+            <button onclick="switchTab('menu')" id="btn-menu" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                إدارة المنيو
+            </button>
+            <div class="h-px bg-white/10 my-4"></div>
+            <button onclick="closeAllTables()" class="flex items-center gap-4 p-4 rounded-xl bg-neonRed/20 text-neonRed hover:bg-neonRed hover:text-white transition-all font-black border border-neonRed/50">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.//8 4m0-13a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                تصفير النظام ❌
+            </button>
+        </nav>
+    </aside>
+
+    <div class="flex-1 h-full overflow-y-auto p-6 lg:p-10 no-scrollbar relative z-10">
+        <!-- Strategic Pulse Bar (New Unique Feature) -->
+        <div class="mb-8 glass-panel p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4 electric-border animate__animated animate__fadeInDown">
+            <div class="flex items-center gap-4">
+                <span class="text-xs font-bold text-neonCyan font-orbitron uppercase">Strategic Pulse:</span>
+                <div id="star-product" class="text-sm font-bold text-gray-300 italic">جاري تحليل الطلبات...</div>
+            </div>
+            <div id="rush-status" class="px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron">
+                STATUS: STABLE
+            </div>
+        </div>
+
+        <header class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8 animate__animated animate__fadeInDown">
+            <div class="flex items-center gap-8">
+                <button onclick="toggleMenu()" class="p-4 glass-panel rounded-2xl hover:bg-neonCyan hover:text-black transition-all shadow-lg electric-border">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div class="text-right">
+                    <h1 id="view-title" class="text-6xl font-black tracking-tighter italic">خريطة <span class="text-neonCyan">الصالة</span></h1>
+                    <p class="text-neonCyan text-xs uppercase tracking-[0.5em] opacity-70 font-orbitron">Space Command Center v2.0</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-neonCyan to-neonViolet p-6 rounded-3xl flex items-center gap-6 transition-all hover:scale-105 active:scale-95 cursor-pointer text-black">
+                <div class="text-4xl">🌌</div>
+                <div>
+                    <p class="text-xs font-bold uppercase opacity-70">إجمالي الإيرادات</p>
+                    <h2 id="daily-revenue" class="text-3xl font-black font-orbitron">0 IQD</h2>
+                </div>
+            </div>
+
+            <button onclick="addNewTable()" class="bg-neonCyan text-black px-10 py-4 rounded-xl text-sm font-black transition-all active:scale-90 hover:shadow-[0_0_30px_#00f2ff] font-orbitron">
+                إضافة وحدة +
+            </button>
+        </header>
+
+        <div id="view-map" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 animate__animated animate__fadeIn"></div>
+        <div id="view-log" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
+            <div class="glass-panel rounded-[3rem] overflow-hidden electric-border">
+                <table class="w-full text-right text-sm">
+                    <thead class="bg-white/10 text-neonCyan font-orbitron">
+                        <tr><th class="p-6">الوقت</th><th class="p-6">الوحدة</th><th class="p-6">الطلبات</th><th class="p-6">المجموع</th></tr>
+                    </thead>
+                    <tbody id="log-body" class="divide-y divide-white/5"></tbody>
+                </table>
+            </div>
+        </div>
+        <div id="view-menu" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="glass-panel p-10 rounded-[3rem] space-y-6 electric-border">
+                    <h3 class="text-3xl font-black text-neonCyan mb-6 font-orbitron">صنف جديد</h3>
+                    <input id="m-name" type="text" placeholder="اسم المنتج" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
+                    <input id="m-price" type="number" placeholder="السعر بالدينار" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
+                    <select id="m-cat" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
+                        <option value="ازبري">ازبري</option>
+                        <option value="ساخن وتسالي">ساخن وتسالي</option>
+                        <option value="عصائر طبيعية">عصائر طبيعية</option>
+                        <option value="مشروبات باردة">مشروبات باردة</option>
+                        <option value="أراكيل ريسبون">أراكيل ريسبون</option>
+                        <option value="صالة الألعاب">صالة الألعاب</option>
+                    </select>
+                    <button onclick="saveProduct()" class="w-full bg-neonCyan text-black py-5 rounded-xl font-black text-lg active:scale-95 transition-all font-orbitron">مزامنة لقاعدة البيانات ✅</button>
+                </div>
+                <div class="glass-panel p-10 rounded-[3rem] space-y-6 border-neonRed/30">
+                    <h3 class="text-3xl font-black text-neonRed mb-6 font-orbitron">قائمة المنتجات</h3>
+                    <div id="menu-list" class="space-y-4 max-h-[500px] overflow-y-auto no-scrollbar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal and Transfer (Converted to Arabic) -->
+    <div id="detail-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-3xl" onclick="closeDetail()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg glass-panel p-12 rounded-[4rem] border-2 border-neonCyan/40 animate__animated animate__zoomIn shadow-[0_0_80px_rgba(0,242,241,0.3)]">
+            <div class="flex justify-between items-start mb-12">
+                <h3 id="detail-title" class="text-5xl font-black text-neonCyan tracking-tighter font-orbitron">تفاصيل الوحدة</h3>
+                <button onclick="closeDetail()" class="text-gray-500 hover:text-white text-4xl transition-all">✕</button>
+            </div>
+            <div id="timer-section" class="hidden bg-black/60 p-6 rounded-3xl mb-8 border border-neonCyan/20 flex justify-between items-center">
+                <span class="text-sm font-bold text-gray-400 font-orbitron">الوقت المتبقي:</span>
+                <span id="detail-timer" class="font-mono text-3xl font-black text-neonCyan">00:00:00</span>
+            </div>
+            <div class="flex gap-4 mb-10">
+                <input id="add-item-name" type="text" placeholder="الصنف" class="flex-1 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
+                <input id="add-item-price" type="number" placeholder="السعر" class="w-28 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
+                <button id="btn-add-item" class="bg-neonCyan text-black px-6 rounded-2xl font-black text-2xl hover:scale-110 transition-all">+</button>
+            </div>
+            <div id="detail-items" class="space-y-4 mb-12 max-h-64 overflow-y-auto no-scrollbar"></div>
+            <div class="flex justify-between items-center p-8 bg-white/5 rounded-3xl mb-12 border border-white/10">
+                <span class="font-bold text-gray-400 font-orbitron">المجموع النهائي:</span>
+                <span id="detail-total" class="text-5xl font-black text-neonCyan">0 IQD</span>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <button id="btn-transfer" class="bg-neonViolet text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#bc13fe] font-orbitron">تحويل الحساب ⇄</button>
+                <button id="btn-close" class="bg-neonRed text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#ff0055] font-orbitron">إغلاق الحساب ✅</button>
+            </div>
+            <button id="btn-delete-table" class="w-full mt-10 text-gray-600 text-xs font-bold py-2 hover:text-neonRed transition-all font-orbitron uppercase tracking-widest">مسح الوحدة من النظام نهائياً</button>
+        </div>
+    </div>
+
+    <div id="transfer-modal" class="fixed inset-0 z-[200] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeTransfer()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-panel p-12 rounded-[3rem] border border-neonCyan/40 animate__animated animate__zoomIn shadow-2xl">
+            <h3 class="text-3xl font-black mb-10 text-center text-neonCyan font-orbitron">نقل الحساب 🔄</h3>
+            <select id="transfer-target" class="w-full bg-black/60 border border-white/10 p-4 rounded-2xl mb-10 text-sm outline-none focus:border-neonCyan transition-all appearance-none text-white"></select>
+            <button id="confirm-transfer" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black transition-all active:scale-90 font-orbitron uppercase">تأكيد النقل الآن</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, deleteDoc, getDocs, writeBatch, setDoc, getDoc, addDoc, orderBy } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAFQx3BndP3piYkONM0KSBcb5vo8xx3a5Q",
+            authDomain: "respawn-7654a.firebaseapp.com",
+            projectId: "respawn-7654a",
+            storageBucket: "respawn-7654a.firebasestorage.app",
+            messagingSenderId: "503079760523",
+            appId: "1:503079760523:web:002bb6364abd211f5a9a8e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const BASE_TABLES = ["طاولة 7", "طاولة 8", "طاولة 9", "طاولة 10", "بلي 1", "بلي 2", "بلي 3", "بلي 4", "بلي 5", "بلي 6", "منضدة 11", "منضدة 12"];
+        let allTablesList = [...BASE_TABLES];
+        let timerInterval = null;
+        let currentTransferSource = null;
+
+        window.toggleMenu = () => { document.getElementById('sidebar').classList.toggle('translate-x-full'); }
+
+        window.switchTab = (tab) => {
+            const views = { map: 'view-map', log: 'view-log', menu: 'view-menu' };
+            const titles = { map: 'خريطة الصالة', log: 'سجل العمليات', menu: 'إدارة المنيو' };
+            Object.values(views).forEach(v => document.getElementById(v).classList.add('hidden'));
+            document.getElementById(views[tab]).classList.remove('hidden');
+            document.getElementById('view-title').innerHTML = tab === 'map' ? `خريطة <span class="text-neonCyan">الصالة</span>` : titles[tab];
+            document.querySelectorAll('nav button').forEach(btn => { btn.classList.remove('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]'); btn.classList.add('text-gray-400'); });
+            const activeBtn = document.getElementById('btn-' + tab);
+            activeBtn.classList.add('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]');
+            activeBtn.classList.remove('text-gray-400');
+            if(tab === 'log') loadDailyLog();
+            if(tab === 'menu') loadMenu();
+            toggleMenu();
+        };
+
+        async function updateRevenue() {
+            const statsRef = doc(db, "stats", "daily_revenue");
+            const snap = await getDoc(statsRef);
+            const total = snap.exists() ? snap.data().total : 0;
+            document.getElementById('daily-revenue').innerText = `${total.toLocaleString()} IQD`;
+        }
+
+        // --- STRATEGIC PULSE FEATURE ---
+        function calculateStrategicPulse(openOrders) {
+            let productCounts = {};
+            let activeCount = 0;
+            Object.values(openOrders).forEach(order => {
+                activeCount++;
+                order.items.forEach(item => {
+                    productCounts[item.name] = (productCounts[item.name] || 0) + 1;
+                });
+            });
+
+            // Star Product
+            let star = "لا توجد طلبات نشطة حالياً";
+            let max = 0;
+            for(let prod in productCounts) {
+                if(productCounts[prod] > max) { max = productCounts[prod]; star = `النجم الساطع الآن: ${prod} 🚀`; }
+            }
+            document.getElementById('star-product').innerText = star;
+
+            // Rush Mode Logic
+            const rushThreshold = allTablesList.length * 0.7; 
+            const body = document.getElementById('main-body');
+            const status = document.getElementById('rush-status');
+            if(activeCount >= rushThreshold) {
+                body.classList.add('rush-mode');
+                status.innerText = "STATUS: RUSH MODE ACTIVE 🔥";
+                status.className = "px-4 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse";
+            } else {
+                body.classList.remove('rush-mode');
+                status.innerText = "STATUS: STABLE";
+                status.className = "px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron";
+            }
+        }
+
+        async function loadDailyLog() {
+            const logBody = document.getElementById('log-body');
+            logBody.innerHTML = '<div class="p-10 text-center text-gray-500 font-orbitron">جاري استخراج البيانات من السحابة...</div>';
+            const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+            const snap = await getDocs(q);
+            logBody.innerHTML = '';
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                const time = new Date(data.timestamp).toLocaleTimeString('ar-IQ');
+                const items = data.items.map(i => i.name).join(', ');
+                logBody.innerHTML += `<tr class="border-b border-white/5 hover:bg-white/5 transition-all">
+                    <td class="p-6 text-xs text-gray-400 font-orbitron">${time}</td><td class="p-6 font-bold">${data.table}</td>
+                    <td class="p-6 text-xs text-gray-500">${items}</td><td class="p-6 text-neonCyan font-black font-orbitron">${data.total.toLocaleString()} IQD</td></tr>`;
+            });
+        }
+
+        async function loadMenu() {
+            const list = document.getElementById('menu-list');
+            list.innerHTML = '';
+            const snap = await getDocs(collection(db, "products"));
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                list.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-neonRed/50 transition-all">
+                    <span class="text-sm font-bold">${data.name} <span class="text-xs text-gray-500 font-orbitron">(${data.price} IQD)</span></span>
+                    <button onclick="deleteProduct('${docSnap.id}')" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
+            });
+        }
+
+        window.saveProduct = async () => {
+            const name = document.getElementById('m-name').value;
+            const price = parseInt(document.getElementById('m-price').value);
+            const cat = document.getElementById('m-cat').value;
+            if(!name || !price) return alert("يرجى إكمال البيانات!");
+            await addDoc(collection(db, "products"), { name, price, category: cat });
+            alert("تم الحفظ بنجاح ✅");
+            loadMenu();
+            document.getElementById('m-name').value = ''; document.getElementById('m-price').value = '';
+        };
+
+        window.deleteProduct = async (id) => {
+            if(!confirm("حذف هذا المنتج نهائياً؟")) return;
+            await deleteDoc(doc(db, "products", id));
+            loadMenu();
+        };
+
+        onSnapshot(collection(db, "orders"), async (snap) => {
+            const openOrders = {};
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.status === "open") {
+                    const tName = data.table;
+                    if (!openOrders[tName]) openOrders[tName] = { items: [], total: 0, customer: data.customer, startTime: data.startTime, duration: data.duration };
+                    openOrders[tName].items.push(...data.items);
+                    openOrders[tName].total += data.total;
+                }
+            });
+            const tableSnap = await getDocs(collection(db, "tables"));
+            const dynamic = [];
+            tableSnap.forEach(doc => dynamic.push(doc.data().name));
+            allTablesList = [...new Set([...BASE_TABLES, ...dynamic])];
+            renderMap(openOrders);
+            calculateStrategicPulse(openOrders);
+        });
+
+        function renderMap(openOrders) {
+            const grid = document.getElementById('view-map');
+            grid.innerHTML = '';
+            allTablesList.forEach(tableName => {
+                const data = openOrders[tableName];
+                const isOpen = !!data;
+                grid.innerHTML += `<div onclick="showDetail('${tableName}')" class="table-card p-8 rounded-[2.5rem] ${isOpen ? 'table-open' : 'table-empty'} glass-panel shadow-2xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-2xl font-black tracking-tighter font-orbitron">${tableName}</h3>
+                        <span class="text-[10px] px-3 py-1 rounded-full ${isOpen ? 'bg-neonCyan text-black font-bold' : 'bg-gray-700 text-gray-300'}">
+                            ${isOpen ? 'نشط' : 'فارغ'}
+                        </span>
+                    </div>
+                    ${isOpen ? `<div class="mt-8 flex justify-between items-end">
+                        <span class="text-xs text-gray-400 font-bold uppercase">${data.customer || 'زبون'}</span>
+                        <span class="text-neonCyan font-black text-2xl font-orbitron">${data.total.toLocaleString()} <span class="text-xs">IQD</span></span>
+                    </div>` : `<div class="mt-8 text-gray-600 text-xs italic font-medium font-orbitron">جاهزة للاستقبال</div>`}
+                </div>`;
+            });
+        }
+
+        window.addNewTable = async () => {
+            const name = prompt("أدخل اسم الطاولة الجديدة:");
+            if(!name) return;
+            await addDoc(collection(db, "tables"), { name: name });
+            alert("تمت الإضافة بنجاح ✅");
+        };
+
+        window.showDetail = async (tableName) => {
+            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            const snap = await getDocs(q);
+            if(snap.empty) return alert("هذه الطاولة فارغة!");
+            let items = []; let total = 0; let startTime = null; let duration = 0;
+            snap.forEach(d => {
+                const data = d.data();
+                items.push(...data.items); total += data.total;
+                if(data.startTime) startTime = data.startTime; if(data.duration) duration = data.duration;
+            });
+            document.getElementById('detail-title').innerText = tableName;
+            document.getElementById('detail-total').innerText = `${total.toLocaleString()} IQD`;
+            const itemsDiv = document.getElementById('detail-items');
+            itemsDiv.innerHTML = '';
+            items.forEach((item) => {
+                itemsDiv.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/50 transition-all">
+                    <span class="text-sm font-bold">${item.name} <span class="text-xs text-gray-500 font-orbitron">(${item.price} IQD)</span></span>
+                    <button onclick="deleteItem('${tableName}', '${item.name}', ${item.price})" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
+            });
+            const timerSection = document.getElementById('timer-section');
+            if(duration > 0 && startTime) { timerSection.classList.remove('hidden'); startAdminTimer(startTime, duration); }
+            else { timerSection.classList.add('hidden'); clearInterval(timerInterval); }
+            document.getElementById('btn-close').onclick = () => closeTable(tableName);
+            document.getElementById('btn-transfer').onclick = () => openTransferModal(tableName);
+            document.getElementById('btn-add-item').onclick = () => addItemToTable(tableName);
+            document.getElementById('btn-delete-table').onclick = () => deleteTablePermanently(tableName);
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function startAdminTimer(startTime, duration) {
+            clearInterval(timerInterval);
+            const endTime = startTime + (duration * 1000);
+            timerInterval = setInterval(() => {
+                const now = Date.now(); const diff = endTime - now;
+                if (diff <= 0) { document.getElementById('detail-timer').innerText = "00:00:00"; clearInterval(timerInterval); return; }
+                const h = Math.floor(diff / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000);
+                document.getElementById('detail-timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        window.addItemToTable = async (tableName) => {
+            const name = document.getElementById('add-item-name').value;
+            const price = parseInt(document.getElementById('add-item-price').value);
+            if(!name || !price) return alert("أدخل الاسم والسعر!");
+            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            const snap = await getDocs(q);
+            const batch = writeBatch(db);
+            snap.forEach(d => {
+                const data = d.data();
+                const newItems = [...data.items, {name, price, qty:1}];
+                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total + price });
+            });
+            await batch.commit();
+            document.getElementById('add-item-name').value = ''; document.getElementById('add-item-price').value = '';
+            showDetail(tableName);
+            alert("تم الإضافة بنجاح ✅");
+        }
+
+        window.deleteItem = async (tableName, itemName, itemPrice) => {
+            if(!confirm(`حذف ${itemName}؟`)) return;
+            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            const snap = await getDocs(q);
+            const batch = writeBatch(db);
+            snap.forEach(d => {
+                const data = d.data();
+                const newItems = data.items.filter(i => i.name !== itemName);
+                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total - itemPrice });
+            });
+            await batch.commit();
+            showDetail(tableName);
+        }
+
+        window.closeDetail = () => { document.getElementById('detail-modal').classList.add('hidden'); clearInterval(timerInterval); }
+
+        window.closeTable = async (tableName) => {
+            if(!confirm(`إغلاق حساب ${tableName}؟`)) return;
+            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            const snap = await getDocs(q);
+            let finalTotal = 0; snap.forEach(d => finalTotal += d.data().total);
+            const statsRef = doc(db, "stats", "daily_revenue");
+            const statsSnap = await getDoc(statsRef);
+            const currentRev = statsSnap.exists() ? statsSnap.data().total : 0;
+            await setDoc(statsRef, { total: currentRev + finalTotal });
+            snap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
+            closeDetail(); updateRevenue();
+            alert("تم إغلاق الحساب وتحصيل المبلغ ✅");
+        };
+
+        window.openTransferModal = (tableName) => {
+            currentTransferSource = tableName;
+            const select = document.getElementById('transfer-target');
+            select.innerHTML = '<option value="">اختر الطاولة الهدف...</option>';
+            allTablesList.forEach(t => { if(t !== currentTransferSource) select.innerHTML += `<option value="${t}">${t}</option>`; });
+            document.getElementById('transfer-modal').classList.remove('hidden');
+        }
+
+        window.closeTransfer = () => { document.getElementById('transfer-modal').classList.add('hidden'); }
+
+        document.getElementById('confirm-transfer').onclick = async () => {
+            const toTable = document.getElementById('transfer-target').value;
+            if(!toTable) return alert("يرجى اختيار طاولة!");
+            const q = query(collection(db, "orders"), where("table", "==", currentTransferSource));
+            const snap = await getDocs(q);
+            const batch = writeBatch(db);
+            snap.forEach(d => batch.update(doc(db, "orders", d.id), { table: toTable }));
+            await batch.commit();
+            closeTransfer(); closeDetail();
+            alert("تم تحويل الحساب بنجاح 🔄");
+        };
+
+        window.deleteTablePermanently = async (tableName) => {
+            if(!confirm(`حذف ${tableName} من النظام بالكامل؟`)) return;
+            const q = query(collection(db, "tables"), where("name", "==", tableName));
+            const snap = await getDocs(q);
+            snap.forEach(async (d) => await deleteDoc(doc(db, "tables", d.id)));
+            const ordersQ = query(collection(db, "orders"), where("table", "==", tableName));
+            const ordersSnap = await getDocs(ordersQ);
+            ordersSnap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
+            closeDetail();
+            alert("تم الحذف نهائياً ✅");
+        };
+
+        window.closeAllTables = async () => {
+            if(!confirm("تصفير جميع حسابات الصالة؟")) return;
+            const snap = await getDocs(collection(db, "orders"));
+            const batch = writeBatch(db);
+            snap.forEach(d => batch.delete(doc(db, "orders", d.id)));
+            await batch.commit();
+            alert("تم تصفير الصالة بنجاح ✅");
+        };
+
+        window.onload = () => { updateRevenue(); switchTab('map'); };
+    </script>
+</body>
+</html>
