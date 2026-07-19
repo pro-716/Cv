@@ -1,0 +1,16 @@
+{
+  "name": "Respawn Smart Menu",
+  "short_name": "Respawn",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./Me.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#160f08",
+  "theme_color": "#f59e0b",
+  "description": "منيو ريسبون الذكي مع الطلب المباشر و QR و دعم PWA.",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

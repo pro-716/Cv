@@ -3,209 +3,498 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ريسبون | مركز القيادة الكوني</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>ريسبون | مركز القيادة الجديد</title>
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Respawn Admin">
+    <link rel="manifest" href="manifest-admin.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { 
-                        spaceDark: '#02020a', 
-                        neonCyan: '#00f2ff', 
-                        deepBlue: '#0066ff', 
-                        neonViolet: '#bc13fe', 
-                        neonRed: '#ff0055' 
+                    colors: {
+                        spaceDark: '#160f08',
+                        neonCyan: '#f59e0b',
+                        deepBlue: '#10b981',
+                        neonViolet: '#fb7185',
+                        neonRed: '#dc2626'
                     },
-                    fontFamily: { 
-                        cairo: ['Cairo', 'sans-serif'],
-                        orbitron: ['Orbitron', 'sans-serif']
+                    fontFamily: {
+                        cairo: ['Tajawal', 'sans-serif'],
+                        orbitron: ['Space Grotesk', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        :root { --electric-cyan: #00f2ff; }
-        body { 
-            font-family: 'Cairo', sans-serif; 
-            background-color: #02020a; 
-            color: #fff; 
+        :root { --electric-cyan: #f59e0b; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #160f08;
+            color: #fff7ed;
             overflow: hidden;
-            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
-                        url('https://www.transparenttextures.com/patterns/stardust.png'), #02020a;
+            background:
+                radial-gradient(circle at top right, rgba(245, 158, 11, 0.16) 0%, transparent 33%),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.14) 0%, transparent 28%),
+                linear-gradient(160deg, #21150b 0%, #100b08 100%);
         }
         body::before {
-            content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.015) 50%, rgba(0, 0, 0, 0.05) 50%),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.03), rgba(16, 185, 129, 0.02), rgba(251, 113, 133, 0.025));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px) saturate(200%); 
-            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            position: relative; overflow: hidden;
+        .glass-panel {
+            background: rgba(255, 248, 240, 0.035);
+            backdrop-filter: blur(24px) saturate(165%);
+            border: 1px solid rgba(245, 158, 11, 0.14);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.32);
+            position: relative;
+            overflow: hidden;
         }
         .electric-border { animation: electric-pulse 3s infinite; }
         @keyframes electric-pulse {
-            0% { border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
-            50% { border-color: rgba(0, 242, 255, 0.8); box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
-            100% { border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
+            0% { border-color: rgba(245, 158, 11, 0.20); box-shadow: 0 0 5px rgba(245, 158, 11, 0.08); }
+            50% { border-color: rgba(245, 158, 11, 0.65); box-shadow: 0 0 24px rgba(245, 158, 11, 0.18); }
+            100% { border-color: rgba(245, 158, 11, 0.20); box-shadow: 0 0 5px rgba(245, 158, 11, 0.08); }
         }
-        .table-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-        .table-open { border-right: 8px solid var(--electric-cyan); background: linear-gradient(90deg, rgba(0, 242, 255, 0.15) 0%, rgba(2, 2, 10, 0.8) 100%); animation: heartbeat 2s infinite; }
-        .table-empty { border-right: 8px solid #374151; background: rgba(10, 10, 20, 0.6); }
-        @keyframes heartbeat {
-            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        .table-card {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
-        .rush-mode { background: radial-gradient(circle at center, rgba(255, 0, 85, 0.15) 0%, transparent 70%) !important; }
+        .table-card:hover { transform: translateY(-6px); }
+        .table-open {
+            border-right: 8px solid var(--electric-cyan);
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, rgba(22, 15, 8, 0.86) 100%);
+        }
+        .table-empty {
+            border-right: 8px solid #4b5563;
+            background: rgba(28, 20, 13, 0.72);
+        }
+        .table-overdue {
+            border-right-color: #dc2626;
+            background: linear-gradient(90deg, rgba(220, 38, 38, 0.16) 0%, rgba(22, 15, 8, 0.92) 100%);
+            box-shadow: 0 0 26px rgba(220, 38, 38, 0.12);
+        }
+        .rush-mode {
+            background: radial-gradient(circle at center, rgba(220, 38, 38, 0.12) 0%, transparent 70%) !important;
+        }
         .rush-mode .electric-border { animation: electric-pulse-red 1s infinite; }
         @keyframes electric-pulse-red {
-            0% { border-color: rgba(255, 0, 85, 0.3); } 50% { border-color: rgba(255, 0, 85, 0.8); } 100% { border-color: rgba(255, 0, 85, 0.3); }
+            0% { border-color: rgba(220, 38, 38, 0.20); }
+            50% { border-color: rgba(220, 38, 38, 0.75); }
+            100% { border-color: rgba(220, 38, 38, 0.20); }
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .side-menu { transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000; }
+        .metric-card { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); }
+        .report-bar {
+            background: linear-gradient(90deg, rgba(245,158,11,0.95), rgba(251,113,133,0.85));
+            box-shadow: 0 6px 22px rgba(245,158,11,0.18);
+        }
+        .qr-box canvas, .qr-box img {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 1rem;
+        }
     </style>
 </head>
 <body class="h-screen overflow-hidden flex" id="main-body">
-
-    <!-- Side Navigation -->
     <aside id="sidebar" class="fixed top-0 right-0 w-80 h-full glass-panel side-menu translate-x-full p-8 flex flex-col gap-8">
         <div class="flex justify-between items-center mb-10">
             <span class="text-2xl font-black text-neonCyan font-orbitron">القائمة الرئيسية</span>
             <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-3xl transition-all">✕</button>
         </div>
-        <nav class="flex flex-col gap-6">
-            <button onclick="switchTab('map')" id="btn-map" class="flex items-center gap-4 p-4 rounded-xl bg-neonCyan text-black font-black transition-all shadow-[0_0_15px_#00f2ff]">
+        <nav class="flex flex-col gap-5" id="sidebar-nav">
+            <button data-tab="map" onclick="switchTab('map')" id="btn-map" class="flex items-center gap-4 p-4 rounded-xl bg-neonCyan text-black font-black transition-all shadow-[0_0_15px_#f59e0b]">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                 خريطة الصالة
             </button>
-            <button onclick="switchTab('log')" id="btn-log" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+            <button data-tab="log" onclick="switchTab('log')" id="btn-log" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 سجل العمليات
             </button>
-            <button onclick="switchTab('menu')" id="btn-menu" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+            <button data-tab="menu" onclick="switchTab('menu')" id="btn-menu" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 إدارة المنيو
             </button>
+            <button data-tab="reports" onclick="switchTab('reports')" id="btn-reports" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3h2m-1 0v18m8-9H4"></path></svg>
+                التقارير الذكية
+            </button>
             <div class="h-px bg-white/10 my-4"></div>
-            <button onclick="closeAllTables()" class="flex items-center gap-4 p-4 rounded-xl bg-neonRed/20 text-neonRed hover:bg-neonRed hover:text-white transition-all font-black border border-neonRed/50">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.//8 4m0-13a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <button onclick="closeAllTables()" class="flex items-center gap-4 p-4 rounded-xl bg-neonRed/15 text-neonRed hover:bg-neonRed hover:text-white transition-all font-black border border-neonRed/40">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 تصفير النظام ❌
             </button>
         </nav>
     </aside>
 
     <div class="flex-1 h-full overflow-y-auto p-6 lg:p-10 no-scrollbar relative z-10">
-        <!-- Strategic Pulse Bar (New Unique Feature) -->
         <div class="mb-8 glass-panel p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4 electric-border animate__animated animate__fadeInDown">
             <div class="flex items-center gap-4">
                 <span class="text-xs font-bold text-neonCyan font-orbitron uppercase">Strategic Pulse:</span>
                 <div id="star-product" class="text-sm font-bold text-gray-300 italic">جاري تحليل الطلبات...</div>
             </div>
-            <div id="rush-status" class="px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron">
-                STATUS: STABLE
+            <div class="flex items-center gap-3 flex-wrap">
+                <div id="live-clock" class="px-4 py-1 rounded-full text-xs font-black bg-white/5 text-gray-300 font-orbitron">--:--:--</div>
+                <div id="new-orders-badge" class="px-4 py-1 rounded-full text-xs font-black bg-deepBlue/15 text-deepBlue font-orbitron">NEW: 0</div>
+                <div id="rush-status" class="px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron">
+                    STATUS: STABLE
+                </div>
             </div>
         </div>
 
-        <header class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8 animate__animated animate__fadeInDown">
-            <div class="flex items-center gap-8">
+        <header class="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-10 gap-8 animate__animated animate__fadeInDown">
+            <div class="flex items-center gap-6">
                 <button onclick="toggleMenu()" class="p-4 glass-panel rounded-2xl hover:bg-neonCyan hover:text-black transition-all shadow-lg electric-border">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
                 <div class="text-right">
-                    <h1 id="view-title" class="text-6xl font-black tracking-tighter italic">خريطة <span class="text-neonCyan">الصالة</span></h1>
-                    <p class="text-neonCyan text-xs uppercase tracking-[0.5em] opacity-70 font-orbitron">Space Command Center v2.0</p>
+                    <h1 id="view-title" class="text-5xl md:text-6xl font-black tracking-tighter italic">خريطة <span class="text-neonCyan">الصالة</span></h1>
+                    <p class="text-neonCyan text-xs uppercase tracking-[0.5em] opacity-70 font-orbitron">Space Command Center v3.0</p>
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-neonCyan to-neonViolet p-6 rounded-3xl flex items-center gap-6 transition-all hover:scale-105 active:scale-95 cursor-pointer text-black">
-                <div class="text-4xl">🌌</div>
-                <div>
-                    <p class="text-xs font-bold uppercase opacity-70">إجمالي الإيرادات</p>
-                    <h2 id="daily-revenue" class="text-3xl font-black font-orbitron">0 IQD</h2>
+            <div class="flex flex-wrap items-center gap-4 w-full xl:w-auto">
+                <div class="bg-gradient-to-br from-neonCyan to-neonViolet p-6 rounded-3xl flex items-center gap-6 transition-all hover:scale-[1.02] cursor-pointer text-black min-w-[260px] shadow-[0_16px_45px_rgba(245,158,11,0.18)]">
+                    <div class="text-4xl">🌅</div>
+                    <div>
+                        <p class="text-xs font-bold uppercase opacity-70">إجمالي الإيرادات</p>
+                        <h2 id="daily-revenue" class="text-3xl font-black font-orbitron">0 IQD</h2>
+                    </div>
                 </div>
-            </div>
 
-            <button onclick="addNewTable()" class="bg-neonCyan text-black px-10 py-4 rounded-xl text-sm font-black transition-all active:scale-90 hover:shadow-[0_0_30px_#00f2ff] font-orbitron">
-                إضافة وحدة +
-            </button>
+                <button onclick="openQrModal()" class="bg-white/10 text-white px-6 py-4 rounded-2xl text-sm font-black transition-all border border-white/10 hover:border-neonCyan/40 hover:text-neonCyan">
+                    QR المنيو
+                </button>
+
+                <button id="install-app-btn" onclick="installApp()" class="hidden bg-white/10 text-white px-6 py-4 rounded-2xl text-sm font-black transition-all border border-white/10 hover:border-deepBlue/40 hover:text-deepBlue">
+                    تثبيت التطبيق
+                </button>
+
+                <button onclick="addNewTable()" class="bg-neonCyan text-black px-8 py-4 rounded-2xl text-sm font-black transition-all active:scale-95 hover:shadow-[0_0_30px_rgba(245,158,11,0.35)] font-orbitron">
+                    إضافة وحدة +
+                </button>
+            </div>
         </header>
 
-        <div id="view-map" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 animate__animated animate__fadeIn"></div>
-        <div id="view-log" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
+        <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8" id="dashboard-metrics">
+            <div class="metric-card glass-panel rounded-[2rem] p-5">
+                <div class="text-xs text-gray-400 mb-2">الطاولات النشطة</div>
+                <div id="metric-open-tables" class="text-4xl font-black text-neonCyan font-orbitron">0</div>
+                <div class="text-[11px] text-gray-500 mt-2">إجمالي الطاولات المفتوحة الآن</div>
+            </div>
+            <div class="metric-card glass-panel rounded-[2rem] p-5">
+                <div class="text-xs text-gray-400 mb-2">الطلبات الحالية</div>
+                <div id="metric-open-orders" class="text-4xl font-black text-white font-orbitron">0</div>
+                <div class="text-[11px] text-gray-500 mt-2">عدد الفواتير المفتوحة في النظام</div>
+            </div>
+            <div class="metric-card glass-panel rounded-[2rem] p-5">
+                <div class="text-xs text-gray-400 mb-2">الجلسات المتأخرة</div>
+                <div id="metric-overdue" class="text-4xl font-black text-neonRed font-orbitron">0</div>
+                <div class="text-[11px] text-gray-500 mt-2">الطاولات التي تجاوزت وقتها</div>
+            </div>
+            <div class="metric-card glass-panel rounded-[2rem] p-5">
+                <div class="text-xs text-gray-400 mb-2">الحسابات المفتوحة</div>
+                <div id="metric-open-value" class="text-4xl font-black text-neonViolet font-orbitron">0 IQD</div>
+                <div id="metric-open-average" class="text-[11px] text-gray-500 mt-2">متوسط الحساب: 0 IQD</div>
+            </div>
+        </section>
+
+        <section class="glass-panel rounded-[2rem] p-5 mb-8 space-y-4">
+            <div class="flex flex-wrap justify-between items-center gap-3">
+                <div>
+                    <div class="text-sm font-black text-white">فلترة الخريطة الذكية</div>
+                    <div class="text-xs text-gray-500">بحث فوري، فرز حسب النشاط، ومراقبة التأخير.</div>
+                </div>
+                <div id="map-result-count" class="text-xs font-black text-neonCyan font-orbitron">0 RESULT</div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input id="table-search" type="text" placeholder="ابحث عن طاولة أو زبون أو ملاحظة..." class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                <select id="status-filter" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
+                    <option value="all">كل الحالات</option>
+                    <option value="open">النشطة فقط</option>
+                    <option value="empty">الفارغة فقط</option>
+                    <option value="overdue">المتأخرة فقط</option>
+                </select>
+                <select id="sort-filter" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
+                    <option value="open">فرز: النشطة أولاً</option>
+                    <option value="overdue">فرز: المتأخرة أولاً</option>
+                    <option value="amount">فرز: الأعلى قيمة</option>
+                    <option value="name">فرز: الاسم</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+            <div class="glass-panel rounded-[2rem] p-5 xl:col-span-2">
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+                    <div>
+                        <div class="text-sm font-black text-white">أوامر سريعة ومفيدة</div>
+                        <div class="text-xs text-gray-500">نسخ احتياطي، استيراد، تصدير، وتنبيهات الإدارة.</div>
+                    </div>
+                    <div id="notify-status" class="text-xs font-black text-neonCyan font-orbitron">ALERTS READY</div>
+                </div>
+                <input id="import-products-file" type="file" accept="application/json" class="hidden">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <button onclick="exportOpenOrders()" class="bg-white/10 text-white py-3 rounded-2xl text-xs font-black border border-white/10">تصدير الطلبات المفتوحة</button>
+                    <button onclick="backupProducts()" class="bg-white/10 text-white py-3 rounded-2xl text-xs font-black border border-white/10">نسخة المنيو JSON</button>
+                    <button onclick="document.getElementById('import-products-file').click()" class="bg-white/10 text-white py-3 rounded-2xl text-xs font-black border border-white/10">استيراد منتجات</button>
+                    <button onclick="requestBrowserNotifications()" class="bg-white/10 text-white py-3 rounded-2xl text-xs font-black border border-white/10">إذن إشعارات</button>
+                    <button onclick="toggleSoundAlerts()" id="sound-toggle-btn" class="bg-white/10 text-white py-3 rounded-2xl text-xs font-black border border-white/10">الصوت: تشغيل</button>
+                    <button onclick="resetDailyRevenue()" class="bg-neonRed/15 text-neonRed py-3 rounded-2xl text-xs font-black border border-neonRed/30">تصفير الإيراد</button>
+                </div>
+            </div>
+            <div class="glass-panel rounded-[2rem] p-5">
+                <div class="flex justify-between items-center gap-3 mb-4">
+                    <div>
+                        <div class="text-sm font-black text-white">تنبيهات مباشرة</div>
+                        <div class="text-xs text-gray-500">آخر الأحداث والمتأخرات الحالية.</div>
+                    </div>
+                    <div id="alerts-count" class="text-xs font-black text-neonViolet font-orbitron">0</div>
+                </div>
+                <div id="recent-alerts" class="space-y-3 max-h-[280px] overflow-y-auto no-scrollbar"></div>
+            </div>
+        </section>
+
+        <section class="glass-panel rounded-[2rem] p-5 mb-8">
+            <div class="flex justify-between items-center gap-3 mb-4">
+                <div>
+                    <div class="text-sm font-black text-white">قائمة المتأخرات</div>
+                    <div class="text-xs text-gray-500">الطاولات والجلسات التي تحتاج متابعة الآن.</div>
+                </div>
+                <div id="overdue-count-badge" class="text-xs font-black text-neonRed font-orbitron">0</div>
+            </div>
+            <div id="overdue-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+        </section>
+
+        <div id="view-map" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-7 animate__animated animate__fadeIn"></div>
+
+        <div id="view-log" class="hidden max-w-7xl mx-auto animate__animated animate__fadeIn">
+            <div class="flex flex-col md:flex-row gap-4 md:items-center md:justify-between mb-6">
+                <input id="log-search" type="text" placeholder="ابحث في السجل باسم الطاولة أو الزبون أو الصنف..." class="w-full md:max-w-lg bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                <div class="flex items-center gap-3">
+                    <div id="log-count" class="px-4 py-2 rounded-full bg-white/5 text-gray-300 text-xs font-black font-orbitron">0 ENTRY</div>
+                    <button onclick="exportDailyLog()" class="bg-neonCyan text-black px-5 py-3 rounded-2xl text-xs font-black transition-all hover:shadow-[0_0_20px_#f59e0b] font-orbitron">تصدير CSV</button>
+                </div>
+            </div>
             <div class="glass-panel rounded-[3rem] overflow-hidden electric-border">
                 <table class="w-full text-right text-sm">
                     <thead class="bg-white/10 text-neonCyan font-orbitron">
-                        <tr><th class="p-6">الوقت</th><th class="p-6">الوحدة</th><th class="p-6">الطلبات</th><th class="p-6">المجموع</th></tr>
+                        <tr>
+                            <th class="p-6">الوقت</th>
+                            <th class="p-6">الوحدة</th>
+                            <th class="p-6">الزبون</th>
+                            <th class="p-6">الطلبات</th>
+                            <th class="p-6">المجموع</th>
+                        </tr>
                     </thead>
                     <tbody id="log-body" class="divide-y divide-white/5"></tbody>
                 </table>
             </div>
         </div>
-        <div id="view-menu" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="glass-panel p-10 rounded-[3rem] space-y-6 electric-border">
-                    <h3 class="text-3xl font-black text-neonCyan mb-6 font-orbitron">صنف جديد</h3>
-                    <input id="m-name" type="text" placeholder="اسم المنتج" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
-                    <input id="m-price" type="number" placeholder="السعر بالدينار" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
-                    <select id="m-cat" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
+
+        <div id="view-menu" class="hidden max-w-7xl mx-auto animate__animated animate__fadeIn">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="glass-panel p-8 md:p-10 rounded-[3rem] space-y-5 electric-border">
+                    <h3 class="text-3xl font-black text-neonCyan mb-4 font-orbitron">صنف جديد</h3>
+                    <input id="m-name" type="text" placeholder="اسم المنتج" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input id="m-price" type="number" placeholder="السعر بالدينار" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                        <input id="m-duration" type="number" placeholder="المدة بالثواني - اختياري" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                    </div>
+                    <select id="m-cat" class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
                         <option value="ازبري">ازبري</option>
                         <option value="ساخن وتسالي">ساخن وتسالي</option>
                         <option value="عصائر طبيعية">عصائر طبيعية</option>
                         <option value="مشروبات باردة">مشروبات باردة</option>
                         <option value="أراكيل ريسبون">أراكيل ريسبون</option>
+                        <option value="عروض ريسبون">عروض ريسبون</option>
                         <option value="صالة الألعاب">صالة الألعاب</option>
                     </select>
-                    <button onclick="saveProduct()" class="w-full bg-neonCyan text-black py-5 rounded-xl font-black text-lg active:scale-95 transition-all font-orbitron">مزامنة لقاعدة البيانات ✅</button>
+                    <button onclick="saveProduct()" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black text-lg active:scale-95 transition-all font-orbitron">مزامنة لقاعدة البيانات ✅</button>
                 </div>
-                <div class="glass-panel p-10 rounded-[3rem] space-y-6 border-neonRed/30">
-                    <h3 class="text-3xl font-black text-neonRed mb-6 font-orbitron">قائمة المنتجات</h3>
-                    <div id="menu-list" class="space-y-4 max-h-[500px] overflow-y-auto no-scrollbar"></div>
+
+                <div class="glass-panel p-8 md:p-10 rounded-[3rem] space-y-5 border-neonRed/30">
+                    <div class="flex flex-wrap gap-4 justify-between items-center">
+                        <h3 class="text-3xl font-black text-neonRed font-orbitron">قائمة المنتجات</h3>
+                        <div id="menu-count" class="px-4 py-2 rounded-full bg-white/5 text-gray-300 text-xs font-black font-orbitron">0 ITEM</div>
+                    </div>
+                    <input id="menu-search" type="text" placeholder="ابحث داخل المنيو..." class="w-full bg-black/40 border border-white/10 p-4 rounded-2xl outline-none focus:border-neonRed transition-all text-white placeholder:text-gray-500">
+                    <div id="menu-list" class="space-y-4 max-h-[560px] overflow-y-auto no-scrollbar"></div>
                 </div>
+            </div>
+        </div>
+
+        <div id="view-reports" class="hidden max-w-7xl mx-auto animate__animated animate__fadeIn space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                <div class="metric-card glass-panel rounded-[2rem] p-5">
+                    <div class="text-xs text-gray-400 mb-2">مبيعات اليوم</div>
+                    <div id="report-today-sales" class="text-4xl font-black text-neonCyan font-orbitron">0 IQD</div>
+                    <div class="text-[11px] text-gray-500 mt-2">من الفواتير المغلقة فقط</div>
+                </div>
+                <div class="metric-card glass-panel rounded-[2rem] p-5">
+                    <div class="text-xs text-gray-400 mb-2">فواتير اليوم</div>
+                    <div id="report-today-orders" class="text-4xl font-black text-white font-orbitron">0</div>
+                    <div class="text-[11px] text-gray-500 mt-2">إجمالي العمليات المكتملة</div>
+                </div>
+                <div class="metric-card glass-panel rounded-[2rem] p-5">
+                    <div class="text-xs text-gray-400 mb-2">أعلى طاولة</div>
+                    <div id="report-top-table" class="text-2xl font-black text-neonViolet">—</div>
+                    <div id="report-top-table-value" class="text-[11px] text-gray-500 mt-2">0 IQD</div>
+                </div>
+                <div class="metric-card glass-panel rounded-[2rem] p-5">
+                    <div class="text-xs text-gray-400 mb-2">نجم اليوم</div>
+                    <div id="report-top-product" class="text-2xl font-black text-deepBlue">—</div>
+                    <div id="report-top-product-count" class="text-[11px] text-gray-500 mt-2">0 طلب</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <div class="glass-panel rounded-[2rem] p-6 xl:col-span-1">
+                    <div class="flex items-center justify-between gap-3 mb-5">
+                        <div>
+                            <div class="text-lg font-black">أداء آخر 7 أيام</div>
+                            <div class="text-xs text-gray-500">قراءة سريعة للمبيعات اليومية</div>
+                        </div>
+                        <div id="report-week-total" class="text-xs font-black text-neonCyan font-orbitron">0 IQD</div>
+                    </div>
+                    <div id="weekly-bars" class="space-y-4"></div>
+                </div>
+                <div class="glass-panel rounded-[2rem] p-6 xl:col-span-1">
+                    <div class="flex items-center justify-between gap-3 mb-5">
+                        <div>
+                            <div class="text-lg font-black">أفضل المنتجات</div>
+                            <div class="text-xs text-gray-500">الأكثر طلباً اليوم</div>
+                        </div>
+                        <div class="text-xs font-black text-neonViolet font-orbitron">TOP 5</div>
+                    </div>
+                    <div id="report-products-list" class="space-y-3"></div>
+                </div>
+                <div class="glass-panel rounded-[2rem] p-6 xl:col-span-1">
+                    <div class="flex items-center justify-between gap-3 mb-5">
+                        <div>
+                            <div class="text-lg font-black">أفضل الطاولات</div>
+                            <div class="text-xs text-gray-500">حسب القيمة المحصلة اليوم</div>
+                        </div>
+                        <div class="text-xs font-black text-deepBlue font-orbitron">TOP 5</div>
+                    </div>
+                    <div id="report-tables-list" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[2rem] p-6">
+                <div class="flex items-center justify-between gap-3 mb-5">
+                    <div>
+                        <div class="text-lg font-black">توزيع الساعات</div>
+                        <div class="text-xs text-gray-500">متى تتركز الإغلاقات خلال اليوم</div>
+                    </div>
+                    <div class="text-xs font-black text-neonCyan font-orbitron">24H</div>
+                </div>
+                <div id="hourly-bars" class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4"></div>
             </div>
         </div>
     </div>
 
-    <!-- Modal and Transfer (Converted to Arabic) -->
+    <div id="qr-modal" class="fixed inset-0 z-[90] hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-2xl" onclick="closeQrModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-sm glass-panel p-6 rounded-[2.25rem] border border-neonCyan/30 z-10">
+            <div class="flex justify-between items-center mb-5">
+                <div>
+                    <h3 class="text-2xl font-black text-neonCyan">QR المنيو</h3>
+                    <p class="text-xs text-gray-500 mt-1">امسحه وخلّي الزبون يفتح القائمة فوراً.</p>
+                </div>
+                <button onclick="closeQrModal()" class="text-gray-500 hover:text-white text-3xl">✕</button>
+            </div>
+            <div class="qr-box bg-white rounded-[1.5rem] p-4 mb-4">
+                <div id="admin-qr-code" class="w-full aspect-square flex items-center justify-center"></div>
+            </div>
+            <div id="admin-qr-link" class="text-[11px] text-gray-400 break-all mb-4"></div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="copyMenuLink()" class="bg-neonCyan text-black py-3 rounded-2xl font-black text-sm">نسخ الرابط</button>
+                <button onclick="shareMenu()" class="bg-white/10 text-white py-3 rounded-2xl font-black text-sm border border-white/10">مشاركة</button>
+            </div>
+        </div>
+    </div>
+
     <div id="detail-modal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-3xl" onclick="closeDetail()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg glass-panel p-12 rounded-[4rem] border-2 border-neonCyan/40 animate__animated animate__zoomIn shadow-[0_0_80px_rgba(0,242,241,0.3)]">
-            <div class="flex justify-between items-start mb-12">
-                <h3 id="detail-title" class="text-5xl font-black text-neonCyan tracking-tighter font-orbitron">تفاصيل الوحدة</h3>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-2xl glass-panel p-8 md:p-10 rounded-[3rem] border-2 border-neonCyan/35 animate__animated animate__zoomIn shadow-[0_0_80px_rgba(245,158,11,0.18)]">
+            <div class="flex justify-between items-start gap-4 mb-8">
+                <div>
+                    <h3 id="detail-title" class="text-4xl md:text-5xl font-black text-neonCyan tracking-tighter font-orbitron">تفاصيل الوحدة</h3>
+                    <p class="text-xs text-gray-500 mt-2">عرض مجمع لكل الفواتير المفتوحة على نفس الوحدة.</p>
+                </div>
                 <button onclick="closeDetail()" class="text-gray-500 hover:text-white text-4xl transition-all">✕</button>
             </div>
-            <div id="timer-section" class="hidden bg-black/60 p-6 rounded-3xl mb-8 border border-neonCyan/20 flex justify-between items-center">
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div class="text-[11px] text-gray-500 mb-1">الزبون</div>
+                    <div id="detail-customer" class="font-black text-white text-sm">—</div>
+                </div>
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div class="text-[11px] text-gray-500 mb-1">عدد الفواتير</div>
+                    <div id="detail-orders-count" class="font-black text-neonCyan text-sm">0</div>
+                </div>
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div class="text-[11px] text-gray-500 mb-1">عدد الأصناف</div>
+                    <div id="detail-item-count" class="font-black text-neonViolet text-sm">0</div>
+                </div>
+            </div>
+
+            <div id="detail-note-box" class="hidden bg-white/5 rounded-2xl p-4 border border-white/10 mb-6">
+                <div class="text-[11px] text-gray-500 mb-1">الملاحظات</div>
+                <div id="detail-note" class="text-sm text-gray-200 leading-7"></div>
+            </div>
+
+            <div id="timer-section" class="hidden bg-black/60 p-5 rounded-3xl mb-6 border border-neonCyan/20 flex justify-between items-center">
                 <span class="text-sm font-bold text-gray-400 font-orbitron">الوقت المتبقي:</span>
-                <span id="detail-timer" class="font-mono text-3xl font-black text-neonCyan">00:00:00</span>
+                <span id="detail-timer" class="font-mono text-2xl md:text-3xl font-black text-neonCyan">00:00:00</span>
             </div>
-            <div class="flex gap-4 mb-10">
-                <input id="add-item-name" type="text" placeholder="الصنف" class="flex-1 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
-                <input id="add-item-price" type="number" placeholder="السعر" class="w-28 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
-                <button id="btn-add-item" class="bg-neonCyan text-black px-6 rounded-2xl font-black text-2xl hover:scale-110 transition-all">+</button>
+
+            <div class="flex flex-col md:flex-row gap-3 mb-8">
+                <input id="add-item-name" type="text" placeholder="الصنف" class="flex-1 bg-black/40 border border-white/10 p-4 rounded-2xl text-sm outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                <input id="add-item-price" type="number" placeholder="السعر" class="md:w-40 bg-black/40 border border-white/10 p-4 rounded-2xl text-sm outline-none focus:border-neonCyan transition-all text-white placeholder:text-gray-500">
+                <button id="btn-add-item" class="bg-neonCyan text-black px-6 rounded-2xl font-black text-lg hover:scale-[1.02] transition-all">إضافة +</button>
             </div>
-            <div id="detail-items" class="space-y-4 mb-12 max-h-64 overflow-y-auto no-scrollbar"></div>
-            <div class="flex justify-between items-center p-8 bg-white/5 rounded-3xl mb-12 border border-white/10">
+
+            <div id="detail-items" class="space-y-4 mb-8 max-h-72 overflow-y-auto no-scrollbar"></div>
+            <div class="flex justify-between items-center p-6 bg-white/5 rounded-3xl mb-8 border border-white/10">
                 <span class="font-bold text-gray-400 font-orbitron">المجموع النهائي:</span>
-                <span id="detail-total" class="text-5xl font-black text-neonCyan">0 IQD</span>
+                <span id="detail-total" class="text-4xl md:text-5xl font-black text-neonCyan">0 IQD</span>
             </div>
-            <div class="grid grid-cols-2 gap-8">
-                <button id="btn-transfer" class="bg-neonViolet text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#bc13fe] font-orbitron">تحويل الحساب ⇄</button>
-                <button id="btn-close" class="bg-neonRed text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#ff0055] font-orbitron">إغلاق الحساب ✅</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button id="btn-transfer" class="bg-neonViolet text-white py-5 rounded-3xl font-black text-sm transition-all active:scale-95 hover:shadow-[0_0_30px_#fb7185] font-orbitron">تحويل الحساب ⇄</button>
+                <button id="btn-close" class="bg-neonRed text-white py-5 rounded-3xl font-black text-sm transition-all active:scale-95 hover:shadow-[0_0_30px_#dc2626] font-orbitron">إغلاق الحساب ✅</button>
             </div>
-            <button id="btn-delete-table" class="w-full mt-10 text-gray-600 text-xs font-bold py-2 hover:text-neonRed transition-all font-orbitron uppercase tracking-widest">مسح الوحدة من النظام نهائياً</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <button id="btn-copy-summary" class="bg-white/10 text-white py-4 rounded-3xl font-black text-sm transition-all border border-white/10">نسخ الملخص</button>
+                <button id="btn-print-summary" class="bg-white/10 text-white py-4 rounded-3xl font-black text-sm transition-all border border-white/10">طباعة الملخص</button>
+            </div>
+            <button id="btn-delete-table" class="w-full mt-8 text-gray-600 text-xs font-bold py-2 hover:text-neonRed transition-all font-orbitron uppercase tracking-widest">مسح الوحدة من النظام نهائياً</button>
         </div>
     </div>
 
     <div id="transfer-modal" class="fixed inset-0 z-[200] hidden">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeTransfer()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-panel p-12 rounded-[3rem] border border-neonCyan/40 animate__animated animate__zoomIn shadow-2xl">
-            <h3 class="text-3xl font-black mb-10 text-center text-neonCyan font-orbitron">نقل الحساب 🔄</h3>
-            <select id="transfer-target" class="w-full bg-black/60 border border-white/10 p-4 rounded-2xl mb-10 text-sm outline-none focus:border-neonCyan transition-all appearance-none text-white"></select>
-            <button id="confirm-transfer" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black transition-all active:scale-90 font-orbitron uppercase">تأكيد النقل الآن</button>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-sm glass-panel p-10 rounded-[3rem] border border-neonCyan/40 animate__animated animate__zoomIn shadow-2xl">
+            <h3 class="text-3xl font-black mb-8 text-center text-neonCyan font-orbitron">نقل الحساب 🔄</h3>
+            <select id="transfer-target" class="w-full bg-black/60 border border-white/10 p-4 rounded-2xl mb-8 text-sm outline-none focus:border-neonCyan transition-all appearance-none text-white"></select>
+            <button id="confirm-transfer" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black transition-all active:scale-95 font-orbitron uppercase">تأكيد النقل الآن</button>
         </div>
     </div>
 
@@ -225,292 +514,1221 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const BASE_TABLES = ["طاولة 7", "طاولة 8", "طاولة 9", "طاولة 10", "بلي 1", "بلي 2", "بلي 3", "بلي 4", "بلي 5", "بلي 6", "منضدة 11", "منضدة 12"];
+
         let allTablesList = [...BASE_TABLES];
         let timerInterval = null;
         let currentTransferSource = null;
+        let currentView = 'map';
+        let openOrdersState = {};
+        let dailyLogCache = [];
+        let productCache = [];
+        let reportHistoryCache = [];
+        let deferredPrompt = null;
+        let currentDetailPayload = null;
+        let lastOpenOrderIds = new Set();
+        let alertsFeed = [];
+        let soundAlertsEnabled = localStorage.getItem('respawn_sound_alerts') !== '0';
+        let browserAlertsEnabled = localStorage.getItem('respawn_browser_alerts') === '1';
 
-        window.toggleMenu = () => { document.getElementById('sidebar').classList.toggle('translate-x-full'); }
+        const views = { map: 'view-map', log: 'view-log', menu: 'view-menu', reports: 'view-reports' };
+        const titles = {
+            map: 'خريطة <span class="text-neonCyan">الصالة</span>',
+            log: 'سجل العمليات',
+            menu: 'إدارة المنيو',
+            reports: 'التقارير الذكية'
+        };
+
+        function formatCurrency(value) {
+            return `${Number(value || 0).toLocaleString('en-US')} IQD`;
+        }
+
+        function formatDuration(ms) {
+            const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function uniqueNonEmpty(values) {
+            return [...new Set((values || []).map(value => String(value || '').trim()).filter(Boolean))];
+        }
+
+        function itemQty(item) {
+            return Number(item?.qty || 1);
+        }
+
+        function calculateItemsCount(items = []) {
+            return items.reduce((sum, item) => sum + itemQty(item), 0);
+        }
+
+        function calculateOrderTotal(items = []) {
+            return items.reduce((sum, item) => sum + Number(item.price || 0) * itemQty(item), 0);
+        }
+
+        function getTimerMeta(entry) {
+            const timer = entry?.primaryTimer;
+            if (!timer) return { hasTimer: false, remainingMs: 0, overdue: false, label: 'بدون مؤقت' };
+            const remainingMs = (Number(timer.startTime) + Number(timer.duration) * 1000) - Date.now();
+            if (remainingMs <= 0) {
+                return { hasTimer: true, remainingMs, overdue: true, label: `متأخر ${formatDuration(Math.abs(remainingMs))}` };
+            }
+            return { hasTimer: true, remainingMs, overdue: false, label: `متبقي ${formatDuration(remainingMs)}` };
+        }
+
+        function aggregateItemsFromDocs(docs = []) {
+            const bucket = new Map();
+            docs.forEach(order => {
+                (order.items || []).forEach(item => {
+                    const price = Number(item.price || 0);
+                    const qty = itemQty(item);
+                    const key = `${item.name}__${price}`;
+                    if (!bucket.has(key)) {
+                        bucket.set(key, { key, name: item.name, price, qty: 0, total: 0 });
+                    }
+                    const current = bucket.get(key);
+                    current.qty += qty;
+                    current.total += price * qty;
+                });
+            });
+            return [...bucket.values()].sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, 'ar'));
+        }
+
+        function getPrimaryCustomer(docs = []) {
+            return uniqueNonEmpty(docs.map(order => order.customer))[0] || 'غير مذكور';
+        }
+
+        function getCombinedNote(docs = []) {
+            return uniqueNonEmpty(docs.map(order => order.note)).join(' — ');
+        }
+
+        function updateLiveClock() {
+            const now = new Date();
+            document.getElementById('live-clock').innerText = now.toLocaleTimeString('ar-IQ');
+        }
+
+        function getMenuUrl() {
+            try {
+                return new URL('./Me.html', window.location.href).href;
+            } catch (_) {
+                return './Me.html';
+            }
+        }
+
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./service-worker.js').catch(console.error);
+            }
+        }
+
+        function setupPwaInstall() {
+            window.addEventListener('beforeinstallprompt', event => {
+                event.preventDefault();
+                deferredPrompt = event;
+                document.getElementById('install-app-btn').classList.remove('hidden');
+            });
+            window.addEventListener('appinstalled', () => {
+                deferredPrompt = null;
+                document.getElementById('install-app-btn').classList.add('hidden');
+            });
+        }
+
+        window.installApp = async () => {
+            if (!deferredPrompt) {
+                alert('خيار التثبيت غير متاح حالياً');
+                return;
+            }
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            document.getElementById('install-app-btn').classList.add('hidden');
+        };
+
+        async function renderAdminQr() {
+            const container = document.getElementById('admin-qr-code');
+            const link = getMenuUrl();
+            document.getElementById('admin-qr-link').innerText = link;
+            container.innerHTML = '';
+            if (window.QRCode?.toCanvas) {
+                const canvas = document.createElement('canvas');
+                await window.QRCode.toCanvas(canvas, link, {
+                    width: 260,
+                    margin: 1,
+                    color: { dark: '#2b1706', light: '#ffffff' }
+                });
+                container.appendChild(canvas);
+            }
+        }
+
+        window.openQrModal = async () => {
+            document.getElementById('qr-modal').classList.remove('hidden');
+            await renderAdminQr();
+        };
+
+        window.closeQrModal = () => {
+            document.getElementById('qr-modal').classList.add('hidden');
+        };
+
+        window.copyMenuLink = async () => {
+            try {
+                await navigator.clipboard.writeText(getMenuUrl());
+                alert('تم نسخ الرابط');
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        window.shareMenu = async () => {
+            const url = getMenuUrl();
+            try {
+                if (navigator.share) {
+                    await navigator.share({ title: 'Respawn Menu', text: 'افتح منيو ريسبون مباشرة', url });
+                } else {
+                    await navigator.clipboard.writeText(url);
+                    alert('تم نسخ الرابط للمشاركة');
+                }
+            } catch (error) {
+                if (error?.name !== 'AbortError') console.error(error);
+            }
+        };
+
+
+        function addAlert(type, message) {
+            alertsFeed.unshift({ type, message, timestamp: Date.now() });
+            alertsFeed = alertsFeed.slice(0, 25);
+            renderAlerts();
+        }
+
+        function renderAlerts() {
+            const box = document.getElementById('recent-alerts');
+            document.getElementById('alerts-count').innerText = alertsFeed.length;
+            if (!alertsFeed.length) {
+                box.innerHTML = '<div class="text-sm text-gray-500">لا توجد تنبيهات حالياً.</div>';
+                return;
+            }
+            box.innerHTML = alertsFeed.map(alert => `
+                <div class="p-3 rounded-2xl border ${alert.type === 'error' ? 'border-neonRed/30 bg-neonRed/10' : alert.type === 'success' ? 'border-deepBlue/30 bg-deepBlue/10' : 'border-neonCyan/30 bg-white/5'}">
+                    <div class="text-sm font-black ${alert.type === 'error' ? 'text-neonRed' : alert.type === 'success' ? 'text-deepBlue' : 'text-white'}">${escapeHtml(alert.message)}</div>
+                    <div class="text-[10px] text-gray-500 mt-1 font-orbitron">${new Date(alert.timestamp).toLocaleTimeString('ar-IQ')}</div>
+                </div>
+            `).join('');
+        }
+
+        function playNewOrderSound() {
+            if (!soundAlertsEnabled) return;
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                oscillator.connect(gain);
+                gain.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(720, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(980, audioContext.currentTime + 0.18);
+                gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.36);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function updateNotifyStatus() {
+            document.getElementById('sound-toggle-btn').innerText = `الصوت: ${soundAlertsEnabled ? 'تشغيل' : 'إيقاف'}`;
+            document.getElementById('notify-status').innerText = `SOUND ${soundAlertsEnabled ? 'ON' : 'OFF'} • BROWSER ${browserAlertsEnabled ? 'ON' : 'OFF'}`;
+        }
+
+        window.toggleSoundAlerts = () => {
+            soundAlertsEnabled = !soundAlertsEnabled;
+            localStorage.setItem('respawn_sound_alerts', soundAlertsEnabled ? '1' : '0');
+            updateNotifyStatus();
+        };
+
+        window.requestBrowserNotifications = async () => {
+            if (!('Notification' in window)) {
+                alert('المتصفح لا يدعم الإشعارات');
+                return;
+            }
+            const permission = await Notification.requestPermission();
+            browserAlertsEnabled = permission === 'granted';
+            localStorage.setItem('respawn_browser_alerts', browserAlertsEnabled ? '1' : '0');
+            updateNotifyStatus();
+        };
+
+        function sendBrowserNotification(title, body) {
+            if (!browserAlertsEnabled || !('Notification' in window) || Notification.permission !== 'granted') return;
+            new Notification(title, { body, icon: './icons/icon-192.png' });
+        }
+
+        function renderOverdueList(openOrders) {
+            const list = document.getElementById('overdue-list');
+            const entries = Object.entries(openOrders).filter(([, entry]) => getTimerMeta(entry).overdue);
+            document.getElementById('overdue-count-badge').innerText = entries.length;
+            if (!entries.length) {
+                list.innerHTML = '<div class="text-sm text-gray-500 md:col-span-2 xl:col-span-3">لا توجد جلسات متأخرة الآن ✅</div>';
+                return;
+            }
+            list.innerHTML = entries.map(([table, entry]) => {
+                const timer = getTimerMeta(entry);
+                return `
+                    <button onclick="showDetail(decodeURIComponent('${encodeURIComponent(table)}'))" class="text-right p-4 rounded-2xl bg-neonRed/10 border border-neonRed/25 hover:border-neonRed/50 transition-all">
+                        <div class="text-sm font-black text-neonRed">${escapeHtml(table)}</div>
+                        <div class="text-[11px] text-gray-400 mt-1">${escapeHtml(entry.customer || 'بدون اسم')}</div>
+                        <div class="text-xs text-white mt-2">${escapeHtml(timer.label)}</div>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        window.exportOpenOrders = () => {
+            const payload = Object.values(openOrdersState);
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `respawn-open-orders-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        };
+
+        window.backupProducts = async () => {
+            if (!productCache.length) await loadMenu();
+            const blob = new Blob([JSON.stringify(productCache, null, 2)], { type: 'application/json;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `respawn-products-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        };
+
+        window.importProductsFromFile = async (file) => {
+            if (!file) return;
+            const raw = await file.text();
+            const data = JSON.parse(raw);
+            if (!Array.isArray(data)) throw new Error('invalid import');
+            for (const item of data) {
+                if (!item?.name || !item?.price) continue;
+                await addDoc(collection(db, 'products'), {
+                    name: String(item.name),
+                    price: Number(item.price),
+                    category: item.category || 'مستورد',
+                    duration: Number(item.duration || 0)
+                });
+            }
+            await loadMenu();
+            addAlert('success', 'تم استيراد المنتجات بنجاح');
+        };
+
+        window.resetDailyRevenue = async () => {
+            if (!confirm('هل تريد تصفير الإيراد اليومي؟')) return;
+            await setDoc(doc(db, 'stats', 'daily_revenue'), { total: 0 });
+            await updateRevenue();
+            addAlert('error', 'تم تصفير الإيراد اليومي');
+        };
+
+        window.copyCurrentSummary = async () => {
+            if (!currentDetailPayload) return;
+            const text = `${currentDetailPayload.table}
+${currentDetailPayload.customer}
+${currentDetailPayload.items.map(item => `${item.name} x${item.qty} = ${formatCurrency(item.total)}`).join('
+')}
+المجموع: ${formatCurrency(currentDetailPayload.total)}`;
+            await navigator.clipboard.writeText(text);
+            addAlert('success', `تم نسخ ملخص ${currentDetailPayload.table}`);
+        };
+
+        window.printCurrentSummary = () => {
+            if (!currentDetailPayload) return;
+            const win = window.open('', '_blank', 'width=700,height=900');
+            win.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>ملخص ${currentDetailPayload.table}</title><style>body{font-family:sans-serif;padding:24px}h1{margin:0 0 8px}table{width:100%;border-collapse:collapse;margin-top:16px}td,th{border:1px solid #ddd;padding:8px;text-align:right}</style></head><body><h1>${currentDetailPayload.table}</h1><div>الزبون: ${currentDetailPayload.customer}</div><div>المجموع: ${formatCurrency(currentDetailPayload.total)}</div><table><thead><tr><th>الصنف</th><th>الكمية</th><th>الإجمالي</th></tr></thead><tbody>${currentDetailPayload.items.map(item => `<tr><td>${item.name}</td><td>${item.qty}</td><td>${formatCurrency(item.total)}</td></tr>`).join('')}</tbody></table></body></html>`);
+            win.document.close();
+            win.focus();
+            win.print();
+        };
+
+        window.toggleMenu = () => {
+            document.getElementById('sidebar').classList.toggle('translate-x-full');
+        };
 
         window.switchTab = (tab) => {
-            const views = { map: 'view-map', log: 'view-log', menu: 'view-menu' };
-            const titles = { map: 'خريطة الصالة', log: 'سجل العمليات', menu: 'إدارة المنيو' };
-            Object.values(views).forEach(v => document.getElementById(v).classList.add('hidden'));
+            currentView = tab;
+            Object.values(views).forEach(viewId => document.getElementById(viewId).classList.add('hidden'));
             document.getElementById(views[tab]).classList.remove('hidden');
-            document.getElementById('view-title').innerHTML = tab === 'map' ? `خريطة <span class="text-neonCyan">الصالة</span>` : titles[tab];
-            document.querySelectorAll('nav button').forEach(btn => { btn.classList.remove('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]'); btn.classList.add('text-gray-400'); });
-            const activeBtn = document.getElementById('btn-' + tab);
-            activeBtn.classList.add('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]');
+            document.getElementById('view-title').innerHTML = titles[tab];
+
+            document.querySelectorAll('#sidebar-nav button[data-tab]').forEach(button => {
+                button.classList.remove('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#f59e0b]');
+                button.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById(`btn-${tab}`);
+            activeBtn.classList.add('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#f59e0b]');
             activeBtn.classList.remove('text-gray-400');
-            if(tab === 'log') loadDailyLog();
-            if(tab === 'menu') loadMenu();
-            toggleMenu();
+
+            if (tab === 'log') loadDailyLog();
+            if (tab === 'menu') loadMenu();
+            if (tab === 'reports') loadReports();
+            if (window.innerWidth < 1280 && !document.getElementById('sidebar').classList.contains('translate-x-full')) toggleMenu();
         };
 
         async function updateRevenue() {
-            const statsRef = doc(db, "stats", "daily_revenue");
+            const statsRef = doc(db, 'stats', 'daily_revenue');
             const snap = await getDoc(statsRef);
-            const total = snap.exists() ? snap.data().total : 0;
-            document.getElementById('daily-revenue').innerText = `${total.toLocaleString()} IQD`;
+            const total = snap.exists() ? Number(snap.data().total || 0) : 0;
+            document.getElementById('daily-revenue').innerText = formatCurrency(total);
         }
 
-        // --- STRATEGIC PULSE FEATURE ---
         function calculateStrategicPulse(openOrders) {
-            let productCounts = {};
+            const productCounts = {};
             let activeCount = 0;
+            let overdueCount = 0;
+
             Object.values(openOrders).forEach(order => {
-                activeCount++;
-                order.items.forEach(item => {
-                    productCounts[item.name] = (productCounts[item.name] || 0) + 1;
+                activeCount += 1;
+                if (getTimerMeta(order).overdue) overdueCount += 1;
+                (order.items || []).forEach(item => {
+                    productCounts[item.name] = (productCounts[item.name] || 0) + itemQty(item);
                 });
             });
 
-            // Star Product
-            let star = "لا توجد طلبات نشطة حالياً";
-            let max = 0;
-            for(let prod in productCounts) {
-                if(productCounts[prod] > max) { max = productCounts[prod]; star = `النجم الساطع الآن: ${prod} 🚀`; }
-            }
+            let star = 'لا توجد طلبات نشطة حالياً';
+            let maxCount = 0;
+            Object.entries(productCounts).forEach(([name, count]) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    star = `النجم الساطع الآن: ${name} 🚀`;
+                }
+            });
             document.getElementById('star-product').innerText = star;
 
-            // Rush Mode Logic
-            const rushThreshold = allTablesList.length * 0.7; 
+            const rushThreshold = Math.max(1, Math.floor(allTablesList.length * 0.7));
             const body = document.getElementById('main-body');
             const status = document.getElementById('rush-status');
-            if(activeCount >= rushThreshold) {
+
+            if (overdueCount > 0) {
                 body.classList.add('rush-mode');
-                status.innerText = "STATUS: RUSH MODE ACTIVE 🔥";
-                status.className = "px-4 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse";
+                status.innerText = `STATUS: ${overdueCount} OVERDUE`;
+                status.className = 'px-4 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse';
+            } else if (activeCount >= rushThreshold) {
+                body.classList.add('rush-mode');
+                status.innerText = 'STATUS: RUSH MODE ACTIVE 🔥';
+                status.className = 'px-4 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse';
             } else {
                 body.classList.remove('rush-mode');
-                status.innerText = "STATUS: STABLE";
-                status.className = "px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron";
+                status.innerText = 'STATUS: STABLE';
+                status.className = 'px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron';
             }
+        }
+
+        function updateDashboardStats(openOrders) {
+            const openEntries = Object.values(openOrders);
+            const activeTables = openEntries.length;
+            const openOrdersCount = openEntries.reduce((sum, entry) => sum + Number(entry.orderCount || 0), 0);
+            const overdueCount = openEntries.filter(entry => getTimerMeta(entry).overdue).length;
+            const openValue = openEntries.reduce((sum, entry) => sum + Number(entry.total || 0), 0);
+            const avgValue = activeTables ? Math.round(openValue / activeTables) : 0;
+
+            document.getElementById('metric-open-tables').innerText = activeTables;
+            document.getElementById('metric-open-orders').innerText = openOrdersCount;
+            document.getElementById('metric-overdue').innerText = overdueCount;
+            document.getElementById('metric-open-value').innerText = formatCurrency(openValue);
+            const occupancy = allTablesList.length ? Math.round((activeTables / allTablesList.length) * 100) : 0;
+            document.getElementById('metric-open-average').innerText = `متوسط الحساب: ${formatCurrency(avgValue)} • إشغال ${occupancy}%`;
+        }
+
+        function buildFilteredMapEntries(openOrders) {
+            const searchValue = document.getElementById('table-search').value.trim().toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const sortFilter = document.getElementById('sort-filter').value;
+
+            let entries = allTablesList.map(tableName => ({ tableName, data: openOrders[tableName] || null }));
+
+            entries = entries.filter(entry => {
+                const meta = entry.data ? getTimerMeta(entry.data) : null;
+                if (statusFilter === 'open' && !entry.data) return false;
+                if (statusFilter === 'empty' && entry.data) return false;
+                if (statusFilter === 'overdue' && !(entry.data && meta?.overdue)) return false;
+
+                if (!searchValue) return true;
+                const haystack = [
+                    entry.tableName,
+                    entry.data?.customer,
+                    entry.data?.notes,
+                    ...(entry.data?.items || []).map(item => item.name)
+                ].join(' ').toLowerCase();
+                return haystack.includes(searchValue);
+            });
+
+            entries.sort((a, b) => {
+                const aMeta = a.data ? getTimerMeta(a.data) : { overdue: false };
+                const bMeta = b.data ? getTimerMeta(b.data) : { overdue: false };
+
+                if (sortFilter === 'name') return a.tableName.localeCompare(b.tableName, 'ar');
+                if (sortFilter === 'amount') return Number(b.data?.total || 0) - Number(a.data?.total || 0) || a.tableName.localeCompare(b.tableName, 'ar');
+                if (sortFilter === 'overdue') {
+                    if (aMeta.overdue !== bMeta.overdue) return aMeta.overdue ? -1 : 1;
+                    if (!!a.data !== !!b.data) return a.data ? -1 : 1;
+                    return a.tableName.localeCompare(b.tableName, 'ar');
+                }
+                if (!!a.data !== !!b.data) return a.data ? -1 : 1;
+                if (aMeta.overdue !== bMeta.overdue) return aMeta.overdue ? -1 : 1;
+                return a.tableName.localeCompare(b.tableName, 'ar');
+            });
+
+            return entries;
+        }
+
+        function renderMap(openOrders) {
+            const grid = document.getElementById('view-map');
+            const entries = buildFilteredMapEntries(openOrders);
+            document.getElementById('map-result-count').innerText = `${entries.length} RESULT`;
+
+            if (!entries.length) {
+                grid.innerHTML = `
+                    <div class="glass-panel rounded-[2.5rem] p-10 text-center text-gray-400 xl:col-span-3 2xl:col-span-4">
+                        <div class="text-5xl mb-4">🛰️</div>
+                        <div class="font-black text-white mb-2">لا توجد نتائج مطابقة للفلترة الحالية</div>
+                        <div class="text-sm text-gray-500">جرّب مسح البحث أو تغيير حالة العرض.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = entries.map(entry => {
+                const tableName = entry.tableName;
+                const encodedTable = encodeURIComponent(tableName);
+                const data = entry.data;
+                const isOpen = !!data;
+                const timerMeta = isOpen ? getTimerMeta(data) : null;
+                const customer = escapeHtml(data?.customer || 'زبون');
+                const notes = escapeHtml(data?.notes || '');
+                const itemsCount = Number(data?.itemsCount || 0);
+                const orderCount = Number(data?.orderCount || 0);
+                const timerBadge = timerMeta?.hasTimer
+                    ? `<div class="mt-5 text-[11px] font-black ${timerMeta.overdue ? 'text-neonRed' : 'text-neonCyan'} font-orbitron">${escapeHtml(timerMeta.label)}</div>`
+                    : '<div class="mt-5 text-[11px] text-gray-600 font-orbitron">بدون مؤقت</div>';
+
+                return `
+                    <div onclick="showDetail(decodeURIComponent('${encodedTable}'))" class="table-card p-7 rounded-[2.4rem] ${isOpen ? (timerMeta?.overdue ? 'table-open table-overdue' : 'table-open') : 'table-empty'} glass-panel shadow-2xl">
+                        <div class="flex justify-between items-center gap-3">
+                            <h3 class="text-2xl font-black tracking-tighter font-orbitron">${escapeHtml(tableName)}</h3>
+                            <span class="text-[10px] px-3 py-1 rounded-full ${isOpen ? (timerMeta?.overdue ? 'bg-neonRed text-white font-bold' : 'bg-neonCyan text-black font-bold') : 'bg-gray-700 text-gray-300'}">
+                                ${isOpen ? (timerMeta?.overdue ? 'متأخر' : 'نشط') : 'فارغ'}
+                            </span>
+                        </div>
+                        ${isOpen ? `
+                            <div class="mt-6 flex justify-between items-start gap-3">
+                                <div class="min-w-0">
+                                    <div class="text-xs text-gray-400 font-bold truncate">${customer}</div>
+                                    <div class="text-[11px] text-gray-500 mt-2">${itemsCount} صنف • ${orderCount} فاتورة</div>
+                                </div>
+                                <span class="text-neonCyan font-black text-2xl font-orbitron shrink-0">${formatCurrency(data.total)}</span>
+                            </div>
+                            ${notes ? `<div class="mt-4 text-[11px] text-gray-500 max-h-10 overflow-hidden">${notes}</div>` : ''}
+                            ${timerBadge}
+                        ` : `
+                            <div class="mt-8 text-gray-600 text-xs italic font-medium font-orbitron">جاهزة للاستقبال</div>
+                        `}
+                    </div>
+                `;
+            }).join('');
         }
 
         async function loadDailyLog() {
             const logBody = document.getElementById('log-body');
-            logBody.innerHTML = '<div class="p-10 text-center text-gray-500 font-orbitron">جاري استخراج البيانات من السحابة...</div>';
-            const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+            logBody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-gray-500 font-orbitron">جاري استخراج البيانات من السحابة...</td></tr>';
+            const q = query(collection(db, 'order_history'), orderBy('closedAt', 'desc'));
             const snap = await getDocs(q);
-            logBody.innerHTML = '';
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                const time = new Date(data.timestamp).toLocaleTimeString('ar-IQ');
-                const items = data.items.map(i => i.name).join(', ');
-                logBody.innerHTML += `<tr class="border-b border-white/5 hover:bg-white/5 transition-all">
-                    <td class="p-6 text-xs text-gray-400 font-orbitron">${time}</td><td class="p-6 font-bold">${data.table}</td>
-                    <td class="p-6 text-xs text-gray-500">${items}</td><td class="p-6 text-neonCyan font-black font-orbitron">${data.total.toLocaleString()} IQD</td></tr>`;
+            dailyLogCache = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            renderLog();
+        }
+
+        function renderLog() {
+            const search = document.getElementById('log-search').value.trim().toLowerCase();
+            const filtered = dailyLogCache.filter(entry => {
+                if (!search) return true;
+                const itemsText = (entry.items || []).map(item => item.name).join(' ');
+                const haystack = `${entry.table || ''} ${entry.customer || ''} ${entry.note || ''} ${itemsText}`.toLowerCase();
+                return haystack.includes(search);
             });
+
+            const logBody = document.getElementById('log-body');
+            document.getElementById('log-count').innerText = `${filtered.length} ENTRY`;
+
+            if (!filtered.length) {
+                logBody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-gray-500">لا توجد بيانات مطابقة.</td></tr>';
+                return;
+            }
+
+            logBody.innerHTML = filtered.map(entry => {
+                const timeValue = entry.closedAt || entry.timestamp;
+                const time = timeValue ? new Date(timeValue).toLocaleString('ar-IQ') : '—';
+                const items = (entry.items || []).map(item => `${item.name}${item.qty > 1 ? ` x${item.qty}` : ''}`).join('، ');
+                return `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
+                        <td class="p-6 text-xs text-gray-400 font-orbitron">${escapeHtml(time)}</td>
+                        <td class="p-6 font-bold">${escapeHtml(entry.table || '—')}</td>
+                        <td class="p-6 text-xs text-gray-500">${escapeHtml(entry.customer || '—')}</td>
+                        <td class="p-6 text-xs text-gray-500">${escapeHtml(items || '—')}</td>
+                        <td class="p-6 text-neonCyan font-black font-orbitron">${formatCurrency(entry.total || 0)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.exportDailyLog = () => {
+            if (!dailyLogCache.length) {
+                alert('لا توجد بيانات للتصدير');
+                return;
+            }
+            const rows = [
+                ['الوقت', 'الوحدة', 'الزبون', 'الملاحظة', 'الطلبات', 'المجموع'],
+                ...dailyLogCache.map(entry => [
+                    (entry.closedAt || entry.timestamp) ? new Date(entry.closedAt || entry.timestamp).toLocaleString('ar-IQ') : '',
+                    entry.table || '',
+                    entry.customer || '',
+                    entry.note || '',
+                    (entry.items || []).map(item => `${item.name}${item.qty > 1 ? ` x${item.qty}` : ''}`).join(' | '),
+                    entry.total || 0
+                ])
+            ];
+            const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `respawn-log-${Date.now()}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+        };
+
+        function dayKey(timestamp) {
+            const date = new Date(Number(timestamp || Date.now()));
+            return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        }
+
+        function isToday(timestamp) {
+            return dayKey(timestamp) === dayKey(Date.now());
+        }
+
+        function aggregateTopItems(historyEntries = []) {
+            const map = new Map();
+            historyEntries.forEach(entry => {
+                (entry.items || []).forEach(item => {
+                    const key = `${item.name}__${Number(item.price || 0)}`;
+                    if (!map.has(key)) map.set(key, { name: item.name, qty: 0, total: 0, price: Number(item.price || 0) });
+                    const current = map.get(key);
+                    const qty = Number(item.qty || 1);
+                    current.qty += qty;
+                    current.total += Number(item.price || 0) * qty;
+                });
+            });
+            return [...map.values()].sort((a, b) => b.qty - a.qty || b.total - a.total);
+        }
+
+        function aggregateTopTables(historyEntries = []) {
+            const map = new Map();
+            historyEntries.forEach(entry => {
+                const key = entry.table || 'غير معروف';
+                if (!map.has(key)) map.set(key, { name: key, total: 0, orders: 0 });
+                const current = map.get(key);
+                current.total += Number(entry.total || 0);
+                current.orders += Number(entry.orderCount || 1);
+            });
+            return [...map.values()].sort((a, b) => b.total - a.total || b.orders - a.orders);
+        }
+
+        function buildWeeklySeries(historyEntries = []) {
+            const labels = [];
+            const values = [];
+            const now = new Date();
+            for (let offset = 6; offset >= 0; offset -= 1) {
+                const day = new Date(now);
+                day.setDate(now.getDate() - offset);
+                const key = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+                const label = day.toLocaleDateString('ar-IQ', { weekday: 'short', day: 'numeric' });
+                labels.push({ key, label });
+            }
+            labels.forEach(({ key }) => {
+                values.push(historyEntries.filter(entry => dayKey(entry.closedAt || entry.timestamp) === key).reduce((sum, entry) => sum + Number(entry.total || 0), 0));
+            });
+            return labels.map((label, index) => ({ label: label.label, value: values[index] }));
+        }
+
+        function buildHourlySeries(historyEntries = []) {
+            const hours = Array.from({ length: 24 }, (_, hour) => ({ hour, count: 0, total: 0 }));
+            historyEntries.forEach(entry => {
+                const timestamp = Number(entry.closedAt || entry.timestamp || 0);
+                const hour = new Date(timestamp).getHours();
+                hours[hour].count += 1;
+                hours[hour].total += Number(entry.total || 0);
+            });
+            return hours;
+        }
+
+        async function loadReports() {
+            const q = query(collection(db, 'order_history'), orderBy('closedAt', 'desc'));
+            const snap = await getDocs(q);
+            reportHistoryCache = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            renderReports();
+        }
+
+        function renderReports() {
+            const todayEntries = reportHistoryCache.filter(entry => isToday(entry.closedAt || entry.timestamp));
+            const todaySales = todayEntries.reduce((sum, entry) => sum + Number(entry.total || 0), 0);
+            const todayOrders = todayEntries.reduce((sum, entry) => sum + Number(entry.orderCount || 1), 0);
+            const topProducts = aggregateTopItems(todayEntries).slice(0, 5);
+            const topTables = aggregateTopTables(todayEntries).slice(0, 5);
+            const weeklySeries = buildWeeklySeries(reportHistoryCache);
+            const hourlySeries = buildHourlySeries(todayEntries);
+            const weekTotal = weeklySeries.reduce((sum, row) => sum + row.value, 0);
+            const topTable = topTables[0];
+            const topProduct = topProducts[0];
+
+            document.getElementById('report-today-sales').innerText = formatCurrency(todaySales);
+            document.getElementById('report-today-orders').innerText = todayOrders;
+            document.getElementById('report-top-table').innerText = topTable ? topTable.name : '—';
+            document.getElementById('report-top-table-value').innerText = topTable ? `${formatCurrency(topTable.total)} • ${topTable.orders} فواتير` : '0 IQD';
+            document.getElementById('report-top-product').innerText = topProduct ? topProduct.name : '—';
+            document.getElementById('report-top-product-count').innerText = topProduct ? `${topProduct.qty} طلب • ${formatCurrency(topProduct.total)}` : '0 طلب';
+            document.getElementById('report-week-total').innerText = formatCurrency(weekTotal);
+
+            const maxWeek = Math.max(1, ...weeklySeries.map(item => item.value));
+            document.getElementById('weekly-bars').innerHTML = weeklySeries.map(item => `
+                <div>
+                    <div class="flex items-center justify-between mb-2 text-xs">
+                        <span class="text-gray-400">${item.label}</span>
+                        <span class="font-black text-white font-orbitron">${formatCurrency(item.value)}</span>
+                    </div>
+                    <div class="h-3 rounded-full bg-white/5 overflow-hidden">
+                        <div class="report-bar h-full rounded-full" style="width:${(item.value / maxWeek) * 100}%"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('report-products-list').innerHTML = topProducts.length ? topProducts.map((item, index) => `
+                <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div>
+                        <div class="text-sm font-black">${index + 1}. ${escapeHtml(item.name)}</div>
+                        <div class="text-[11px] text-gray-500 mt-1">${item.qty} طلب</div>
+                    </div>
+                    <div class="text-sm font-black text-neonViolet font-orbitron">${formatCurrency(item.total)}</div>
+                </div>
+            `).join('') : '<div class="text-gray-500 text-sm">لا توجد بيانات لليوم.</div>';
+
+            document.getElementById('report-tables-list').innerHTML = topTables.length ? topTables.map((item, index) => `
+                <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <div>
+                        <div class="text-sm font-black">${index + 1}. ${escapeHtml(item.name)}</div>
+                        <div class="text-[11px] text-gray-500 mt-1">${item.orders} فواتير</div>
+                    </div>
+                    <div class="text-sm font-black text-deepBlue font-orbitron">${formatCurrency(item.total)}</div>
+                </div>
+            `).join('') : '<div class="text-gray-500 text-sm">لا توجد بيانات لليوم.</div>';
+
+            const maxHourTotal = Math.max(1, ...hourlySeries.map(item => item.total));
+            document.getElementById('hourly-bars').innerHTML = hourlySeries.map(item => `
+                <div class="p-3 rounded-2xl bg-white/5 border border-white/10">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs text-gray-400">${String(item.hour).padStart(2, '0')}:00</span>
+                        <span class="text-[10px] text-white font-black">${item.count}</span>
+                    </div>
+                    <div class="h-20 rounded-2xl bg-black/30 flex items-end overflow-hidden">
+                        <div class="report-bar w-full rounded-t-2xl" style="height:${(item.total / maxHourTotal) * 100}%"></div>
+                    </div>
+                    <div class="text-[10px] text-gray-500 mt-2 font-orbitron">${formatCurrency(item.total)}</div>
+                </div>
+            `).join('');
         }
 
         async function loadMenu() {
+            const snap = await getDocs(collection(db, 'products'));
+            productCache = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            renderMenuList();
+        }
+
+        function renderMenuList() {
             const list = document.getElementById('menu-list');
-            list.innerHTML = '';
-            const snap = await getDocs(collection(db, "products"));
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                list.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-neonRed/50 transition-all">
-                    <span class="text-sm font-bold">${data.name} <span class="text-xs text-gray-500 font-orbitron">(${data.price} IQD)</span></span>
-                    <button onclick="deleteProduct('${docSnap.id}')" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
+            const search = document.getElementById('menu-search').value.trim().toLowerCase();
+            const filtered = productCache.filter(item => {
+                if (!search) return true;
+                return `${item.name || ''} ${item.category || ''}`.toLowerCase().includes(search);
             });
+            document.getElementById('menu-count').innerText = `${filtered.length} ITEM`;
+
+            if (!filtered.length) {
+                list.innerHTML = '<div class="text-center py-10 text-gray-500">لا توجد أصناف مطابقة.</div>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(item => `
+                <div class="flex justify-between items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonRed/40 transition-all">
+                    <div class="min-w-0">
+                        <div class="text-sm font-bold truncate">${escapeHtml(item.name || '')}</div>
+                        <div class="text-[11px] text-gray-500 mt-1">
+                            ${escapeHtml(item.category || 'غير مصنف')} • ${formatCurrency(item.price || 0)}
+                            ${item.duration ? ` • ${Number(item.duration)}s` : ''}
+                        </div>
+                    </div>
+                    <button onclick="deleteProduct('${item.id}')" class="text-red-500 hover:text-white bg-red-500/10 p-3 rounded-xl transition-all shrink-0">✕</button>
+                </div>
+            `).join('');
         }
 
         window.saveProduct = async () => {
-            const name = document.getElementById('m-name').value;
-            const price = parseInt(document.getElementById('m-price').value);
-            const cat = document.getElementById('m-cat').value;
-            if(!name || !price) return alert("يرجى إكمال البيانات!");
-            await addDoc(collection(db, "products"), { name, price, category: cat });
-            alert("تم الحفظ بنجاح ✅");
-            loadMenu();
-            document.getElementById('m-name').value = ''; document.getElementById('m-price').value = '';
+            const name = document.getElementById('m-name').value.trim();
+            const price = parseInt(document.getElementById('m-price').value, 10);
+            const category = document.getElementById('m-cat').value;
+            const duration = parseInt(document.getElementById('m-duration').value, 10);
+            if (!name || Number.isNaN(price) || price <= 0) {
+                alert('يرجى إكمال البيانات بشكل صحيح');
+                return;
+            }
+            await addDoc(collection(db, 'products'), {
+                name,
+                price,
+                category,
+                duration: Number.isNaN(duration) ? 0 : duration
+            });
+            document.getElementById('m-name').value = '';
+            document.getElementById('m-price').value = '';
+            document.getElementById('m-duration').value = '';
+            await loadMenu();
+            alert('تم الحفظ بنجاح ✅');
         };
 
         window.deleteProduct = async (id) => {
-            if(!confirm("حذف هذا المنتج نهائياً؟")) return;
-            await deleteDoc(doc(db, "products", id));
-            loadMenu();
+            if (!confirm('حذف هذا المنتج نهائياً؟')) return;
+            await deleteDoc(doc(db, 'products', id));
+            await loadMenu();
         };
 
-        onSnapshot(collection(db, "orders"), async (snap) => {
-            const openOrders = {};
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                if (data.status === "open") {
-                    const tName = data.table;
-                    if (!openOrders[tName]) openOrders[tName] = { items: [], total: 0, customer: data.customer, startTime: data.startTime, duration: data.duration };
-                    openOrders[tName].items.push(...data.items);
-                    openOrders[tName].total += data.total;
-                }
-            });
-            const tableSnap = await getDocs(collection(db, "tables"));
-            const dynamic = [];
-            tableSnap.forEach(doc => dynamic.push(doc.data().name));
-            allTablesList = [...new Set([...BASE_TABLES, ...dynamic])];
-            renderMap(openOrders);
-            calculateStrategicPulse(openOrders);
-        });
-
-        function renderMap(openOrders) {
-            const grid = document.getElementById('view-map');
-            grid.innerHTML = '';
-            allTablesList.forEach(tableName => {
-                const data = openOrders[tableName];
-                const isOpen = !!data;
-                grid.innerHTML += `<div onclick="showDetail('${tableName}')" class="table-card p-8 rounded-[2.5rem] ${isOpen ? 'table-open' : 'table-empty'} glass-panel shadow-2xl">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-black tracking-tighter font-orbitron">${tableName}</h3>
-                        <span class="text-[10px] px-3 py-1 rounded-full ${isOpen ? 'bg-neonCyan text-black font-bold' : 'bg-gray-700 text-gray-300'}">
-                            ${isOpen ? 'نشط' : 'فارغ'}
-                        </span>
-                    </div>
-                    ${isOpen ? `<div class="mt-8 flex justify-between items-end">
-                        <span class="text-xs text-gray-400 font-bold uppercase">${data.customer || 'زبون'}</span>
-                        <span class="text-neonCyan font-black text-2xl font-orbitron">${data.total.toLocaleString()} <span class="text-xs">IQD</span></span>
-                    </div>` : `<div class="mt-8 text-gray-600 text-xs italic font-medium font-orbitron">جاهزة للاستقبال</div>`}
-                </div>`;
-            });
+        async function refreshTablesList() {
+            const tableSnap = await getDocs(collection(db, 'tables'));
+            const dynamicTables = tableSnap.docs.map(docSnap => docSnap.data()?.name).filter(Boolean);
+            allTablesList = [...new Set([...BASE_TABLES, ...dynamicTables])];
         }
 
+        onSnapshot(collection(db, 'orders'), async (snap) => {
+            const openOrders = {};
+
+            snap.forEach(docSnap => {
+                const data = docSnap.data() || {};
+                if (data.status === 'closed') return;
+                if (!data.table) return;
+
+                if (!openOrders[data.table]) {
+                    openOrders[data.table] = {
+                        table: data.table,
+                        docs: [],
+                        items: [],
+                        total: 0,
+                        customer: '',
+                        notes: '',
+                        orderCount: 0,
+                        itemsCount: 0,
+                        timers: [],
+                        primaryTimer: null
+                    };
+                }
+
+                const entry = openOrders[data.table];
+                const normalizedOrder = {
+                    id: docSnap.id,
+                    table: data.table,
+                    customer: data.customer || '',
+                    note: data.note || '',
+                    items: Array.isArray(data.items) ? data.items : [],
+                    total: Number(data.total || calculateOrderTotal(data.items || [])),
+                    itemCount: Number(data.itemCount || calculateItemsCount(data.items || [])),
+                    startTime: data.startTime || null,
+                    duration: Number(data.duration || 0),
+                    timestamp: data.timestamp || 0,
+                    orderSource: data.orderSource || ''
+                };
+
+                entry.docs.push(normalizedOrder);
+                entry.items.push(...normalizedOrder.items);
+                entry.total += normalizedOrder.total;
+                entry.orderCount += 1;
+                entry.itemsCount += normalizedOrder.itemCount;
+
+                if (normalizedOrder.duration > 0 && normalizedOrder.startTime) {
+                    entry.timers.push({
+                        startTime: normalizedOrder.startTime,
+                        duration: normalizedOrder.duration,
+                        timestamp: normalizedOrder.timestamp
+                    });
+                }
+            });
+
+            Object.values(openOrders).forEach(entry => {
+                entry.customer = getPrimaryCustomer(entry.docs);
+                entry.notes = getCombinedNote(entry.docs);
+                if (entry.timers.length) {
+                    entry.primaryTimer = entry.timers.sort((a, b) => (a.startTime + a.duration * 1000) - (b.startTime + b.duration * 1000))[0];
+                }
+            });
+
+            await refreshTablesList();
+            const currentOpenOrderIds = new Set();
+            Object.values(openOrders).forEach(entry => entry.docs.forEach(docItem => currentOpenOrderIds.add(docItem.id)));
+            const newIds = [...currentOpenOrderIds].filter(id => !lastOpenOrderIds.has(id));
+            if (lastOpenOrderIds.size && newIds.length) {
+                newIds.forEach(id => {
+                    const order = Object.values(openOrders).flatMap(entry => entry.docs).find(docItem => docItem.id === id);
+                    if (order) {
+                        addAlert('success', `طلب جديد وصل من ${order.table}${order.customer ? ` - ${order.customer}` : ''}`);
+                        sendBrowserNotification('طلب جديد - Respawn', `${order.table}${order.customer ? ` • ${order.customer}` : ''}`);
+                    }
+                });
+                playNewOrderSound();
+            }
+            lastOpenOrderIds = currentOpenOrderIds;
+            document.getElementById('new-orders-badge').innerText = `NEW: ${newIds.length}`;
+            openOrdersState = openOrders;
+            renderMap(openOrdersState);
+            renderOverdueList(openOrdersState);
+            updateDashboardStats(openOrdersState);
+            calculateStrategicPulse(openOrdersState);
+        });
+
         window.addNewTable = async () => {
-            const name = prompt("أدخل اسم الطاولة الجديدة:");
-            if(!name) return;
-            await addDoc(collection(db, "tables"), { name: name });
-            alert("تمت الإضافة بنجاح ✅");
+            const name = prompt('أدخل اسم الطاولة الجديدة:');
+            if (!name) return;
+            await addDoc(collection(db, 'tables'), { name: name.trim() });
+            alert('تمت الإضافة بنجاح ✅');
         };
 
-        window.showDetail = async (tableName) => {
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+        async function getTableOrders(tableName) {
+            const q = query(collection(db, 'orders'), where('table', '==', tableName));
             const snap = await getDocs(q);
-            if(snap.empty) return alert("هذه الطاولة فارغة!");
-            let items = []; let total = 0; let startTime = null; let duration = 0;
-            snap.forEach(d => {
-                const data = d.data();
-                items.push(...data.items); total += data.total;
-                if(data.startTime) startTime = data.startTime; if(data.duration) duration = data.duration;
-            });
+            return snap.docs
+                .map(docSnap => ({ id: docSnap.id, ...docSnap.data() }))
+                .filter(order => order.status !== 'closed');
+        }
+
+        window.showDetail = async (tableName) => {
+            const orders = await getTableOrders(tableName);
+            if (!orders.length) {
+                alert('هذه الطاولة فارغة!');
+                return;
+            }
+
+            const total = orders.reduce((sum, order) => sum + Number(order.total || calculateOrderTotal(order.items || [])), 0);
+            const aggregatedItems = aggregateItemsFromDocs(orders);
+            const notes = getCombinedNote(orders);
+            const customer = getPrimaryCustomer(orders);
+            const itemsCount = aggregatedItems.reduce((sum, item) => sum + item.qty, 0);
+            const timerEntry = {
+                primaryTimer: orders
+                    .filter(order => Number(order.duration || 0) > 0 && order.startTime)
+                    .sort((a, b) => (a.startTime + a.duration * 1000) - (b.startTime + b.duration * 1000))[0] || null
+            };
+
             document.getElementById('detail-title').innerText = tableName;
-            document.getElementById('detail-total').innerText = `${total.toLocaleString()} IQD`;
+            document.getElementById('detail-total').innerText = formatCurrency(total);
+            document.getElementById('detail-customer').innerText = customer;
+            document.getElementById('detail-orders-count').innerText = orders.length;
+            document.getElementById('detail-item-count').innerText = itemsCount;
+
+            const noteBox = document.getElementById('detail-note-box');
+            if (notes) {
+                noteBox.classList.remove('hidden');
+                document.getElementById('detail-note').innerText = notes;
+            } else {
+                noteBox.classList.add('hidden');
+                document.getElementById('detail-note').innerText = '';
+            }
+
             const itemsDiv = document.getElementById('detail-items');
-            itemsDiv.innerHTML = '';
-            items.forEach((item) => {
-                itemsDiv.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/50 transition-all">
-                    <span class="text-sm font-bold">${item.name} <span class="text-xs text-gray-500 font-orbitron">(${item.price} IQD)</span></span>
-                    <button onclick="deleteItem('${tableName}', '${item.name}', ${item.price})" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
-            });
+            itemsDiv.innerHTML = aggregatedItems.map(item => {
+                const encodedTable = encodeURIComponent(tableName);
+                const encodedName = encodeURIComponent(item.name);
+                return `
+                    <div class="flex justify-between items-center gap-3 p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/40 transition-all">
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-sm font-bold">${escapeHtml(item.name)}</span>
+                                <span class="text-[10px] px-2 py-1 rounded-full bg-neonViolet/15 text-neonViolet">x${item.qty}</span>
+                            </div>
+                            <div class="text-[11px] text-gray-500 mt-1">${formatCurrency(item.price)} للوحدة</div>
+                        </div>
+                        <div class="flex items-center gap-3 shrink-0">
+                            <span class="text-neonCyan font-black font-orbitron text-sm">${formatCurrency(item.total)}</span>
+                            <button onclick="deleteItem(decodeURIComponent('${encodedTable}'), decodeURIComponent('${encodedName}'), ${item.price})" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-xl transition-all">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
             const timerSection = document.getElementById('timer-section');
-            if(duration > 0 && startTime) { timerSection.classList.remove('hidden'); startAdminTimer(startTime, duration); }
-            else { timerSection.classList.add('hidden'); clearInterval(timerInterval); }
+            const timerMeta = getTimerMeta(timerEntry);
+            if (timerMeta.hasTimer) {
+                timerSection.classList.remove('hidden');
+                startAdminTimer(timerEntry.primaryTimer.startTime, timerEntry.primaryTimer.duration);
+            } else {
+                timerSection.classList.add('hidden');
+                clearInterval(timerInterval);
+            }
+
+            currentDetailPayload = { table: tableName, customer, total, items: aggregatedItems };
             document.getElementById('btn-close').onclick = () => closeTable(tableName);
             document.getElementById('btn-transfer').onclick = () => openTransferModal(tableName);
             document.getElementById('btn-add-item').onclick = () => addItemToTable(tableName);
             document.getElementById('btn-delete-table').onclick = () => deleteTablePermanently(tableName);
+            document.getElementById('btn-copy-summary').onclick = () => copyCurrentSummary();
+            document.getElementById('btn-print-summary').onclick = () => printCurrentSummary();
             document.getElementById('detail-modal').classList.remove('hidden');
-        }
+        };
 
         function startAdminTimer(startTime, duration) {
             clearInterval(timerInterval);
-            const endTime = startTime + (duration * 1000);
+            const endTime = Number(startTime) + Number(duration) * 1000;
             timerInterval = setInterval(() => {
-                const now = Date.now(); const diff = endTime - now;
-                if (diff <= 0) { document.getElementById('detail-timer').innerText = "00:00:00"; clearInterval(timerInterval); return; }
-                const h = Math.floor(diff / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000);
-                document.getElementById('detail-timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                const diff = endTime - Date.now();
+                const timer = document.getElementById('detail-timer');
+                if (diff <= 0) {
+                    timer.innerText = `متأخر ${formatDuration(Math.abs(diff))}`;
+                    timer.classList.remove('text-neonCyan');
+                    timer.classList.add('text-neonRed');
+                    return;
+                }
+                timer.classList.remove('text-neonRed');
+                timer.classList.add('text-neonCyan');
+                timer.innerText = formatDuration(diff);
             }, 1000);
         }
 
         window.addItemToTable = async (tableName) => {
-            const name = document.getElementById('add-item-name').value;
-            const price = parseInt(document.getElementById('add-item-price').value);
-            if(!name || !price) return alert("أدخل الاسم والسعر!");
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
-            const snap = await getDocs(q);
-            const batch = writeBatch(db);
-            snap.forEach(d => {
-                const data = d.data();
-                const newItems = [...data.items, {name, price, qty:1}];
-                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total + price });
+            const name = document.getElementById('add-item-name').value.trim();
+            const price = parseInt(document.getElementById('add-item-price').value, 10);
+            if (!name || Number.isNaN(price) || price <= 0) {
+                alert('أدخل الاسم والسعر بشكل صحيح');
+                return;
+            }
+
+            await addDoc(collection(db, 'orders'), {
+                table: tableName,
+                customer: 'إضافة يدوية',
+                note: 'تمت الإضافة من لوحة التحكم',
+                items: [{ name, price, qty: 1 }],
+                total: price,
+                itemCount: 1,
+                status: 'open',
+                timestamp: Date.now(),
+                startTime: null,
+                duration: 0,
+                orderSource: 'admin-ui'
             });
-            await batch.commit();
-            document.getElementById('add-item-name').value = ''; document.getElementById('add-item-price').value = '';
-            showDetail(tableName);
-            alert("تم الإضافة بنجاح ✅");
-        }
+
+            document.getElementById('add-item-name').value = '';
+            document.getElementById('add-item-price').value = '';
+            await showDetail(tableName);
+            alert('تمت الإضافة بنجاح ✅');
+        };
 
         window.deleteItem = async (tableName, itemName, itemPrice) => {
-            if(!confirm(`حذف ${itemName}؟`)) return;
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
-            const snap = await getDocs(q);
-            const batch = writeBatch(db);
-            snap.forEach(d => {
-                const data = d.data();
-                const newItems = data.items.filter(i => i.name !== itemName);
-                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total - itemPrice });
-            });
-            await batch.commit();
-            showDetail(tableName);
-        }
+            if (!confirm(`حذف وحدة واحدة من ${itemName}؟`)) return;
 
-        window.closeDetail = () => { document.getElementById('detail-modal').classList.add('hidden'); clearInterval(timerInterval); }
+            const q = query(collection(db, 'orders'), where('table', '==', tableName));
+            const snap = await getDocs(q);
+            let handled = false;
+
+            for (const docSnap of snap.docs) {
+                const data = docSnap.data() || {};
+                if (data.status === 'closed') continue;
+                const items = Array.isArray(data.items) ? [...data.items] : [];
+                const index = items.findIndex(item => item.name === itemName && Number(item.price) === Number(itemPrice));
+                if (index === -1) continue;
+
+                const currentItem = { ...items[index] };
+                const currentQty = itemQty(currentItem);
+                if (currentQty > 1) {
+                    items[index] = { ...currentItem, qty: currentQty - 1 };
+                } else {
+                    items.splice(index, 1);
+                }
+
+                if (!items.length) {
+                    await deleteDoc(doc(db, 'orders', docSnap.id));
+                } else {
+                    await updateDoc(doc(db, 'orders', docSnap.id), {
+                        items,
+                        total: Math.max(0, Number(data.total || calculateOrderTotal(data.items || [])) - Number(itemPrice)),
+                        itemCount: calculateItemsCount(items)
+                    });
+                }
+                handled = true;
+                break;
+            }
+
+            if (!handled) {
+                alert('تعذر العثور على الصنف المطلوب');
+                return;
+            }
+
+            await showDetail(tableName);
+        };
+
+        window.closeDetail = () => {
+            currentDetailPayload = null;
+            document.getElementById('detail-modal').classList.add('hidden');
+            clearInterval(timerInterval);
+        };
 
         window.closeTable = async (tableName) => {
-            if(!confirm(`إغلاق حساب ${tableName}؟`)) return;
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            if (!confirm(`إغلاق حساب ${tableName}؟`)) return;
+
+            const q = query(collection(db, 'orders'), where('table', '==', tableName));
             const snap = await getDocs(q);
-            let finalTotal = 0; snap.forEach(d => finalTotal += d.data().total);
-            const statsRef = doc(db, "stats", "daily_revenue");
+            const orders = snap.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() })).filter(order => order.status !== 'closed');
+            let finalTotal = 0;
+            const batch = writeBatch(db);
+
+            orders.forEach(order => {
+                finalTotal += Number(order.total || 0);
+                batch.delete(doc(db, 'orders', order.id));
+            });
+
+            if (orders.length) {
+                const aggregatedItems = aggregateItemsFromDocs(orders).map(item => ({
+                    name: item.name,
+                    price: item.price,
+                    qty: item.qty
+                }));
+                await addDoc(collection(db, 'order_history'), {
+                    table: tableName,
+                    customer: getPrimaryCustomer(orders),
+                    note: getCombinedNote(orders),
+                    items: aggregatedItems,
+                    total: finalTotal,
+                    itemCount: aggregatedItems.reduce((sum, item) => sum + Number(item.qty || 0), 0),
+                    orderCount: orders.length,
+                    openedAt: Math.min(...orders.map(order => Number(order.timestamp || Date.now()))),
+                    closedAt: Date.now()
+                });
+            }
+
+            const statsRef = doc(db, 'stats', 'daily_revenue');
             const statsSnap = await getDoc(statsRef);
-            const currentRev = statsSnap.exists() ? statsSnap.data().total : 0;
+            const currentRev = statsSnap.exists() ? Number(statsSnap.data().total || 0) : 0;
             await setDoc(statsRef, { total: currentRev + finalTotal });
-            snap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
-            closeDetail(); updateRevenue();
-            alert("تم إغلاق الحساب وتحصيل المبلغ ✅");
+            await batch.commit();
+            closeDetail();
+            await updateRevenue();
+            if (currentView === 'reports') await loadReports();
+            alert('تم إغلاق الحساب وتحصيل المبلغ ✅');
         };
 
         window.openTransferModal = (tableName) => {
             currentTransferSource = tableName;
             const select = document.getElementById('transfer-target');
             select.innerHTML = '<option value="">اختر الطاولة الهدف...</option>';
-            allTablesList.forEach(t => { if(t !== currentTransferSource) select.innerHTML += `<option value="${t}">${t}</option>`; });
+            allTablesList.forEach(table => {
+                if (table !== currentTransferSource) {
+                    select.innerHTML += `<option value="${table}">${table}</option>`;
+                }
+            });
             document.getElementById('transfer-modal').classList.remove('hidden');
-        }
+        };
 
-        window.closeTransfer = () => { document.getElementById('transfer-modal').classList.add('hidden'); }
+        window.closeTransfer = () => {
+            document.getElementById('transfer-modal').classList.add('hidden');
+        };
 
         document.getElementById('confirm-transfer').onclick = async () => {
             const toTable = document.getElementById('transfer-target').value;
-            if(!toTable) return alert("يرجى اختيار طاولة!");
-            const q = query(collection(db, "orders"), where("table", "==", currentTransferSource));
+            if (!toTable) {
+                alert('يرجى اختيار طاولة!');
+                return;
+            }
+            const q = query(collection(db, 'orders'), where('table', '==', currentTransferSource));
             const snap = await getDocs(q);
             const batch = writeBatch(db);
-            snap.forEach(d => batch.update(doc(db, "orders", d.id), { table: toTable }));
+            snap.forEach(docSnap => batch.update(doc(db, 'orders', docSnap.id), { table: toTable }));
             await batch.commit();
-            closeTransfer(); closeDetail();
-            alert("تم تحويل الحساب بنجاح 🔄");
+            closeTransfer();
+            closeDetail();
+            alert('تم تحويل الحساب بنجاح 🔄');
         };
 
         window.deleteTablePermanently = async (tableName) => {
-            if(!confirm(`حذف ${tableName} من النظام بالكامل؟`)) return;
-            const q = query(collection(db, "tables"), where("name", "==", tableName));
-            const snap = await getDocs(q);
-            snap.forEach(async (d) => await deleteDoc(doc(db, "tables", d.id)));
-            const ordersQ = query(collection(db, "orders"), where("table", "==", tableName));
+            if (!confirm(`حذف ${tableName} من النظام بالكامل؟`)) return;
+
+            const batch = writeBatch(db);
+            const tablesQ = query(collection(db, 'tables'), where('name', '==', tableName));
+            const tablesSnap = await getDocs(tablesQ);
+            tablesSnap.forEach(docSnap => batch.delete(doc(db, 'tables', docSnap.id)));
+
+            const ordersQ = query(collection(db, 'orders'), where('table', '==', tableName));
             const ordersSnap = await getDocs(ordersQ);
-            ordersSnap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
+            ordersSnap.forEach(docSnap => batch.delete(doc(db, 'orders', docSnap.id)));
+
+            await batch.commit();
             closeDetail();
-            alert("تم الحذف نهائياً ✅");
+            alert('تم الحذف نهائياً ✅');
         };
 
         window.closeAllTables = async () => {
-            if(!confirm("تصفير جميع حسابات الصالة؟")) return;
-            const snap = await getDocs(collection(db, "orders"));
+            if (!confirm('تصفير جميع حسابات الصالة؟')) return;
+            const snap = await getDocs(collection(db, 'orders'));
             const batch = writeBatch(db);
-            snap.forEach(d => batch.delete(doc(db, "orders", d.id)));
+            snap.forEach(docSnap => batch.delete(doc(db, 'orders', docSnap.id)));
             await batch.commit();
-            alert("تم تصفير الصالة بنجاح ✅");
+            alert('تم تصفير الصالة بنجاح ✅');
         };
 
-        window.onload = () => { updateRevenue(); switchTab('map'); };
+        function initListeners() {
+            document.getElementById('table-search').addEventListener('input', () => renderMap(openOrdersState));
+            document.getElementById('status-filter').addEventListener('change', () => renderMap(openOrdersState));
+            document.getElementById('sort-filter').addEventListener('change', () => renderMap(openOrdersState));
+            document.getElementById('log-search').addEventListener('input', renderLog);
+            document.getElementById('menu-search').addEventListener('input', renderMenuList);
+            document.getElementById('import-products-file').addEventListener('change', async event => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                try {
+                    await importProductsFromFile(file);
+                } catch (error) {
+                    console.error(error);
+                    addAlert('error', 'فشل استيراد ملف المنتجات');
+                } finally {
+                    event.target.value = '';
+                }
+            });
+        }
+
+        window.onload = async () => {
+            initListeners();
+            setupPwaInstall();
+            registerServiceWorker();
+            updateNotifyStatus();
+            renderAlerts();
+            await updateRevenue();
+            switchTab('map');
+            updateLiveClock();
+            setInterval(updateLiveClock, 1000);
+            setInterval(() => {
+                if (currentView === 'map') {
+                    renderMap(openOrdersState);
+                    renderOverdueList(openOrdersState);
+                    updateDashboardStats(openOrdersState);
+                    calculateStrategicPulse(openOrdersState);
+                }
+            }, 1000);
+        };
     </script>
 </body>
 </html>
