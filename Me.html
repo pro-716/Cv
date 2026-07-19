@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ريسبون | القائمة الذكية الجديدة</title>
-    <meta name="theme-color" content="#f59e0b">
+    <meta name="theme-color" content="#0b0b10">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Respawn">
@@ -13,13 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        spaceDark: '#160f08',
+                        spaceDark: '#0b0b10',
                         neonCyan: '#f59e0b',
                         deepBlue: '#10b981',
                         neonViolet: '#fb7185',
@@ -36,13 +35,13 @@
     <style>
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #160f08;
-            color: #fff7ed;
+            background-color: #0b0b10;
+            color: #f5f5f4;
             overflow-x: hidden;
             background:
-                radial-gradient(circle at top right, rgba(245, 158, 11, 0.22) 0%, transparent 34%),
-                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.18) 0%, transparent 30%),
-                linear-gradient(180deg, #23160c 0%, #110c08 100%);
+                radial-gradient(circle at top right, rgba(245, 158, 11, 0.12) 0%, transparent 34%),
+                radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.09) 0%, transparent 30%),
+                linear-gradient(180deg, #131318 0%, #08080c 100%);
         }
         body::before {
             content: "";
@@ -56,10 +55,10 @@
             z-index: 2;
         }
         .hologram-glass {
-            background: rgba(255, 248, 240, 0.04);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(22px) saturate(170%);
-            border: 1px solid rgba(245, 158, 11, 0.16);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
         }
         .category-btn.active {
             background: linear-gradient(135deg, #f59e0b, #fb7185);
@@ -82,11 +81,6 @@
         .smart-card {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(16, 185, 129, 0.08));
             border: 1px solid rgba(245, 158, 11, 0.18);
-        }
-        .qr-box canvas, .qr-box img {
-            width: 100% !important;
-            height: auto !important;
-            border-radius: 1rem;
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .electric-pulse { animation: pulse-amber 2.1s infinite; }
@@ -130,7 +124,6 @@
 
         <div class="max-w-md mx-auto flex flex-wrap justify-center gap-3 mt-5">
             <button id="install-app-btn" onclick="installApp()" class="hidden bg-neonCyan text-black px-5 py-3 rounded-full text-xs font-black shadow-[0_10px_30px_rgba(245,158,11,0.25)] transition-all hover:scale-[1.02]">تثبيت التطبيق</button>
-            <button onclick="openQrModal()" class="bg-white/10 text-white px-5 py-3 rounded-full text-xs font-black border border-white/10 transition-all hover:border-neonCyan/40 hover:text-neonCyan">QR المنيو</button>
             <button onclick="shareMenu()" class="bg-white/10 text-white px-5 py-3 rounded-full text-xs font-black border border-white/10 transition-all hover:border-deepBlue/40 hover:text-deepBlue">مشاركة الرابط</button>
         </div>
     </header>
@@ -280,27 +273,6 @@
                 </div>
                 <div class="text-[11px] text-gray-500">راح نحفظ اسمك وطاولتك آخر مرة محلياً حتى يرجعن أسرع.</div>
                 <button id="submit-btn" onclick="sendToTelegram()" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black text-lg shadow-[0_0_30px_rgba(245,158,11,0.35)] active:scale-95 transition-all font-orbitron uppercase">إرسال الطلب للقيادة 🚀</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="qr-modal" class="fixed inset-0 z-[110] hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-2xl" onclick="closeQrModal()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-sm hologram-glass rounded-[2.25rem] p-6 z-10">
-            <div class="flex justify-between items-center mb-5">
-                <div>
-                    <h3 class="text-2xl font-black text-neonCyan">QR المنيو</h3>
-                    <p class="text-xs text-gray-500 mt-1">امسح الكود لفتح القائمة فوراً.</p>
-                </div>
-                <button onclick="closeQrModal()" class="text-gray-500 hover:text-white text-3xl">✕</button>
-            </div>
-            <div class="qr-box bg-white rounded-[1.5rem] p-4 mb-4">
-                <div id="qr-code" class="w-full aspect-square flex items-center justify-center"></div>
-            </div>
-            <div id="qr-link" class="text-[11px] text-gray-400 break-all mb-4"></div>
-            <div class="grid grid-cols-2 gap-3">
-                <button onclick="copyMenuLink()" class="bg-neonCyan text-black py-3 rounded-2xl font-black text-sm">نسخ الرابط</button>
-                <button onclick="shareMenu()" class="bg-white/10 text-white py-3 rounded-2xl font-black text-sm border border-white/10">مشاركة</button>
             </div>
         </div>
     </div>
@@ -469,43 +441,6 @@
             await deferredPrompt.userChoice;
             deferredPrompt = null;
             document.getElementById('install-app-btn').classList.add('hidden');
-        };
-
-        async function renderQrCode() {
-            const container = document.getElementById('qr-code');
-            const link = getMenuUrl();
-            document.getElementById('qr-link').innerText = link;
-            container.innerHTML = '';
-            if (window.QRCode?.toCanvas) {
-                const canvas = document.createElement('canvas');
-                await window.QRCode.toCanvas(canvas, link, {
-                    width: 260,
-                    margin: 1,
-                    color: { dark: '#2b1706', light: '#ffffff' }
-                });
-                container.appendChild(canvas);
-            } else {
-                container.innerHTML = '<div class="text-black text-center">QR غير متاح حالياً</div>';
-            }
-        }
-
-        window.openQrModal = async () => {
-            document.getElementById('qr-modal').classList.remove('hidden');
-            await renderQrCode();
-        };
-
-        window.closeQrModal = () => {
-            document.getElementById('qr-modal').classList.add('hidden');
-        };
-
-        window.copyMenuLink = async () => {
-            try {
-                await navigator.clipboard.writeText(getMenuUrl());
-                showToast('تم نسخ الرابط');
-            } catch (error) {
-                console.error(error);
-                showToast('تعذر نسخ الرابط', 'error');
-            }
         };
 
         window.shareMenu = async () => {
