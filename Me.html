@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ريسبون | القائمة الكونية</title>
+    <title>ريسبون | القائمة الكونية v3.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -11,7 +11,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { spaceDark: '#02020a', neonCyan: '#00f2ff', deepBlue: '#0066ff', neonViolet: '#bc13fe', neonRed: '#ff0055' },
+                    colors: { spaceDark: '#02020a', neonCyan: '#00f2ff', deepBlue: '#0066ff', neonViolet: '#bc13fe', neonRed: '#ff0055', neonGreen: '#00ff66', neonYellow: '#ffe600' },
                     fontFamily: { cairo: ['Cairo', 'sans-serif'], orbitron: ['Orbitron', 'sans-serif'] }
                 }
             }
@@ -23,95 +23,204 @@
             background-color: #02020a; 
             color: #fff; 
             overflow-x: hidden;
-            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
+            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.12) 0%, transparent 40%),
                         url('https://www.transparenttextures.com/patterns/stardust.png'), #02020a;
         }
         body::before {
             content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
             z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
         .hologram-glass { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(20px) saturate(180%); 
-            border: 1px solid rgba(0, 242, 255, 0.2); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            background: rgba(255, 255, 255, 0.035); 
+            backdrop-filter: blur(22px) saturate(190%); 
+            border: 1px solid rgba(0, 242, 255, 0.22); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.85);
         }
+        .category-btn { transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .category-btn.active { 
-            background: #00f2ff; color: #02020a; 
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+            background: #00f2ff; color: #02020a; font-weight: 900;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.65);
             transform: scale(1.05);
         }
         .product-card { 
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
         .product-card:hover {
             border-color: #00f2ff;
-            background: rgba(0, 242, 255, 0.05);
-            transform: translateX(-5px);
+            background: rgba(0, 242, 255, 0.07);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0, 242, 255, 0.15);
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .electric-pulse { animation: pulse-cyan 2s infinite; }
+        .electric-pulse { animation: pulse-cyan 2.5s infinite; }
         @keyframes pulse-cyan {
-            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); border-color: rgba(0, 242, 255, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 242, 255, 0); border-color: rgba(0, 242, 255, 0.2); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); border-color: rgba(0, 242, 255, 0.6); }
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased pb-28">
 
-    <header class="pt-16 pb-10 text-center px-4 relative z-10">
+    <!-- Header & Quick Action Buttons -->
+    <header class="pt-10 pb-6 text-center px-4 relative z-10">
         <div class="animate__animated animate__fadeInDown">
-            <h1 class="text-7xl font-black tracking-tighter text-white mb-2 drop-shadow-2xl font-orbitron">
-                RESPAWN<span class="text-neonCyan">.</span>
+            <div class="flex justify-between items-center max-w-md mx-auto mb-4">
+                <button onclick="openServiceAlertModal()" class="hologram-glass px-4 py-2 rounded-2xl text-xs font-black text-neonYellow flex items-center gap-1.5 hover:bg-neonYellow hover:text-black transition-all shadow-lg">
+                    <span class="text-base animate-bounce">🔔</span>
+                    <span>نداء الويتر / مساعدة</span>
+                </button>
+                <button onclick="openMyOrderModal()" class="hologram-glass px-4 py-2 rounded-2xl text-xs font-black text-neonCyan flex items-center gap-1.5 hover:bg-neonCyan hover:text-black transition-all shadow-lg">
+                    <span class="text-base">📋</span>
+                    <span>حسابي الحالي</span>
+                </button>
+            </div>
+            
+            <h1 class="text-6xl lg:text-7xl font-black tracking-tighter text-white mb-2 drop-shadow-2xl font-orbitron">
+                RESPAWN<span class="text-neonCyan animate-pulse">.</span>
             </h1>
-            <div class="h-1.5 w-20 bg-neonCyan mx-auto rounded-full mb-6 shadow-[0_0_15px_#00f2ff]"></div>
-            <p class="text-neonCyan text-xs font-light tracking-[0.3em] uppercase opacity-80 font-orbitron">Ultimate Gaming Experience</p>
+            <div class="h-1.5 w-24 bg-gradient-to-r from-neonCyan via-neonViolet to-neonRed mx-auto rounded-full mb-4 shadow-[0_0_20px_#00f2ff]"></div>
+            <p class="text-neonCyan text-[11px] font-bold tracking-[0.35em] uppercase opacity-90 font-orbitron">Ultimate Gaming & Cyber Lounge</p>
         </div>
     </header>
 
-    <nav class="sticky top-6 z-40 px-4 mb-12">
-        <div class="flex gap-4 overflow-x-auto no-scrollbar max-w-md mx-auto p-2 hologram-glass rounded-full" id="category-nav"></div>
-    </nav>
-
-    <main class="px-4 max-w-md mx-auto mb-32 relative z-10">
-        <div id="menu-grid" class="grid grid-cols-1 gap-5"></div>
-    </main>
-
-    <div id="cart-bar" class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-md hologram-glass rounded-full p-3 px-8 flex justify-between items-center z-50 opacity-0 pointer-events-none transition-all duration-700 translate-y-12 shadow-2xl electric-pulse">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-neonCyan text-spaceDark rounded-full flex items-center justify-center font-black text-sm font-orbitron" id="cart-count">0</div>
-            <span class="text-sm font-bold tracking-wide">السلة المحدثة</span>
+    <!-- Search Bar -->
+    <div class="px-4 max-w-md mx-auto mb-6 relative z-30">
+        <div class="relative">
+            <input type="text" id="menu-search" oninput="filterMenuBySearch()" placeholder="🔍 ابحث عن مشروب، أركيلة، وجبة خفيفة أو عرض..." class="w-full hologram-glass py-3.5 px-5 pr-12 rounded-2xl text-sm text-white placeholder-gray-400 outline-none focus:border-neonCyan transition-all shadow-xl font-cairo">
+            <button onclick="clearSearch()" id="clear-search-btn" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-lg hidden">✕</button>
         </div>
-        <button onclick="openCart()" class="bg-white text-black px-8 py-2 rounded-full font-black text-xs uppercase transition-all active:scale-90 hover:bg-neonCyan font-orbitron">إتمام الطلب</button>
     </div>
 
-    <div id="cart-modal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-3xl" onclick="closeCart()"></div>
-        <div class="absolute bottom-0 left-0 right-0 bg-spaceDark rounded-t-[3rem] p-8 animate__animated animate__slideInUp max-w-md mx-auto border-t border-neonCyan/30 shadow-[0_-20px_50px_rgba(0,242,255,0.1)]">
-            <div class="w-12 h-1.5 bg-gray-800 rounded-full mx-auto mb-10"></div>
-            <h3 class="text-3xl font-black mb-8 text-center tracking-tight">فاتورة <span class="text-neonCyan">الطلب</span></h3>
-            <div id="cart-items" class="space-y-4 max-h-80 overflow-y-auto no-scrollbar mb-8"></div>
-            <div class="flex justify-between items-center p-5 bg-white/5 rounded-3xl mb-8 border border-white/5">
-                <span class="text-gray-400 font-bold">المجموع الكلي</span>
-                <span class="text-3xl font-black text-neonCyan font-orbitron" id="total-price">0 IQD</span>
+    <!-- Category Nav Bar -->
+    <nav class="sticky top-4 z-40 px-4 mb-8">
+        <div class="flex gap-2.5 overflow-x-auto no-scrollbar max-w-md mx-auto p-2.5 hologram-glass rounded-3xl border border-white/10 shadow-2xl backdrop-blur-3xl" id="category-nav"></div>
+    </nav>
+
+    <!-- Products Grid -->
+    <main class="px-4 max-w-md mx-auto mb-16 relative z-10">
+        <div id="loading-spinner" class="text-center py-12 text-gray-400 font-orbitron text-sm">
+            <div class="w-10 h-10 border-4 border-neonCyan border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            جاري استدعاء القائمة الكونية من السحابة...
+        </div>
+        <div id="menu-grid" class="grid grid-cols-1 gap-4"></div>
+    </main>
+
+    <!-- Floating Cart Bar -->
+    <div id="cart-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-md hologram-glass rounded-3xl p-3.5 px-6 flex justify-between items-center z-50 opacity-0 pointer-events-none transition-all duration-500 translate-y-12 shadow-2xl electric-pulse border border-neonCyan/50">
+        <div class="flex items-center gap-3.5" onclick="openCart()">
+            <div class="w-11 h-11 bg-neonCyan text-spaceDark rounded-2xl flex items-center justify-center font-black text-base font-orbitron shadow-md" id="cart-count">0</div>
+            <div>
+                <span class="text-sm font-black text-white block">السلة الحالية</span>
+                <span class="text-[11px] text-neonCyan font-mono" id="cart-bar-total">0 IQD</span>
             </div>
-            <div class="space-y-4">
-                <select id="cust-table" class="w-full bg-black border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-sm appearance-none text-white">
-                    <option value="">🎯 اختر مكان الجلوس</option>
+        </div>
+        <button onclick="openCart()" class="bg-gradient-to-r from-neonCyan to-deepBlue text-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-90 hover:shadow-[0_0_20px_#00f2ff] font-orbitron">عرض وإتمام الطلب</button>
+    </div>
+
+    <!-- CART / CHECKOUT MODAL -->
+    <div id="cart-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-3xl animate__animated animate__fadeIn" onclick="closeCart()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-spaceDark rounded-t-[3rem] p-6 lg:p-8 animate__animated animate__slideInUp max-w-md mx-auto border-t border-neonCyan/40 shadow-[0_-20px_60px_rgba(0,242,255,0.2)] max-h-[92vh] overflow-y-auto no-scrollbar flex flex-col">
+            <div class="w-14 h-1.5 bg-gray-700 rounded-full mx-auto mb-6"></div>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-3xl font-black tracking-tight">🛒 فاتورة <span class="text-neonCyan font-orbitron">الطلب</span></h3>
+                <button onclick="closeCart()" class="p-2 bg-white/5 rounded-xl text-gray-400 hover:text-white text-xl">✕</button>
+            </div>
+            
+            <div id="cart-items" class="space-y-3 max-h-60 overflow-y-auto no-scrollbar mb-6"></div>
+            
+            <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl mb-6 border border-white/10">
+                <span class="text-gray-300 font-bold">المجموع الإجمالي المطلوب</span>
+                <span class="text-2xl font-black text-neonCyan font-orbitron drop-shadow-[0_0_10px_#00f2ff]" id="total-price">0 IQD</span>
+            </div>
+
+            <div class="space-y-3">
+                <select id="cust-table" class="w-full bg-black/80 border border-white/15 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-sm appearance-none text-white font-bold">
+                    <option value="">🎯 اختر مكان الجلوس (الطاولة أو البلي)...</option>
                 </select>
-                <textarea id="cust-note" placeholder="ملاحظات إضافية..." class="w-full bg-black border border-white/10 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-sm h-24 text-white"></textarea>
-                <button id="submit-btn" onclick="sendToTelegram()" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black text-lg shadow-[0_0_30px_rgba(0,242,241,0.4)] active:scale-95 transition-all font-orbitron uppercase">إرسال الطلب للقيادة 🚀</button>
+                <input id="cust-name" type="text" placeholder="👤 اسمك أو اللقب (اختياري، مثلاً: أحمد / أبو فهد)" class="w-full bg-black/80 border border-white/15 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-sm text-white">
+                <textarea id="cust-note" placeholder="📝 ملاحظات إضافية على الطلب (سكر خفيف، ثلج إضافي...)" class="w-full bg-black/80 border border-white/15 p-4 rounded-2xl outline-none focus:border-neonCyan transition-all text-sm h-20 text-white"></textarea>
+                
+                <button id="submit-btn" onclick="sendToTelegram()" class="w-full bg-gradient-to-r from-neonCyan to-deepBlue text-black py-4 rounded-2xl font-black text-base shadow-[0_0_30px_rgba(0,242,241,0.4)] active:scale-95 transition-all font-orbitron uppercase tracking-wide flex items-center justify-center gap-2">
+                    <span>🚀 إرسال الطلب لمركز القيادة</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SERVICE ALERT / CALL WAITER MODAL -->
+    <div id="service-modal" class="fixed inset-0 z-[150] hidden">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-3xl animate__animated animate__fadeIn" onclick="closeServiceAlertModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-md hologram-glass p-6 lg:p-8 rounded-[2.5rem] border border-neonYellow/50 animate__animated animate__zoomIn shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-black text-neonYellow flex items-center gap-2">
+                    <span class="text-3xl">🔔</span>
+                    <span>نداء خدمة سريع للقيادة</span>
+                </h3>
+                <button onclick="closeServiceAlertModal()" class="text-gray-400 hover:text-white text-2xl">✕</button>
+            </div>
+            <p class="text-xs text-gray-300 mb-5">اختر مكان جلوسك ونوع المساعدة المطلوبة لإرسال إشارة فورية للويتر أو الكاشير:</p>
+            
+            <select id="service-table" class="w-full bg-black/80 border border-white/20 p-3.5 rounded-2xl mb-4 text-sm outline-none focus:border-neonYellow text-white font-bold">
+                <option value="">🎯 اختر مكان الجلوس...</option>
+            </select>
+
+            <div class="space-y-2.5 mb-6">
+                <button onclick="selectServiceOption('🔥 طلب تجديد فحم للأركيلة')" class="service-opt-btn w-full p-3.5 rounded-2xl bg-white/5 hover:bg-neonYellow hover:text-black border border-white/10 text-right text-xs font-bold transition-all flex items-center justify-between">
+                    <span>🔥 طلب تجديد فحم للأركيلة</span>
+                    <span>💨</span>
+                </button>
+                <button onclick="selectServiceOption('🧑‍🍳 نداء الويتر للطاولة')" class="service-opt-btn w-full p-3.5 rounded-2xl bg-white/5 hover:bg-neonYellow hover:text-black border border-white/10 text-right text-xs font-bold transition-all flex items-center justify-between">
+                    <span>🧑‍🍳 نداء الويتر للطاولة / طلب استفسار</span>
+                    <span>🔔</span>
+                </button>
+                <button onclick="selectServiceOption('🧾 طلب كشف الحساب والفاتورة')" class="service-opt-btn w-full p-3.5 rounded-2xl bg-white/5 hover:bg-neonYellow hover:text-black border border-white/10 text-right text-xs font-bold transition-all flex items-center justify-between">
+                    <span>🧾 طلب كشف الحساب والفاتورة للمحاسبة</span>
+                    <span>💰</span>
+                </button>
+                <button onclick="selectServiceOption('🎮 مساعدة في الألعاب أو البلي')" class="service-opt-btn w-full p-3.5 rounded-2xl bg-white/5 hover:bg-neonYellow hover:text-black border border-white/10 text-right text-xs font-bold transition-all flex items-center justify-between">
+                    <span>🎮 طلب مساعدة في تشغيل الألعاب أو الأذرع</span>
+                    <span>🕹️</span>
+                </button>
+            </div>
+
+            <input id="service-custom-msg" type="text" placeholder="أو اكتب طلبك المخصص هنا..." class="w-full bg-black/60 border border-white/15 p-3 rounded-xl mb-6 text-xs text-white outline-none focus:border-neonYellow">
+
+            <button id="send-service-btn" onclick="sendServiceAlert()" class="w-full bg-neonYellow text-black py-4 rounded-2xl font-black text-sm uppercase transition-all active:scale-95 shadow-[0_0_25px_rgba(255,230,0,0.4)]">إرسال النداء فوراً 🚀</button>
+        </div>
+    </div>
+
+    <!-- MY ACTIVE ORDER MODAL -->
+    <div id="my-order-modal" class="fixed inset-0 z-[160] hidden">
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-3xl animate__animated animate__fadeIn" onclick="closeMyOrderModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-md hologram-glass p-6 lg:p-8 rounded-[2.5rem] border border-neonCyan/50 animate__animated animate__zoomIn shadow-2xl max-h-[88vh] overflow-y-auto no-scrollbar flex flex-col">
+            <div class="flex justify-between items-center mb-5 pb-3 border-b border-white/10">
+                <h3 class="text-2xl font-black text-neonCyan font-orbitron flex items-center gap-2">
+                    <span>📋 حسابي الحالي على الطاولة</span>
+                </h3>
+                <button onclick="closeMyOrderModal()" class="text-gray-400 hover:text-white text-2xl">✕</button>
+            </div>
+            
+            <div class="mb-5">
+                <label class="text-xs text-gray-400 font-bold block mb-2">اختر طاولتك لعرض الحساب والطلبات المفتوحة:</label>
+                <select id="my-order-table" onchange="fetchMyActiveOrder()" class="w-full bg-black/80 border border-white/20 p-3.5 rounded-2xl text-sm outline-none focus:border-neonCyan text-white font-bold">
+                    <option value="">🎯 اختر مكان الجلوس...</option>
+                </select>
+            </div>
+
+            <div id="my-order-content" class="flex-1 overflow-y-auto no-scrollbar">
+                <div class="text-center py-8 text-gray-500 text-xs font-orbitron">قم باختيار طاولتك بالأعلى لعرض الفاتورة والطلبات النشطة المباشرة من السحابة ⚡</div>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAFQx3BndP3piYkONM0KSBcb5vo8xx3a5Q",
@@ -127,149 +236,508 @@
         const BOT_TOKEN = "8804335988:AAF3JE7YLRqcjJeFCGQLFoZ1f_pyWrIXDfs";
         const CHAT_ID = "5044044978";
 
-        const MENU_DATA = {
-            "ازبري": [ { id: 1, name: "ازبري توت", price: 1000 }, { id: 2, name: "ازبري برتقال", price: 2000 } ],
-            "ساخن وتسالي": [ { id: 3, name: "كابتشينو", price: 1000 }, { id: 4, name: "شاي مهيل", price: 500 }, { id: 5, name: "إندومي", price: 1000 } ],
-            "عصائر طبيعية": [ { id: 6, name: "كوكتيل ريسبون الخاص", price: 1500 }, { id: 7, name: "عصير موز", price: 1000 }, { id: 8, name: "عصير برتقال", price: 1000 }, { id: 9, name: "عصير ليمون", price: 1000 }, { id: 10, name: "عصير خوخ فريش", price: 1000 }, { id: 11, name: "عصير بطيخ", price: 1000 } ],
-            "مشروبات باردة": [ { id: 12, name: "تايكر طاقة", price: 1250 }, { id: 13, name: "كازوز علج", price: 500 }, { id: 14, name: "ببسي", price: 500 }, { id: 15, name: "ماونتن ديو", price: 500 }, { id: 16, name: "سفن اب", price: 500 }, { id: 17, name: "ميرندا", price: 500 }, { id: 18, name: "ماء بارد", price: 250 } ],
-            "أراكيل ريسبون": [ { id: 19, name: "أركيلة علج نعناع", price: 2500 }, { id: 20, name: "أركيلة إنكليزي", price: 2500 }, { id: 21, name: "أركيلة تفاحتين", price: 2500 }, { id: 22, name: "أركيلة ليمون نعناع", price: 2500 }, { id: 23, name: "أركيلة نعناع", price: 2500 }, { id: 24, name: "خلطة Boss Fight", price: 3000 }, { id: 25, name: "خلطة Killstreak", price: 3000 }, { id: 26, name: "خلطة Loot Box", price: 3000 }, { id: 27, name: "خلطة Overclock", price: 3000 } ],
-            "عروض ريسبون": [ { id: 28, name: "اركيلة 2 + كيم بلي مجاني", price: 5000 }, { id: 29, name: "ساعة بلايستيشن + 2 شاي مجاني", price: 4000 }, { id: 30, name: "ساعة منضدة + 2 شاي مجاني", price: 4000 }, { id: 31, name: "5 كيم بلايستيشن + السادس مجاني", price: 5000 }, { id: 32, name: "5 كيم بلايستيشن + عصير مجاني", price: 5000 } ],
-            "صالة الألعاب": [ { id: 33, name: "بلايستيشن 5 - ساعة", price: 4000, duration: 3600 }, { id: 34, name: "بلايستيشن 5 - نصف ساعة", price: 2000, duration: 1800 }, { id: 35, name: "كيم بلايستيشن 5 - زوجي", price: 1000 }, { id: 36, name: "كيم بلايستيشن 5 - رباعي", price: 2000 }, { id: 37, name: "منضدة تنس - ساعة", price: 4000, duration: 3600 }, { id: 38, name: "منضدة تنس - نصف ساعة", price: 2000, duration: 1800 }, { id: 39, name: "كيم منضدة تنس - زوجي", price: 500 }, { id: 40, name: "كيم منضدة تنس - رباعي", price: 1000 } ]
+        const DEFAULT_MENU_DATA = {
+            "الأكثر طلباً ⭐": [
+                { id: "fav_1", name: "أركيلة علج نعناع", price: 2500, category: "أراكيل ريسبون" },
+                { id: "fav_2", name: "خلطة Boss Fight", price: 3000, category: "أراكيل ريسبون" },
+                { id: "fav_3", name: "تايكر طاقة", price: 1250, category: "مشروبات باردة" },
+                { id: "fav_4", name: "كوكتيل ريسبون الخاص", price: 1500, category: "عصائر طبيعية" },
+                { id: "fav_5", name: "كابتشينو", price: 1000, category: "ساخن وتسالي" },
+                { id: "fav_6", name: "بلايستيشن 5 - ساعة", price: 4000, category: "صالة الألعاب", duration: 3600 }
+            ],
+            "ازبري": [ { id: "1", name: "ازبري توت", price: 1000 }, { id: "2", name: "ازبري برتقال", price: 2000 } ],
+            "ساخن وتسالي": [ { id: "3", name: "كابتشينو", price: 1000 }, { id: "4", name: "شاي مهيل", price: 500 }, { id: "5", name: "إندومي", price: 1000 } ],
+            "عصائر طبيعية": [ { id: "6", name: "كوكتيل ريسبون الخاص", price: 1500 }, { id: "7", name: "عصير موز", price: 1000 }, { id: "8", name: "عصير برتقال", price: 1000 }, { id: "9", name: "عصير ليمون", price: 1000 }, { id: "10", name: "عصير خوخ فريش", price: 1000 }, { id: "11", name: "عصير بطيخ", price: 1000 } ],
+            "مشروبات باردة": [ { id: "12", name: "تايكر طاقة", price: 1250 }, { id: "13", name: "كازوز علج", price: 500 }, { id: "14", name: "ببسي", price: 500 }, { id: "15", name: "ماونتن ديو", price: 500 }, { id: "16", name: "سفن اب", price: 500 }, { id: "17", name: "ميرندا", price: 500 }, { id: "18", name: "ماء بارد", price: 250 } ],
+            "أراكيل ريسبون": [ { id: "19", name: "أركيلة علج نعناع", price: 2500 }, { id: "20", name: "أركيلة إنكليزي", price: 2500 }, { id: "21", name: "أركيلة تفاحتين", price: 2500 }, { id: "22", name: "أركيلة ليمون نعناع", price: 2500 }, { id: "23", name: "أركيلة نعناع", price: 2500 }, { id: "24", name: "خلطة Boss Fight", price: 3000 }, { id: "25", name: "خلطة Killstreak", price: 3000 }, { id: "26", name: "خلطة Loot Box", price: 3000 }, { id: "27", name: "خلطة Overclock", price: 3000 } ],
+            "عروض ريسبون": [ { id: "28", name: "اركيلة 2 + كيم بلي مجاني", price: 5000 }, { id: "29", name: "ساعة بلايستيشن + 2 شاي مجاني", price: 4000 }, { id: "30", name: "ساعة منضدة + 2 شاي مجاني", price: 4000 }, { id: "31", name: "5 كيم بلايستيشن + السادس مجاني", price: 5000 }, { id: "32", name: "5 كيم بلايستيشن + عصير مجاني", price: 5000 } ],
+            "صالة الألعاب": [ { id: "33", name: "بلايستيشن 5 - ساعة", price: 4000, duration: 3600 }, { id: "34", name: "بلايستيشن 5 - نصف ساعة", price: 2000, duration: 1800 }, { id: "35", name: "كيم بلايستيشن 5 - زوجي", price: 1000 }, { id: "36", name: "كيم بلايستيشن 5 - رباعي", price: 2000 }, { id: "37", name: "منضدة تنس - ساعة", price: 4000, duration: 3600 }, { id: "38", name: "منضدة تنس - نصف ساعة", price: 2000, duration: 1800 }, { id: "39", name: "كيم منضدة تنس - زوجي", price: 500 }, { id: "40", name: "كيم منضدة تنس - رباعي", price: 1000 } ]
         };
 
+        let menuData = { ...DEFAULT_MENU_DATA };
         let cart = [];
-        let currentCat = "ازبري";
+        let currentCat = "الأكثر طلباً ⭐";
+        let allTablesList = [];
+        let selectedServiceMessage = "";
+
+        // Play soft sound effect
+        function playClickSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.12);
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+                osc.start(); osc.stop(ctx.currentTime + 0.12);
+            } catch(e){}
+        }
 
         async function loadTables() {
-            const select = document.getElementById('cust-table');
+            const select1 = document.getElementById('cust-table');
+            const select2 = document.getElementById('service-table');
+            const select3 = document.getElementById('my-order-table');
             const baseTables = ["طاولة 7", "طاولة 8", "طاولة 9", "طاولة 10", "بلي 1", "بلي 2", "بلي 3", "بلي 4", "بلي 5", "بلي 6", "منضدة 11", "منضدة 12"];
-            let allTables = [...baseTables];
+            allTablesList = [...baseTables];
+            
             try {
                 const snap = await getDocs(collection(db, "tables"));
                 snap.forEach(doc => {
                     const name = doc.data().name;
-                    if(!allTables.includes(name)) allTables.push(name);
+                    if(!allTablesList.includes(name)) allTablesList.push(name);
                 });
             } catch(e) { console.error(e); }
-            select.innerHTML = '<option value="">🎯 اختر مكان الجلوس</option>';
-            allTables.forEach(t => select.innerHTML += `<option value="${t}">${t}</option>`);
+            
+            const opts = '<option value="">🎯 اختر مكان الجلوس (الطاولة أو البلي)...</option>' + 
+                allTablesList.map(t => `<option value="${t}">${t}</option>`).join('');
+            
+            select1.innerHTML = opts;
+            select2.innerHTML = opts;
+            select3.innerHTML = opts;
+
+            // Remember table if previously selected
+            const savedTable = localStorage.getItem('respawn_customer_table');
+            if (savedTable && allTablesList.includes(savedTable)) {
+                select1.value = savedTable;
+                select2.value = savedTable;
+                select3.value = savedTable;
+            }
         }
 
-        function init() {
+        async function initMenuCloud() {
+            try {
+                const snap = await getDocs(collection(db, "products"));
+                if (!snap.empty) {
+                    let cloudCategories = { "الأكثر طلباً ⭐": [...DEFAULT_MENU_DATA["الأكثر طلباً ⭐"]] };
+                    snap.forEach(docSnap => {
+                        const data = docSnap.data();
+                        const cat = data.category || "أخرى";
+                        if (!cloudCategories[cat]) cloudCategories[cat] = [];
+                        cloudCategories[cat].push({
+                            id: docSnap.id,
+                            name: data.name,
+                            price: data.price,
+                            duration: data.duration || 0,
+                            category: cat
+                        });
+                    });
+                    menuData = cloudCategories;
+                }
+            } catch(e) {
+                console.warn("Could not load cloud products, using default menu:", e);
+            }
+            
+            document.getElementById('loading-spinner').classList.add('hidden');
+            buildCategoryNav();
+            render();
+            loadTables();
+        }
+
+        function buildCategoryNav() {
             const nav = document.getElementById('category-nav');
-            Object.keys(MENU_DATA).forEach((cat, i) => {
+            nav.innerHTML = '';
+            Object.keys(menuData).forEach((cat, i) => {
                 const btn = document.createElement('button');
-                btn.className = `category-btn whitespace-nowrap px-6 py-2 rounded-full text-xs font-bold transition-all ${i===0?'active':'bg-white/5 text-gray-400'}`;
+                btn.className = `category-btn whitespace-nowrap px-5 py-2.5 rounded-2xl text-xs font-bold transition-all ${cat === currentCat ? 'active bg-neonCyan text-black font-black' : 'bg-white/5 text-gray-300 hover:bg-white/10'}`;
                 btn.innerText = cat;
                 btn.onclick = (e) => {
-                    document.querySelectorAll('.category-btn').forEach(b => { b.classList.remove('active'); b.classList.add('bg-white/5', 'text-gray-400'); });
-                    e.target.classList.add('active');
+                    document.querySelectorAll('.category-btn').forEach(b => { b.classList.remove('active', 'bg-neonCyan', 'text-black', 'font-black'); b.classList.add('bg-white/5', 'text-gray-300'); });
+                    e.target.classList.add('active', 'bg-neonCyan', 'text-black', 'font-black');
+                    e.target.classList.remove('bg-white/5', 'text-gray-300');
                     currentCat = cat;
+                    document.getElementById('menu-search').value = '';
+                    document.getElementById('clear-search-btn').classList.add('hidden');
                     render();
                 };
                 nav.appendChild(btn);
             });
-            render();
-            loadTables();
         }
 
         function render() {
             const grid = document.getElementById('menu-grid');
             grid.innerHTML = '';
-            MENU_DATA[currentCat].forEach((item, i) => {
+            const items = menuData[currentCat] || [];
+            
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="text-center py-8 text-gray-500 text-xs font-orbitron">لا توجد أصناف في هذا القسم حالياً</div>';
+                return;
+            }
+
+            items.forEach((item, i) => {
                 const card = document.createElement('div');
-                card.className = `product-card hologram-glass p-5 rounded-3xl flex justify-between items-center animate__animated animate__fadeInUp`;
-                card.style.animationDelay = `${i * 0.05}s`;
+                card.className = `product-card hologram-glass p-4 rounded-3xl flex justify-between items-center animate__animated animate__fadeInUp`;
+                card.style.animationDelay = `${Math.min(i * 0.04, 0.4)}s`;
+                
+                // Check if already in cart to show count badge
+                const cartItem = cart.find(x => x.name === item.name);
+                const cartQtyBadge = cartItem ? `<span class="bg-neonCyan text-black text-[10px] font-black px-2 py-0.5 rounded-full font-mono ml-2 shadow">${cartItem.qty}x</span>` : '';
+
                 card.innerHTML = `
-                    <div><div class="font-bold text-gray-100">${item.name}</div><div class="text-neonCyan font-mono text-sm">${item.price.toLocaleString()} IQD</div></div>
-                    <button onclick="addToCart(${item.id}, '${item.name}', ${item.price}, ${item.duration || 0})" class="bg-white text-black w-9 h-9 rounded-xl flex items-center justify-center font-black transition-all active:scale-75">+</button>
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center text-xl shadow-inner border border-white/5">
+                            ${item.name.includes("أركيلة") || item.name.includes("خلطة") ? '💨' : item.name.includes("بلايستيشن") || item.name.includes("تنس") || item.duration > 0 ? '🎮' : item.name.includes("عصير") || item.name.includes("كوكتيل") ? '🍹' : item.name.includes("تايكر") || item.name.includes("ببسي") || item.name.includes("سفن") ? '🧃' : item.name.includes("كابتشينو") || item.name.includes("شاي") ? '☕' : '✨'}
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-100 text-sm flex items-center">${item.name} ${cartQtyBadge}</div>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="text-neonCyan font-mono font-black text-xs">${item.price.toLocaleString()} IQD</span>
+                                ${item.duration > 0 ? `<span class="text-[10px] bg-neonViolet/20 text-neonViolet px-2 py-0.5 rounded font-mono">⏱️ ${Math.round(item.duration/60)} دقيقة</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="addToCart('${item.id}', '${item.name}', ${item.price}, ${item.duration || 0})" class="bg-white hover:bg-neonCyan text-black w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all active:scale-75 text-lg shadow-md">+</button>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        window.filterMenuBySearch = () => {
+            const queryVal = document.getElementById('menu-search').value.trim().toLowerCase();
+            const clearBtn = document.getElementById('clear-search-btn');
+            const grid = document.getElementById('menu-grid');
+            
+            if (!queryVal) {
+                clearBtn.classList.add('hidden');
+                render();
+                return;
+            }
+            clearBtn.classList.remove('hidden');
+
+            // Search across all categories
+            let results = [];
+            Object.values(menuData).forEach(arr => {
+                arr.forEach(item => {
+                    if (item.name.toLowerCase().includes(queryVal) && !results.some(r => r.name === item.name)) {
+                        results.push(item);
+                    }
+                });
+            });
+
+            grid.innerHTML = '';
+            if (results.length === 0) {
+                grid.innerHTML = '<div class="text-center py-12 text-gray-400 font-cairo text-sm">لم يتم العثور على صنف مطابق لبحثك 🔍</div>';
+                return;
+            }
+
+            results.forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = `product-card hologram-glass p-4 rounded-3xl flex justify-between items-center`;
+                const cartItem = cart.find(x => x.name === item.name);
+                const cartQtyBadge = cartItem ? `<span class="bg-neonCyan text-black text-[10px] font-black px-2 py-0.5 rounded-full font-mono ml-2">${cartItem.qty}x</span>` : '';
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center text-xl">
+                            ${item.name.includes("أركيلة") ? '💨' : item.name.includes("بلايستيشن") ? '🎮' : '✨'}
+                        </div>
+                        <div>
+                            <div class="font-bold text-gray-100 text-sm flex items-center">${item.name} ${cartQtyBadge}</div>
+                            <span class="text-neonCyan font-mono font-black text-xs">${item.price.toLocaleString()} IQD</span>
+                        </div>
+                    </div>
+                    <button onclick="addToCart('${item.id}', '${item.name}', ${item.price}, ${item.duration || 0})" class="bg-white hover:bg-neonCyan text-black w-10 h-10 rounded-2xl flex items-center justify-center font-black transition-all active:scale-75 text-lg shadow-md">+</button>
+                `;
+                grid.appendChild(card);
+            });
+        };
+
+        window.clearSearch = () => {
+            document.getElementById('menu-search').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            render();
+        };
+
         window.addToCart = (id, name, price, duration) => {
-            const exist = cart.find(i => i.id === id);
-            if(exist) exist.qty++; else cart.push({id, name, price, qty:1, duration});
+            playClickSound();
+            const exist = cart.find(i => i.name === name && i.price === price);
+            if(exist) exist.qty++; 
+            else cart.push({ id, name, price, qty: 1, duration: duration || 0 });
             updateCartUI();
-        }
+            
+            // Re-render menu to update badge if not in search
+            if (!document.getElementById('menu-search').value.trim()) render();
+        };
 
         function updateCartUI() {
             const count = cart.reduce((s, i) => s + i.qty, 0);
+            const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
             const bar = document.getElementById('cart-bar');
+            
             document.getElementById('cart-count').innerText = count;
-            count > 0 ? bar.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-12') : bar.classList.add('opacity-0', 'pointer-events-none', 'translate-y-12');
+            document.getElementById('cart-bar-total').innerText = `${total.toLocaleString()} IQD`;
+            
+            if (count > 0) {
+                bar.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-12');
+            } else {
+                bar.classList.add('opacity-0', 'pointer-events-none', 'translate-y-12');
+            }
         }
 
-        window.openCart = () => { document.getElementById('cart-modal').classList.remove('hidden'); renderInvoice(); }
-        window.closeCart = () => { document.getElementById('cart-modal').classList.add('hidden'); }
+        window.openCart = () => { 
+            document.getElementById('cart-modal').classList.remove('hidden'); 
+            renderInvoice(); 
+        };
+        window.closeCart = () => { document.getElementById('cart-modal').classList.add('hidden'); };
 
         function renderInvoice() {
             const list = document.getElementById('cart-items');
             list.innerHTML = '';
             let total = 0;
-            cart.forEach(item => {
-                total += item.price * item.qty;
-                list.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <div class="flex items-center gap-2 bg-black rounded-lg p-1">
-                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-gray-800 rounded">-</button>
-                        <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
-                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-neonCyan text-black rounded">+</button>
-                    </div>
-                    <span class="font-bold text-sm">${item.name}</span>
-                    <span class="text-neonCyan font-mono text-sm">${(item.price * item.qty).toLocaleString()} IQD</span>
-                </div>`;
-            });
+            
+            if (cart.length === 0) {
+                list.innerHTML = '<div class="text-center py-8 text-gray-500 font-orbitron text-xs">السلة فارغة حالياً 🛒</div>';
+            } else {
+                cart.forEach((item, idx) => {
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+                    list.innerHTML += `
+                        <div class="flex justify-between items-center p-3.5 bg-white/5 rounded-2xl border border-white/10 gap-3">
+                            <div class="flex items-center gap-2.5 bg-black/70 rounded-xl p-1 border border-white/5">
+                                <button onclick="changeQty(${idx}, -1)" class="w-7 h-7 bg-gray-800 hover:bg-gray-700 rounded-lg font-bold text-xs flex items-center justify-center">-</button>
+                                <span class="text-xs font-bold w-5 text-center font-mono">${item.qty}</span>
+                                <button onclick="changeQty(${idx}, 1)" class="w-7 h-7 bg-neonCyan text-black rounded-lg font-bold text-xs flex items-center justify-center">+</button>
+                            </div>
+                            <div class="flex-1 text-right">
+                                <span class="font-bold text-sm text-white block">${item.name}</span>
+                                <span class="text-[11px] text-gray-400 font-mono">${item.price.toLocaleString()} IQD للمفرد</span>
+                            </div>
+                            <span class="text-neonCyan font-mono font-bold text-sm">${itemTotal.toLocaleString()} IQD</span>
+                        </div>
+                    `;
+                });
+            }
             document.getElementById('total-price').innerText = `${total.toLocaleString()} IQD`;
         }
 
-        window.changeQty = (id, delta) => {
-            const item = cart.find(i => i.id === id);
-            if(item) {
-                item.qty += delta;
-                if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+        window.changeQty = (idx, delta) => {
+            if (cart[idx]) {
+                cart[idx].qty += delta;
+                if (cart[idx].qty <= 0) cart.splice(idx, 1);
             }
-            renderInvoice(); updateCartUI();
-        }
+            renderInvoice(); 
+            updateCartUI();
+            if (!document.getElementById('menu-search').value.trim()) render();
+        };
 
         window.sendToTelegram = async () => {
             const table = document.getElementById('cust-table').value;
-            const note = document.getElementById('cust-note').value;
+            const custName = document.getElementById('cust-name').value.trim();
+            const note = document.getElementById('cust-note').value.trim();
             const btn = document.getElementById('submit-btn');
-            if(!table) return alert("يرجى اختيار مكان الجلوس 🎯");
+            
+            if(!table) return alert("يرجى اختيار مكان جلوسك (الطاولة أو البلي) أولاً 🎯");
             if(cart.length === 0) return alert("السلة فارغة 🛒");
 
+            // Save table in localStorage for next time
+            localStorage.setItem('respawn_customer_table', table);
+
             btn.disabled = true;
-            btn.innerText = "جاري إرسال الإشارة...";
+            btn.innerHTML = `<span>⏳ جاري إرسال الإشارة للقيادة...</span>`;
 
             let total = 0; let itemsDetails = "";
             let timedItem = null;
-            cart.forEach(i => { total += i.price * i.qty; itemsDetails += `\n▫️ ${i.name} (x${i.qty}) ⮕ ${(i.price * i.qty).toLocaleString()} IQD`; if(i.duration > 0) timedItem = i; });
+            cart.forEach(i => { 
+                total += i.price * i.qty; 
+                itemsDetails += `\n▫️ ${i.name} (x${i.qty}) ⮕ ${(i.price * i.qty).toLocaleString()} IQD`; 
+                if(i.duration > 0) timedItem = i; 
+            });
 
-            const invoiceMsg = `🚀 *طلب جديد - RESPAWN*\n━━━━━━━━━━━━━━\n📍 *المكان:* ${table}\n📦 *الطلبات:*${itemsDetails}\n━━━━━━━━━━━━━━\n💰 *المجموع:* ${total.toLocaleString()} IQD\n📝 *ملاحظة:* ${note || 'لا يوجد'}\n⏰ *الوقت:* ${new Date().toLocaleTimeString('ar-IQ')}\n━━━━━━━━━━━━━━`;
+            const invoiceMsg = `🚀 *طلب جديد - RESPAWN v3*\n━━━━━━━━━━━━━━\n📍 *المكان:* ${table}\n👤 *الزبون:* ${custName || 'زبون عام'}\n📦 *الطلبات:*${itemsDetails}\n━━━━━━━━━━━━━━\n💰 *المجموع:* ${total.toLocaleString()} IQD\n📝 *ملاحظة:* ${note || 'لا يوجد'}\n⏰ *الوقت:* ${new Date().toLocaleTimeString('ar-IQ')}\n━━━━━━━━━━━━━━`;
             
             try {
+                // 1. Send to Telegram
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ chat_id: CHAT_ID, text: invoiceMsg, parse_mode: 'Markdown' })
                 });
                 
+                // 2. Add to Firestore Orders
                 await addDoc(collection(db, "orders"), {
-                    table: table, items: cart, total: total, status: "open", timestamp: Date.now(),
-                    startTime: Date.now(), duration: timedItem ? timedItem.duration : 0
+                    table: table, 
+                    customer: custName || "زبون",
+                    items: cart, 
+                    total: total, 
+                    status: "open", 
+                    timestamp: Date.now(),
+                    startTime: timedItem ? Date.now() : null, 
+                    duration: timedItem ? timedItem.duration : 0
                 });
                 
-                alert("تم إرسال طلبك إلى مركز القيادة بنجاح! ✅");
+                alert("تم إرسال طلبك بنجاح إلى مركز قيادة RESPAWN! سيصلك الويتر قريباً 🚀 ✅");
                 cart = []; updateCartUI(); closeCart();
-                document.getElementById('cust-table').value = '';
                 document.getElementById('cust-note').value = '';
-            } catch (e) { alert("حدث خطأ في الاتصال بالسحابة ❌"); } finally {
+                if (!document.getElementById('menu-search').value.trim()) render();
+            } catch (e) { 
+                alert("حدث خطأ في الاتصال بالسحابة أو تيليكرام، يرجى إبلاغ الويتر ❌"); 
+            } finally {
                 btn.disabled = false;
-                btn.innerText = "إرسال الطلب للقيادة 🚀";
+                btn.innerHTML = `<span>🚀 إرسال الطلب لمركز القيادة</span>`;
             }
-        }
-        window.onload = init;
+        };
+
+        // --- SERVICE ALERT / CALL WAITER MODAL ACTIONS ---
+        window.openServiceAlertModal = () => {
+            document.getElementById('service-modal').classList.remove('hidden');
+        };
+        window.closeServiceAlertModal = () => {
+            document.getElementById('service-modal').classList.add('hidden');
+        };
+
+        window.selectServiceOption = (opt) => {
+            selectedServiceMessage = opt;
+            document.querySelectorAll('.service-opt-btn').forEach(b => {
+                if (b.innerText.includes(opt.split(' ')[0])) {
+                    b.className = "service-opt-btn w-full p-3.5 rounded-2xl bg-neonYellow text-black font-black border border-neonYellow text-right text-xs transition-all flex items-center justify-between shadow-lg";
+                } else {
+                    b.className = "service-opt-btn w-full p-3.5 rounded-2xl bg-white/5 hover:bg-neonYellow hover:text-black border border-white/10 text-right text-xs font-bold transition-all flex items-center justify-between";
+                }
+            });
+        };
+
+        window.sendServiceAlert = async () => {
+            const table = document.getElementById('service-table').value;
+            const customMsg = document.getElementById('service-custom-msg').value.trim();
+            const btn = document.getElementById('send-service-btn');
+            
+            if (!table) return alert("يرجى اختيار مكان جلوسك (الطاولة أو البلي) 🎯");
+            const finalMsg = customMsg || selectedServiceMessage || "طلب مساعدة من طاولة الزبون";
+
+            btn.disabled = true;
+            btn.innerText = "جاري إرسال النداء...";
+
+            try {
+                // Send to Telegram
+                const alertMsg = `🔔 *نداء خدمة مباشر - RESPAWN*\n━━━━━━━━━━━━━━\n📍 *المكان:* ${table}\n🛎️ *الطلب:* ${finalMsg}\n⏰ *الوقت:* ${new Date().toLocaleTimeString('ar-IQ')}\n━━━━━━━━━━━━━━`;
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: alertMsg, parse_mode: 'Markdown' })
+                });
+
+                // Add to Firestore alerts collection
+                await addDoc(collection(db, "alerts"), {
+                    table: table,
+                    message: finalMsg,
+                    timestamp: Date.now(),
+                    status: "pending"
+                });
+
+                alert("تم إرسال نداء الخدمة فوراً إلى شاشة القيادة والكاشير! سيصلك الويتر حالاً 🔔 ✅");
+                closeServiceAlertModal();
+                document.getElementById('service-custom-msg').value = '';
+                selectedServiceMessage = "";
+            } catch (e) {
+                alert("حدث خطأ في الإرسال ❌");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "إرسال النداء فوراً 🚀";
+            }
+        };
+
+        // --- MY ACTIVE ORDER TRACKER ---
+        window.openMyOrderModal = () => {
+            document.getElementById('my-order-modal').classList.remove('hidden');
+            const savedTable = localStorage.getItem('respawn_customer_table');
+            if (savedTable && allTablesList.includes(savedTable)) {
+                document.getElementById('my-order-table').value = savedTable;
+                fetchMyActiveOrder();
+            }
+        };
+        window.closeMyOrderModal = () => {
+            document.getElementById('my-order-modal').classList.add('hidden');
+        };
+
+        window.fetchMyActiveOrder = async () => {
+            const table = document.getElementById('my-order-table').value;
+            const contentDiv = document.getElementById('my-order-content');
+            
+            if (!table) {
+                contentDiv.innerHTML = '<div class="text-center py-8 text-gray-500 text-xs font-orbitron">قم باختيار طاولتك بالأعلى لعرض الفاتورة والطلبات النشطة المباشرة من السحابة ⚡</div>';
+                return;
+            }
+
+            contentDiv.innerHTML = '<div class="text-center py-8 text-gray-400 font-orbitron text-xs">⏳ جاري جلب الفاتورة من السحابة...</div>';
+
+            try {
+                const q = query(collection(db, "orders"), where("table", "==", table), where("status", "==", "open"));
+                const snap = await getDocs(q);
+
+                if (snap.empty) {
+                    contentDiv.innerHTML = `
+                        <div class="glass-panel p-6 rounded-3xl text-center border border-white/10 my-4">
+                            <span class="text-4xl block mb-2">✨</span>
+                            <h4 class="font-bold text-base text-neonCyan mb-1">طاولتك فارغة ولا توجد طلبات معلقة</h4>
+                            <p class="text-xs text-gray-400">يمكنك طلب المشروبات والأراكيل من القائمة وإرسالها فوراً 🛒</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let total = 0;
+                let allItems = [];
+                let startTime = null;
+                let duration = 0;
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    data.items.forEach(i => {
+                        const exist = allItems.find(x => x.name === i.name);
+                        if (exist) exist.qty += (i.qty || 1);
+                        else allItems.push({ ...i, qty: (i.qty || 1) });
+                    });
+                    total += data.total;
+                    if (data.startTime && !startTime) startTime = data.startTime;
+                    if (data.duration > 0) duration = data.duration;
+                });
+
+                let timerHTML = "";
+                if (duration > 0 && startTime) {
+                    const diff = (startTime + duration * 1000) - Date.now();
+                    const m = Math.max(0, Math.round(diff / 60000));
+                    timerHTML = `
+                        <div class="bg-gradient-to-r from-neonViolet/20 to-black p-4 rounded-2xl border border-neonViolet/40 mb-4 flex justify-between items-center">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-2xl animate-pulse">⏰</span>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">مؤقت وقت الألعاب:</span>
+                                    <span class="text-[11px] text-gray-300 font-mono">المدة: ${Math.round(duration/60)} دقيقة</span>
+                                </div>
+                            </div>
+                            <span class="text-lg font-black text-neonCyan font-mono bg-black/60 px-3 py-1 rounded-xl">${diff <= 0 ? 'انتهى الوقت!' : `باقي ~${m} دقيقة`}</span>
+                        </div>
+                    `;
+                }
+
+                contentDiv.innerHTML = `
+                    <div class="space-y-4 my-2">
+                        ${timerHTML}
+                        <div class="glass-panel p-4 rounded-2xl border border-white/10">
+                            <span class="text-xs font-bold text-neonCyan block mb-3 pb-2 border-b border-white/10">📦 قائمة الطلبات الحالية على طاولتك (${table}):</span>
+                            <div class="space-y-2.5 max-h-48 overflow-y-auto no-scrollbar">
+                                ${allItems.map(i => `
+                                    <div class="flex justify-between items-center text-xs text-gray-200 p-2 bg-white/5 rounded-xl">
+                                        <span class="font-bold">${i.qty}x ${i.name}</span>
+                                        <span class="text-neonCyan font-mono">${(i.price * (i.qty || 1)).toLocaleString()} IQD</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-neonCyan/30">
+                            <span class="font-bold text-sm text-gray-200">المجموع الحالي للمحاسبة:</span>
+                            <span class="text-2xl font-black text-neonCyan font-orbitron">${total.toLocaleString()} IQD</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 text-center">💡 يتم احتساب وتحديث المبالغ تلقائياً بالتزامن مع كاشير الصالة.</p>
+                    </div>
+                `;
+            } catch (e) {
+                contentDiv.innerHTML = '<div class="text-center py-8 text-red-400 text-xs">حدث خطأ في جلب بيانات الفاتورة من السحابة ❌</div>';
+            }
+        };
+
+        window.onload = initMenuCloud;
     </script>
 </body>
 </html>

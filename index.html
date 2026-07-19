@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ريسبون | مركز القيادة الكوني</title>
+    <title>ريسبون | مركز القيادة الكوني v3.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -16,7 +16,9 @@
                         neonCyan: '#00f2ff', 
                         deepBlue: '#0066ff', 
                         neonViolet: '#bc13fe', 
-                        neonRed: '#ff0055' 
+                        neonRed: '#ff0055',
+                        neonGreen: '#00ff66',
+                        neonYellow: '#ffe600'
                     },
                     fontFamily: { 
                         cairo: ['Cairo', 'sans-serif'],
@@ -33,19 +35,23 @@
             background-color: #02020a; 
             color: #fff; 
             overflow: hidden;
-            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.1) 0%, transparent 40%),
+            background: radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.12) 0%, transparent 40%),
                         url('https://www.transparenttextures.com/patterns/stardust.png'), #02020a;
         }
         body::before {
             content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
             z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
         }
         .glass-panel { 
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px) saturate(200%); 
-            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
             position: relative; overflow: hidden;
+        }
+        .glass-panel-interactive:hover {
+            border-color: rgba(0, 242, 255, 0.6);
+            box-shadow: 0 0 35px rgba(0, 242, 255, 0.25);
         }
         .electric-border { animation: electric-pulse 3s infinite; }
         @keyframes electric-pulse {
@@ -54,158 +60,436 @@
             100% { border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); }
         }
         .table-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
-        .table-open { border-right: 8px solid var(--electric-cyan); background: linear-gradient(90deg, rgba(0, 242, 255, 0.15) 0%, rgba(2, 2, 10, 0.8) 100%); animation: heartbeat 2s infinite; }
+        .table-card:hover { transform: translateY(-5px) scale(1.02); }
+        .table-open { border-right: 8px solid var(--electric-cyan); background: linear-gradient(90deg, rgba(0, 242, 255, 0.18) 0%, rgba(2, 2, 10, 0.85) 100%); animation: heartbeat 2.5s infinite; }
         .table-empty { border-right: 8px solid #374151; background: rgba(10, 10, 20, 0.6); }
+        .table-alert { border-right: 8px solid #ff0055 !important; background: linear-gradient(90deg, rgba(255, 0, 85, 0.25) 0%, rgba(2, 2, 10, 0.9) 100%) !important; animation: alert-pulse 1s infinite !important; }
+        @keyframes alert-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.6); border-color: #ff0055; }
+            70% { box-shadow: 0 0 0 15px rgba(255, 0, 85, 0); border-color: #ff88aa; }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); border-color: #ff0055; }
+        }
         @keyframes heartbeat {
             0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
             70% { box-shadow: 0 0 0 15px rgba(0, 242, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
         }
-        .rush-mode { background: radial-gradient(circle at center, rgba(255, 0, 85, 0.15) 0%, transparent 70%) !important; }
+        .rush-mode { background: radial-gradient(circle at center, rgba(255, 0, 85, 0.18) 0%, transparent 70%) !important; }
         .rush-mode .electric-border { animation: electric-pulse-red 1s infinite; }
         @keyframes electric-pulse-red {
             0% { border-color: rgba(255, 0, 85, 0.3); } 50% { border-color: rgba(255, 0, 85, 0.8); } 100% { border-color: rgba(255, 0, 85, 0.3); }
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .side-menu { transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000; }
+        .quick-item-btn { transition: all 0.2s ease; }
+        .quick-item-btn:hover { transform: scale(1.05); border-color: #00f2ff; background: rgba(0, 242, 255, 0.15); }
+        .quick-item-btn:active { transform: scale(0.95); }
+        .filter-pill { transition: all 0.2s ease; }
+        .filter-pill.active { background: #00f2ff; color: #000; font-weight: 900; box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); }
+        
+        /* Print Styles for Thermal Receipt */
+        @media print {
+            body * { visibility: hidden; }
+            #print-receipt-container, #print-receipt-container * { visibility: visible; }
+            #print-receipt-container { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; padding: 15px; font-family: 'Cairo', sans-serif; }
+        }
     </style>
 </head>
 <body class="h-screen overflow-hidden flex" id="main-body">
 
+    <!-- Sound Notification Generator & Toast Container -->
+    <div id="toast-container" class="fixed top-6 left-6 z-[3000] flex flex-col gap-3 max-w-sm pointer-events-none"></div>
+
+    <!-- Hidden Printable Receipt Container for Thermal Print -->
+    <div id="print-receipt-container" class="hidden"></div>
+
     <!-- Side Navigation -->
-    <aside id="sidebar" class="fixed top-0 right-0 w-80 h-full glass-panel side-menu translate-x-full p-8 flex flex-col gap-8">
-        <div class="flex justify-between items-center mb-10">
-            <span class="text-2xl font-black text-neonCyan font-orbitron">القائمة الرئيسية</span>
+    <aside id="sidebar" class="fixed top-0 right-0 w-80 h-full glass-panel side-menu translate-x-full p-8 flex flex-col gap-6">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <span class="text-2xl font-black text-neonCyan font-orbitron block">RESPAWN v3</span>
+                <span class="text-[10px] text-gray-400 font-orbitron tracking-widest uppercase">Space Command Hub</span>
+            </div>
             <button onclick="toggleMenu()" class="text-gray-400 hover:text-white text-3xl transition-all">✕</button>
         </div>
-        <nav class="flex flex-col gap-6">
+        <nav class="flex flex-col gap-4 overflow-y-auto no-scrollbar flex-1">
             <button onclick="switchTab('map')" id="btn-map" class="flex items-center gap-4 p-4 rounded-xl bg-neonCyan text-black font-black transition-all shadow-[0_0_15px_#00f2ff]">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                خريطة الصالة
+                <span class="text-xl">🌌</span>
+                خريطة الصالة والوحدات
             </button>
             <button onclick="switchTab('log')" id="btn-log" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                سجل العمليات
+                <span class="text-xl">📊</span>
+                سجل العمليات والتقارير
             </button>
             <button onclick="switchTab('menu')" id="btn-menu" class="flex items-center gap-4 p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                إدارة المنيو
+                <span class="text-xl">🍔</span>
+                إدارة المنيو والمخزون
             </button>
-            <div class="h-px bg-white/10 my-4"></div>
-            <button onclick="closeAllTables()" class="flex items-center gap-4 p-4 rounded-xl bg-neonRed/20 text-neonRed hover:bg-neonRed hover:text-white transition-all font-black border border-neonRed/50">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.//8 4m0-13a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                تصفير النظام ❌
+            <button onclick="switchTab('alerts')" id="btn-alerts" class="flex items-center justify-between p-4 rounded-xl text-gray-400 hover:bg-white/10 hover:text-white transition-all font-black">
+                <div class="flex items-center gap-4">
+                    <span class="text-xl">🔔</span>
+                    <span>نداءات الخدمة</span>
+                </div>
+                <span id="alerts-count-badge" class="bg-neonRed text-white text-xs px-2 py-0.5 rounded-full font-bold hidden font-orbitron">0</span>
+            </button>
+            <div class="h-px bg-white/10 my-2"></div>
+            <div class="p-4 bg-white/5 rounded-2xl space-y-3 border border-white/10">
+                <span class="text-xs font-bold text-gray-300 block font-orbitron">⚙️ إعدادات الصالة السريعة</span>
+                <button onclick="toggleSoundAlerts()" id="btn-sound-toggle" class="w-full flex items-center justify-between text-xs py-2 px-3 bg-black/40 rounded-xl hover:bg-white/10 transition-all text-neonGreen font-bold">
+                    <span>🔊 التنبيهات الصوتية</span>
+                    <span id="sound-status-text">مفعلة</span>
+                </button>
+                <button onclick="syncDefaultMenu()" class="w-full flex items-center justify-between text-xs py-2 px-3 bg-neonViolet/20 text-neonViolet rounded-xl hover:bg-neonViolet hover:text-white transition-all font-bold">
+                    <span>📥 رفع المنيو الافتراضي</span>
+                    <span>⚡</span>
+                </button>
+            </div>
+            <div class="h-px bg-white/10 my-2"></div>
+            <button onclick="resetDailyRevenueConfirm()" class="flex items-center gap-4 p-4 rounded-xl bg-neonYellow/10 text-neonYellow hover:bg-neonYellow hover:text-black transition-all font-black text-xs border border-neonYellow/30">
+                <span class="text-lg">🔄</span>
+                تصفير اليومية (إغلاق الوردية)
+            </button>
+            <button onclick="closeAllTables()" class="flex items-center gap-4 p-4 rounded-xl bg-neonRed/20 text-neonRed hover:bg-neonRed hover:text-white transition-all font-black text-xs border border-neonRed/50">
+                <span class="text-lg">❌</span>
+                تصفير كل طاولات الصالة
             </button>
         </nav>
+        <div class="text-center text-[10px] text-gray-500 font-orbitron">RESPAWN SYSTEM V3.0 BY ARENA</div>
     </aside>
 
-    <div class="flex-1 h-full overflow-y-auto p-6 lg:p-10 no-scrollbar relative z-10">
-        <!-- Strategic Pulse Bar (New Unique Feature) -->
-        <div class="mb-8 glass-panel p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4 electric-border animate__animated animate__fadeInDown">
-            <div class="flex items-center gap-4">
-                <span class="text-xs font-bold text-neonCyan font-orbitron uppercase">Strategic Pulse:</span>
-                <div id="star-product" class="text-sm font-bold text-gray-300 italic">جاري تحليل الطلبات...</div>
+    <div class="flex-1 h-full overflow-y-auto p-4 lg:p-8 no-scrollbar relative z-10 flex flex-col">
+        <!-- Strategic Pulse & Alerts Bar -->
+        <div class="mb-6 glass-panel p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4 electric-border animate__animated animate__fadeInDown">
+            <div class="flex items-center gap-4 flex-wrap">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-neonCyan animate-ping"></span>
+                    <span class="text-xs font-bold text-neonCyan font-orbitron uppercase">PULSE STATUS:</span>
+                </div>
+                <div id="star-product" class="text-sm font-bold text-gray-200 bg-white/5 px-3 py-1 rounded-xl border border-white/10">جاري تحليل الطلبات...</div>
+                <div id="active-units-count" class="text-xs font-bold text-neonViolet bg-neonViolet/10 px-3 py-1 rounded-xl border border-neonViolet/30 font-orbitron">نشط: 0 وحدة</div>
             </div>
-            <div id="rush-status" class="px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron">
-                STATUS: STABLE
+            <div class="flex items-center gap-3">
+                <button onclick="switchTab('alerts')" id="quick-alert-btn" class="hidden px-3 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse flex items-center gap-1 shadow-[0_0_15px_#ff0055]">
+                    <span>🔔</span> <span id="quick-alert-text">تنبيه خدمة جديد (0)</span>
+                </button>
+                <div id="rush-status" class="px-4 py-1.5 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron tracking-wide border border-white/10">
+                    STATUS: STABLE
+                </div>
             </div>
         </div>
 
-        <header class="flex flex-col md:flex-row justify-between items-center mb-16 gap-8 animate__animated animate__fadeInDown">
-            <div class="flex items-center gap-8">
-                <button onclick="toggleMenu()" class="p-4 glass-panel rounded-2xl hover:bg-neonCyan hover:text-black transition-all shadow-lg electric-border">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6 animate__animated animate__fadeInDown">
+            <div class="flex items-center gap-6 w-full md:w-auto justify-between md:justify-start">
+                <button onclick="toggleMenu()" class="p-4 glass-panel rounded-2xl hover:bg-neonCyan hover:text-black transition-all shadow-lg electric-border flex items-center gap-2">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span class="text-xs font-black md:hidden">القائمة</span>
                 </button>
                 <div class="text-right">
-                    <h1 id="view-title" class="text-6xl font-black tracking-tighter italic">خريطة <span class="text-neonCyan">الصالة</span></h1>
-                    <p class="text-neonCyan text-xs uppercase tracking-[0.5em] opacity-70 font-orbitron">Space Command Center v2.0</p>
+                    <h1 id="view-title" class="text-4xl lg:text-5xl font-black tracking-tighter italic drop-shadow-lg">خريطة <span class="text-neonCyan">الصالة</span></h1>
+                    <p class="text-neonCyan text-[11px] uppercase tracking-[0.4em] opacity-80 font-orbitron mt-1">Space Command Center v3.0</p>
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-neonCyan to-neonViolet p-6 rounded-3xl flex items-center gap-6 transition-all hover:scale-105 active:scale-95 cursor-pointer text-black">
-                <div class="text-4xl">🌌</div>
-                <div>
-                    <p class="text-xs font-bold uppercase opacity-70">إجمالي الإيرادات</p>
-                    <h2 id="daily-revenue" class="text-3xl font-black font-orbitron">0 IQD</h2>
+            <div class="flex flex-wrap items-center gap-4 w-full md:w-auto justify-end">
+                <!-- Revenue Card -->
+                <div class="glass-panel p-4 lg:px-6 lg:py-4 rounded-2xl flex items-center gap-4 transition-all hover:scale-105 cursor-pointer border border-neonCyan/40 shadow-[0_0_20px_rgba(0,242,255,0.15)]" onclick="showRevenueBreakdown()">
+                    <div class="text-3xl p-2 bg-neonCyan/10 rounded-xl text-neonCyan">🌌</div>
+                    <div>
+                        <p class="text-[11px] font-bold uppercase opacity-70 text-gray-300">إجمالي إيرادات الوردية</p>
+                        <h2 id="daily-revenue" class="text-2xl lg:text-3xl font-black font-orbitron text-neonCyan">0 IQD</h2>
+                    </div>
                 </div>
-            </div>
 
-            <button onclick="addNewTable()" class="bg-neonCyan text-black px-10 py-4 rounded-xl text-sm font-black transition-all active:scale-90 hover:shadow-[0_0_30px_#00f2ff] font-orbitron">
-                إضافة وحدة +
-            </button>
+                <!-- Add Unit Button -->
+                <button onclick="addNewTable()" class="bg-gradient-to-r from-neonCyan to-deepBlue text-black px-6 py-4 rounded-2xl text-sm font-black transition-all active:scale-90 hover:shadow-[0_0_25px_#00f2ff] font-orbitron flex items-center gap-2">
+                    <span>+</span> إضافة وحدة جديدة
+                </button>
+            </div>
         </header>
 
-        <div id="view-map" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 animate__animated animate__fadeIn"></div>
-        <div id="view-log" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
-            <div class="glass-panel rounded-[3rem] overflow-hidden electric-border">
-                <table class="w-full text-right text-sm">
-                    <thead class="bg-white/10 text-neonCyan font-orbitron">
-                        <tr><th class="p-6">الوقت</th><th class="p-6">الوحدة</th><th class="p-6">الطلبات</th><th class="p-6">المجموع</th></tr>
-                    </thead>
-                    <tbody id="log-body" class="divide-y divide-white/5"></tbody>
-                </table>
+        <!-- VIEW 1: MAP AND TABLES -->
+        <div id="view-map-container" class="flex-1 flex flex-col gap-6 animate__animated animate__fadeIn">
+            <!-- Search & Filter Bar -->
+            <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4 border-white/10">
+                <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0 no-scrollbar">
+                    <button onclick="filterTables('all')" id="filter-all" class="filter-pill active px-5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all whitespace-nowrap">🌟 الكل (<span id="count-all">0</span>)</button>
+                    <button onclick="filterTables('active')" id="filter-active" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all text-neonCyan whitespace-nowrap">🔥 نشط (<span id="count-active">0</span>)</button>
+                    <button onclick="filterTables('empty')" id="filter-empty" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all text-gray-400 whitespace-nowrap">🟢 فارغ (<span id="count-empty">0</span>)</button>
+                    <button onclick="filterTables('gaming')" id="filter-gaming" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all text-neonViolet whitespace-nowrap">🎮 ألعاب وبلي (<span id="count-gaming">0</span>)</button>
+                    <button onclick="filterTables('alert')" id="filter-alert" class="filter-pill px-5 py-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 transition-all text-neonRed whitespace-nowrap">⚠️ تنبيه وقت (<span id="count-alert">0</span>)</button>
+                </div>
+                <div class="relative w-full sm:w-72">
+                    <input type="text" id="map-search-input" oninput="applyMapFilters()" placeholder="🔍 بحث عن طاولة أو زبون..." class="w-full bg-black/60 border border-white/15 px-4 py-2.5 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-neonCyan transition-all font-cairo">
+                </div>
             </div>
+
+            <!-- Grid of Tables -->
+            <div id="view-map" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12 overflow-y-auto no-scrollbar flex-1"></div>
         </div>
-        <div id="view-menu" class="hidden max-w-6xl mx-auto animate__animated animate__fadeIn">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="glass-panel p-10 rounded-[3rem] space-y-6 electric-border">
-                    <h3 class="text-3xl font-black text-neonCyan mb-6 font-orbitron">صنف جديد</h3>
-                    <input id="m-name" type="text" placeholder="اسم المنتج" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
-                    <input id="m-price" type="number" placeholder="السعر بالدينار" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all text-white">
-                    <select id="m-cat" class="w-full bg-black/40 border border-white/10 p-4 rounded-xl outline-none focus:border-neonCyan transition-all appearance-none text-white">
-                        <option value="ازبري">ازبري</option>
-                        <option value="ساخن وتسالي">ساخن وتسالي</option>
-                        <option value="عصائر طبيعية">عصائر طبيعية</option>
-                        <option value="مشروبات باردة">مشروبات باردة</option>
-                        <option value="أراكيل ريسبون">أراكيل ريسبون</option>
-                        <option value="صالة الألعاب">صالة الألعاب</option>
+
+        <!-- VIEW 2: LOG AND ANALYTICS -->
+        <div id="view-log-container" class="hidden flex-1 flex flex-col gap-6 animate__animated animate__fadeIn max-w-6xl mx-auto w-full">
+            <!-- Analytics Summary Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-neonCyan">
+                    <span class="text-xs text-gray-400 font-bold block mb-1 font-orbitron">TOTAL REVENUE (TODAY)</span>
+                    <span id="log-stat-revenue" class="text-2xl font-black text-neonCyan font-orbitron">0 IQD</span>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-neonViolet">
+                    <span class="text-xs text-gray-400 font-bold block mb-1 font-orbitron">ORDERS COMPLETED</span>
+                    <span id="log-stat-count" class="text-2xl font-black text-neonViolet font-orbitron">0</span>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-neonGreen">
+                    <span class="text-xs text-gray-400 font-bold block mb-1 font-orbitron">AVG ORDER VALUE</span>
+                    <span id="log-stat-avg" class="text-2xl font-black text-neonGreen font-orbitron">0 IQD</span>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-neonYellow flex justify-between items-center">
+                    <div>
+                        <span class="text-xs text-gray-400 font-bold block mb-1 font-orbitron">EXPORT DATA</span>
+                        <span class="text-xs font-bold text-gray-200">تحميل تقرير كامل</span>
+                    </div>
+                    <button onclick="exportLogToCSV()" class="p-3 bg-neonYellow/20 hover:bg-neonYellow text-neonYellow hover:text-black rounded-xl font-black text-sm transition-all shadow-md">📥 CSV</button>
+                </div>
+            </div>
+
+            <!-- Filters for Log -->
+            <div class="glass-panel p-4 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <input id="log-search-input" type="text" oninput="filterDailyLog()" placeholder="🔍 بحث بالوحدة، اسم الصنف، أو الزبون..." class="bg-black/60 border border-white/15 px-4 py-2 rounded-xl text-xs text-white w-64 md:w-80 outline-none focus:border-neonCyan transition-all">
+                    <select id="log-date-filter" onchange="loadDailyLog()" class="bg-black/60 border border-white/15 px-4 py-2 rounded-xl text-xs text-white outline-none focus:border-neonCyan transition-all">
+                        <option value="today">📅 طلبات اليوم فقط</option>
+                        <option value="all">🌐 كل السجل التاريخي</option>
                     </select>
-                    <button onclick="saveProduct()" class="w-full bg-neonCyan text-black py-5 rounded-xl font-black text-lg active:scale-95 transition-all font-orbitron">مزامنة لقاعدة البيانات ✅</button>
                 </div>
-                <div class="glass-panel p-10 rounded-[3rem] space-y-6 border-neonRed/30">
-                    <h3 class="text-3xl font-black text-neonRed mb-6 font-orbitron">قائمة المنتجات</h3>
-                    <div id="menu-list" class="space-y-4 max-h-[500px] overflow-y-auto no-scrollbar"></div>
+                <button onclick="loadDailyLog()" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all">🔄 تحديث البيانات</button>
+            </div>
+
+            <!-- Table of Logs -->
+            <div class="glass-panel rounded-3xl overflow-hidden electric-border flex-1 flex flex-col">
+                <div class="overflow-y-auto no-scrollbar flex-1 max-h-[500px]">
+                    <table class="w-full text-right text-sm">
+                        <thead class="bg-white/10 text-neonCyan font-orbitron sticky top-0 backdrop-blur-md z-10">
+                            <tr>
+                                <th class="p-5">الوقت</th>
+                                <th class="p-5">الوحدة</th>
+                                <th class="p-5">الزبون</th>
+                                <th class="p-5">الطلبات</th>
+                                <th class="p-5">المجموع</th>
+                                <th class="p-5 text-center">إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-body" class="divide-y divide-white/5"></tbody>
+                    </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: MENU AND INVENTORY -->
+        <div id="view-menu-container" class="hidden flex-1 animate__animated animate__fadeIn max-w-6xl mx-auto w-full overflow-y-auto no-scrollbar pb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Add Product Form -->
+                <div class="lg:col-span-5 glass-panel p-8 rounded-3xl space-y-5 electric-border h-fit">
+                    <h3 class="text-2xl font-black text-neonCyan mb-4 font-orbitron flex items-center justify-between">
+                        <span>🚀 إضافة صنف للمنيو</span>
+                        <span class="text-xs bg-neonCyan/20 text-neonCyan px-3 py-1 rounded-full">سحابي مباشر</span>
+                    </h3>
+                    
+                    <div>
+                        <label class="text-xs text-gray-400 font-bold block mb-1">اسم المنتج / الصنف:</label>
+                        <input id="m-name" type="text" placeholder="مثلاً: كابتشينو، خلطة VIP، بلايستيشن ساعة" class="w-full bg-black/50 border border-white/15 p-3.5 rounded-xl outline-none focus:border-neonCyan transition-all text-white text-sm">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-xs text-gray-400 font-bold block mb-1">السعر (دينار IQD):</label>
+                            <input id="m-price" type="number" placeholder="مثلاً: 2500" class="w-full bg-black/50 border border-white/15 p-3.5 rounded-xl outline-none focus:border-neonCyan transition-all text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400 font-bold block mb-1">مدة الألعاب (بالثواني):</label>
+                            <input id="m-duration" type="number" placeholder="0 للمشروبات، 3600 لساعة" value="0" class="w-full bg-black/50 border border-white/15 p-3.5 rounded-xl outline-none focus:border-neonCyan transition-all text-white text-sm font-mono">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-bold block mb-1">القسم / التصنيف:</label>
+                        <div class="flex gap-2">
+                            <select id="m-cat-select" onchange="checkCustomCat(this)" class="w-full bg-black/50 border border-white/15 p-3.5 rounded-xl outline-none focus:border-neonCyan transition-all text-white text-sm">
+                                <option value="ازبري">ازبري</option>
+                                <option value="ساخن وتسالي">ساخن وتسالي</option>
+                                <option value="عصائر طبيعية">عصائر طبيعية</option>
+                                <option value="مشروبات باردة">مشروبات باردة</option>
+                                <option value="أراكيل ريسبون">أراكيل ريسبون</option>
+                                <option value="عروض ريسبون">عروض ريسبون</option>
+                                <option value="صالة الألعاب">صالة الألعاب</option>
+                                <option value="custom">➕ تصنيف جديد مخصص...</option>
+                            </select>
+                        </div>
+                        <input id="m-cat-custom" type="text" placeholder="أدخل اسم القسم الجديد..." class="w-full bg-black/50 border border-white/15 p-3.5 rounded-xl outline-none focus:border-neonCyan transition-all text-white text-sm mt-2 hidden">
+                    </div>
+
+                    <button onclick="saveProduct()" class="w-full bg-neonCyan text-black py-4 rounded-xl font-black text-base active:scale-95 hover:shadow-[0_0_25px_#00f2ff] transition-all font-orbitron mt-2 flex items-center justify-center gap-2">
+                        <span>+ مزامنة مع قاعدة البيانات السحابية</span>
+                    </button>
+                    
+                    <div class="pt-4 border-t border-white/10">
+                        <button onclick="syncDefaultMenu()" class="w-full bg-white/5 hover:bg-white/10 text-gray-300 py-3 rounded-xl text-xs font-bold transition-all border border-white/10 flex items-center justify-center gap-2">
+                            <span>⚡ استعادة/رفع المنيو الافتراضي الكامل (40 صنف)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products List -->
+                <div class="lg:col-span-7 glass-panel p-8 rounded-3xl space-y-5 border-neonRed/30 flex flex-col max-h-[650px]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 class="text-2xl font-black text-neonRed font-orbitron">📦 قائمة أصناف الصالة السحابية (<span id="menu-items-count">0</span>)</h3>
+                        <input type="text" id="menu-search-input" oninput="filterAdminMenu()" placeholder="🔍 بحث عن صنف أو قسم..." class="bg-black/60 border border-white/15 px-4 py-2 rounded-xl text-xs text-white outline-none focus:border-neonRed transition-all w-full sm:w-64">
+                    </div>
+                    <div id="menu-list" class="space-y-3 overflow-y-auto no-scrollbar flex-1 pr-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: LIVE SERVICE ALERTS -->
+        <div id="view-alerts-container" class="hidden flex-1 animate__animated animate__fadeIn max-w-5xl mx-auto w-full">
+            <div class="glass-panel p-8 rounded-3xl space-y-6 electric-border">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-3xl font-black text-neonRed tracking-tight font-orbitron flex items-center gap-3">
+                            <span>🔔 نداءات خدمة الزبائن الحية</span>
+                            <span class="text-xs bg-neonRed text-white px-3 py-1 rounded-full font-sans">مباشر من طاولة الزبون</span>
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">يظهر هنا طلبات الويتر، فحم الأركيلة، أو المساعدة التي يرسلها الزبون من قائمة الهاتف.</p>
+                    </div>
+                    <button onclick="clearAllAlerts()" class="px-4 py-2 bg-white/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl text-xs font-bold transition-all">✕ مسح كل التنبيهات المنتهية</button>
+                </div>
+                <div id="alerts-list" class="space-y-4 max-h-[500px] overflow-y-auto no-scrollbar"></div>
             </div>
         </div>
     </div>
 
-    <!-- Modal and Transfer (Converted to Arabic) -->
+    <!-- TABLE DETAIL MODAL -->
     <div id="detail-modal" class="fixed inset-0 z-[100] hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-3xl" onclick="closeDetail()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg glass-panel p-12 rounded-[4rem] border-2 border-neonCyan/40 animate__animated animate__zoomIn shadow-[0_0_80px_rgba(0,242,241,0.3)]">
-            <div class="flex justify-between items-start mb-12">
-                <h3 id="detail-title" class="text-5xl font-black text-neonCyan tracking-tighter font-orbitron">تفاصيل الوحدة</h3>
-                <button onclick="closeDetail()" class="text-gray-500 hover:text-white text-4xl transition-all">✕</button>
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-3xl animate__animated animate__fadeIn" onclick="closeDetail()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl glass-panel p-8 lg:p-10 rounded-[3rem] border-2 border-neonCyan/50 animate__animated animate__zoomIn shadow-[0_0_90px_rgba(0,242,241,0.35)] max-h-[92vh] overflow-y-auto no-scrollbar flex flex-col">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-start mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h3 id="detail-title" class="text-4xl lg:text-5xl font-black text-neonCyan tracking-tighter font-orbitron">تفاصيل الوحدة</h3>
+                        <span id="detail-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-neonCyan text-black">نشط</span>
+                    </div>
+                    <p id="detail-customer" class="text-sm text-gray-400 mt-1 font-bold">👤 الزبون: -</p>
+                </div>
+                <button onclick="closeDetail()" class="text-gray-400 hover:text-white text-3xl transition-all p-2 bg-white/5 rounded-2xl">✕</button>
             </div>
-            <div id="timer-section" class="hidden bg-black/60 p-6 rounded-3xl mb-8 border border-neonCyan/20 flex justify-between items-center">
-                <span class="text-sm font-bold text-gray-400 font-orbitron">الوقت المتبقي:</span>
-                <span id="detail-timer" class="font-mono text-3xl font-black text-neonCyan">00:00:00</span>
+
+            <!-- Gaming Timer Section -->
+            <div id="timer-section" class="bg-gradient-to-r from-spaceDark to-black p-5 rounded-3xl mb-6 border border-neonCyan/30 space-y-3">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl animate-pulse">⏰</span>
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 font-orbitron block">مؤقت وقت الألعاب:</span>
+                            <span id="timer-info-text" class="text-[11px] text-neonCyan font-bold">بدأ في --:--</span>
+                        </div>
+                    </div>
+                    <span id="detail-timer" class="font-mono text-3xl lg:text-4xl font-black text-neonCyan tracking-wider bg-black/60 px-4 py-1 rounded-2xl border border-white/10">00:00:00</span>
+                </div>
+                
+                <!-- Quick Timer Action Buttons -->
+                <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-white/10 justify-end">
+                    <span class="text-xs text-gray-400 mr-auto font-bold">إضافة وقت إضافي للساعة:</span>
+                    <button onclick="addTableTime(900)" class="px-3 py-1.5 bg-white/10 hover:bg-neonCyan hover:text-black rounded-xl text-xs font-bold transition-all">+15 دقيقة</button>
+                    <button onclick="addTableTime(1800)" class="px-3 py-1.5 bg-white/10 hover:bg-neonCyan hover:text-black rounded-xl text-xs font-bold transition-all">+30 دقيقة</button>
+                    <button onclick="addTableTime(3600)" class="px-3 py-1.5 bg-white/10 hover:bg-neonCyan hover:text-black rounded-xl text-xs font-bold transition-all">+1 ساعة</button>
+                    <button onclick="resetTableTimer()" class="px-3 py-1.5 bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition-all">🔄 تصفير</button>
+                </div>
             </div>
-            <div class="flex gap-4 mb-10">
-                <input id="add-item-name" type="text" placeholder="الصنف" class="flex-1 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
-                <input id="add-item-price" type="number" placeholder="السعر" class="w-28 bg-black/40 border border-white/10 p-4 rounded-2xl text-xs outline-none focus:border-neonCyan transition-all text-white">
-                <button id="btn-add-item" class="bg-neonCyan text-black px-6 rounded-2xl font-black text-2xl hover:scale-110 transition-all">+</button>
+
+            <!-- Start Timer manually if none running -->
+            <div id="no-timer-section" class="bg-black/40 p-4 rounded-2xl mb-6 border border-white/10 flex justify-between items-center">
+                <span class="text-xs text-gray-400 font-bold">🎮 هل ترغب بتشغيل مؤقت ألعاب لهذه الطاولة؟</span>
+                <div class="flex gap-2">
+                    <button onclick="startManualTimer(1800)" class="px-3 py-1.5 bg-neonViolet/20 text-neonViolet hover:bg-neonViolet hover:text-white rounded-xl text-xs font-bold transition-all">⏱️ +30 دقيقة</button>
+                    <button onclick="startManualTimer(3600)" class="px-3 py-1.5 bg-neonViolet/20 text-neonViolet hover:bg-neonViolet hover:text-white rounded-xl text-xs font-bold transition-all">⏱️ +1 ساعة</button>
+                </div>
             </div>
-            <div id="detail-items" class="space-y-4 mb-12 max-h-64 overflow-y-auto no-scrollbar"></div>
-            <div class="flex justify-between items-center p-8 bg-white/5 rounded-3xl mb-12 border border-white/10">
-                <span class="font-bold text-gray-400 font-orbitron">المجموع النهائي:</span>
-                <span id="detail-total" class="text-5xl font-black text-neonCyan">0 IQD</span>
+
+            <!-- QUICK MENU SELECTOR (Categorized pills) -->
+            <div class="bg-black/50 p-4 rounded-3xl mb-6 border border-white/10 space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-bold text-neonYellow font-orbitron flex items-center gap-1.5">
+                        <span>⚡ إضافة سريعة من المنيو:</span>
+                    </span>
+                    <div id="quick-menu-tabs" class="flex gap-1.5 overflow-x-auto no-scrollbar"></div>
+                </div>
+                <div id="quick-menu-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-36 overflow-y-auto no-scrollbar p-1"></div>
             </div>
-            <div class="grid grid-cols-2 gap-8">
-                <button id="btn-transfer" class="bg-neonViolet text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#bc13fe] font-orbitron">تحويل الحساب ⇄</button>
-                <button id="btn-close" class="bg-neonRed text-white py-6 rounded-3xl font-black text-sm transition-all active:scale-90 hover:shadow-[0_0_30px_#ff0055] font-orbitron">إغلاق الحساب ✅</button>
+
+            <!-- Manual Item Add Form -->
+            <div class="flex gap-3 mb-6 bg-white/5 p-3 rounded-2xl border border-white/10">
+                <input id="add-item-name" type="text" placeholder="أو اكتب صنف مخصص..." class="flex-1 bg-black/60 border border-white/10 p-3 rounded-xl text-xs outline-none focus:border-neonCyan transition-all text-white">
+                <input id="add-item-price" type="number" placeholder="السعر" class="w-24 bg-black/60 border border-white/10 p-3 rounded-xl text-xs outline-none focus:border-neonCyan transition-all text-white">
+                <button id="btn-add-item" class="bg-neonCyan text-black px-5 rounded-xl font-black text-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center">+</button>
             </div>
-            <button id="btn-delete-table" class="w-full mt-10 text-gray-600 text-xs font-bold py-2 hover:text-neonRed transition-all font-orbitron uppercase tracking-widest">مسح الوحدة من النظام نهائياً</button>
+
+            <!-- Items List -->
+            <div class="space-y-2 mb-6 max-h-56 overflow-y-auto no-scrollbar pr-1 flex-1" id="detail-items"></div>
+
+            <!-- Discount Section & Totals -->
+            <div class="bg-white/5 rounded-3xl p-5 mb-6 border border-white/10 space-y-3">
+                <div class="flex justify-between items-center text-sm text-gray-300">
+                    <span>المجموع الفرعي:</span>
+                    <span id="detail-subtotal" class="font-bold font-mono">0 IQD</span>
+                </div>
+                <div class="flex justify-between items-center gap-4 text-sm">
+                    <span class="text-gray-300 flex items-center gap-1">🏷️ الخصم (دينار أو %):</span>
+                    <div class="flex gap-2 w-48">
+                        <input id="detail-discount-input" type="text" placeholder="مثال: 10% أو 2000" oninput="calculateDetailTotals()" class="w-full bg-black/60 border border-white/15 px-3 py-1.5 rounded-xl text-xs text-white text-left font-mono outline-none focus:border-neonCyan transition-all">
+                    </div>
+                </div>
+                <div class="h-px bg-white/10 my-2"></div>
+                <div class="flex justify-between items-center">
+                    <span class="font-black text-gray-200 font-orbitron text-lg">المجموع النهائي للمحاسبة:</span>
+                    <span id="detail-total" class="text-3xl lg:text-4xl font-black text-neonCyan font-orbitron drop-shadow-[0_0_15px_#00f2ff]">0 IQD</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                <button id="btn-print" onclick="printTableReceipt()" class="bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white py-4 rounded-2xl font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-2 border border-white/15">
+                    <span class="text-lg">🖨️</span> طباعة الفاتورة
+                </button>
+                <button id="btn-transfer" class="bg-neonViolet text-white py-4 rounded-2xl font-black text-xs transition-all active:scale-95 hover:shadow-[0_0_25px_#bc13fe] font-orbitron flex items-center justify-center gap-2">
+                    <span class="text-lg">⇄</span> نقل الحساب لطاولة أخرى
+                </button>
+                <button id="btn-close" class="bg-neonGreen text-black py-4 rounded-2xl font-black text-xs transition-all active:scale-95 hover:shadow-[0_0_25px_#00ff66] font-orbitron flex items-center justify-center gap-2">
+                    <span class="text-lg">✅</span> إغلاق الحساب وتحصيل المبلغ
+                </button>
+            </div>
+
+            <button id="btn-delete-table" class="w-full text-gray-500 text-[11px] font-bold py-2 hover:text-neonRed transition-all font-orbitron uppercase tracking-widest text-center">
+                🗑️ حذف هذه الوحدة من الصالة نهائياً (إلغاء الطاولة)
+            </button>
         </div>
     </div>
 
+    <!-- TRANSFER MODAL -->
     <div id="transfer-modal" class="fixed inset-0 z-[200] hidden">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeTransfer()"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-panel p-12 rounded-[3rem] border border-neonCyan/40 animate__animated animate__zoomIn shadow-2xl">
-            <h3 class="text-3xl font-black mb-10 text-center text-neonCyan font-orbitron">نقل الحساب 🔄</h3>
-            <select id="transfer-target" class="w-full bg-black/60 border border-white/10 p-4 rounded-2xl mb-10 text-sm outline-none focus:border-neonCyan transition-all appearance-none text-white"></select>
-            <button id="confirm-transfer" class="w-full bg-neonCyan text-black py-5 rounded-2xl font-black transition-all active:scale-90 font-orbitron uppercase">تأكيد النقل الآن</button>
+        <div class="absolute inset-0 bg-black/85 backdrop-blur-md animate__animated animate__fadeIn" onclick="closeTransfer()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm glass-panel p-8 rounded-[3rem] border border-neonCyan/50 animate__animated animate__zoomIn shadow-2xl">
+            <div class="text-center mb-6">
+                <span class="text-4xl block mb-2">🔄</span>
+                <h3 class="text-2xl font-black text-neonCyan font-orbitron">نقل الحساب لطاولة أخرى</h3>
+                <p id="transfer-source-text" class="text-xs text-gray-400 mt-1">من: طاولة 7</p>
+            </div>
+            <label class="text-xs font-bold text-gray-300 block mb-2">اختر الطاولة الهدف لاستلام الحساب:</label>
+            <select id="transfer-target" class="w-full bg-black/80 border border-white/20 p-4 rounded-2xl mb-8 text-sm outline-none focus:border-neonCyan transition-all appearance-none text-white"></select>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeTransfer()" class="bg-white/10 hover:bg-white/20 text-white py-4 rounded-2xl font-bold text-xs transition-all">إلغاء</button>
+                <button id="confirm-transfer" class="bg-neonCyan text-black py-4 rounded-2xl font-black text-xs transition-all active:scale-90 font-orbitron uppercase">تأكيد النقل الآن</button>
+            </div>
         </div>
     </div>
 
@@ -225,25 +509,121 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const BASE_TABLES = ["طاولة 7", "طاولة 8", "طاولة 9", "طاولة 10", "بلي 1", "بلي 2", "بلي 3", "بلي 4", "بلي 5", "بلي 6", "منضدة 11", "منضدة 12"];
+        
         let allTablesList = [...BASE_TABLES];
-        let timerInterval = null;
+        let openOrdersData = {};
+        let allProductsList = [];
+        let timerIntervals = {}; // store intervals per table or active modal
+        let currentActiveTable = null;
         let currentTransferSource = null;
+        let currentFilter = 'all';
+        let soundEnabled = true;
+        let previousOpenOrdersCount = 0;
 
-        window.toggleMenu = () => { document.getElementById('sidebar').classList.toggle('translate-x-full'); }
+        // Default menu items for 1-click sync if database is empty
+        const DEFAULT_MENU = [
+            { name: "ازبري توت", price: 1000, category: "ازبري", duration: 0 },
+            { name: "ازبري برتقال", price: 2000, category: "ازبري", duration: 0 },
+            { name: "كابتشينو", price: 1000, category: "ساخن وتسالي", duration: 0 },
+            { name: "شاي مهيل", price: 500, category: "ساخن وتسالي", duration: 0 },
+            { name: "إندومي", price: 1000, category: "ساخن وتسالي", duration: 0 },
+            { name: "كوكتيل ريسبون الخاص", price: 1500, category: "عصائر طبيعية", duration: 0 },
+            { name: "عصير موز", price: 1000, category: "عصائر طبيعية", duration: 0 },
+            { name: "عصير برتقال", price: 1000, category: "عصائر طبيعية", duration: 0 },
+            { name: "عصير ليمون", price: 1000, category: "عصائر طبيعية", duration: 0 },
+            { name: "عصير خوخ فريش", price: 1000, category: "عصائر طبيعية", duration: 0 },
+            { name: "عصير بطيخ", price: 1000, category: "عصائر طبيعية", duration: 0 },
+            { name: "تايكر طاقة", price: 1250, category: "مشروبات باردة", duration: 0 },
+            { name: "كازوز علج", price: 500, category: "مشروبات باردة", duration: 0 },
+            { name: "ببسي", price: 500, category: "مشروبات باردة", duration: 0 },
+            { name: "ماونتن ديو", price: 500, category: "مشروبات باردة", duration: 0 },
+            { name: "سفن اب", price: 500, category: "مشروبات باردة", duration: 0 },
+            { name: "ميرندا", price: 500, category: "مشروبات باردة", duration: 0 },
+            { name: "ماء بارد", price: 250, category: "مشروبات باردة", duration: 0 },
+            { name: "أركيلة علج نعناع", price: 2500, category: "أراكيل ريسبون", duration: 0 },
+            { name: "أركيلة تفاحتين", price: 2500, category: "أراكيل ريسبون", duration: 0 },
+            { name: "أركيلة ليمون نعناع", price: 2500, category: "أراكيل ريسبون", duration: 0 },
+            { name: "خلطة Boss Fight", price: 3000, category: "أراكيل ريسبون", duration: 0 },
+            { name: "خلطة Killstreak", price: 3000, category: "أراكيل ريسبون", duration: 0 },
+            { name: "بلايستيشن 5 - ساعة", price: 4000, category: "صالة الألعاب", duration: 3600 },
+            { name: "بلايستيشن 5 - نصف ساعة", price: 2000, category: "صالة الألعاب", duration: 1800 },
+            { name: "كيم بلايستيشن 5 - زوجي", price: 1000, category: "صالة الألعاب", duration: 0 },
+            { name: "كيم بلايستيشن 5 - رباعي", price: 2000, category: "صالة الألعاب", duration: 0 },
+            { name: "منضدة تنس - ساعة", price: 4000, category: "صالة الألعاب", duration: 3600 },
+            { name: "منضدة تنس - نصف ساعة", price: 2000, category: "صالة الألعاب", duration: 1800 }
+        ];
+
+        // Soft Sci-Fi Beep Generator
+        function playAlertSound(type = 'bell') {
+            if (!soundEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'bell') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, ctx.currentTime); // A5
+                    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'alarm') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, ctx.currentTime);
+                    osc.frequency.setValueAtTime(900, ctx.currentTime + 0.15);
+                    osc.frequency.setValueAtTime(600, ctx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.4, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                    osc.start(); osc.stop(ctx.currentTime + 0.5);
+                }
+            } catch (e) { /* AudioContext might need user interaction first */ }
+        }
+
+        window.toggleSoundAlerts = () => {
+            soundEnabled = !soundEnabled;
+            document.getElementById('sound-status-text').innerText = soundEnabled ? "مفعلة" : "مكتومة";
+            document.getElementById('btn-sound-toggle').className = soundEnabled 
+                ? "w-full flex items-center justify-between text-xs py-2 px-3 bg-black/40 rounded-xl hover:bg-white/10 transition-all text-neonGreen font-bold"
+                : "w-full flex items-center justify-between text-xs py-2 px-3 bg-black/40 rounded-xl hover:bg-white/10 transition-all text-gray-500 font-bold";
+            if (soundEnabled) playAlertSound('bell');
+        };
+
+        window.toggleMenu = () => { document.getElementById('sidebar').classList.toggle('translate-x-full'); };
 
         window.switchTab = (tab) => {
-            const views = { map: 'view-map', log: 'view-log', menu: 'view-menu' };
-            const titles = { map: 'خريطة الصالة', log: 'سجل العمليات', menu: 'إدارة المنيو' };
+            const views = { map: 'view-map-container', log: 'view-log-container', menu: 'view-menu-container', alerts: 'view-alerts-container' };
+            const titles = { map: 'خريطة <span class="text-neonCyan">الصالة</span>', log: 'سجل <span class="text-neonViolet">العمليات والتقارير</span>', menu: 'إدارة <span class="text-neonRed">المنيو والمخزون</span>', alerts: 'نداءات <span class="text-neonYellow">خدمة الزبائن</span>' };
+            
             Object.values(views).forEach(v => document.getElementById(v).classList.add('hidden'));
             document.getElementById(views[tab]).classList.remove('hidden');
-            document.getElementById('view-title').innerHTML = tab === 'map' ? `خريطة <span class="text-neonCyan">الصالة</span>` : titles[tab];
-            document.querySelectorAll('nav button').forEach(btn => { btn.classList.remove('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]'); btn.classList.add('text-gray-400'); });
+            document.getElementById('view-title').innerHTML = titles[tab];
+            
+            document.querySelectorAll('nav button').forEach(btn => { 
+                btn.classList.remove('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]'); 
+                if (btn.id !== 'btn-sound-toggle') btn.classList.add('text-gray-400'); 
+            });
             const activeBtn = document.getElementById('btn-' + tab);
-            activeBtn.classList.add('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]');
-            activeBtn.classList.remove('text-gray-400');
+            if (activeBtn) {
+                activeBtn.classList.add('bg-neonCyan', 'text-black', 'shadow-[0_0_15px_#00f2ff]');
+                activeBtn.classList.remove('text-gray-400');
+            }
             if(tab === 'log') loadDailyLog();
-            if(tab === 'menu') loadMenu();
-            toggleMenu();
+            if(tab === 'menu') loadMenuAdmin();
+            if(tab === 'alerts') loadAlerts();
+            if(!document.getElementById('sidebar').classList.contains('translate-x-full')) toggleMenu();
+        };
+
+        window.checkCustomCat = (select) => {
+            const customInput = document.getElementById('m-cat-custom');
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+            }
         };
 
         async function updateRevenue() {
@@ -253,264 +633,990 @@
             document.getElementById('daily-revenue').innerText = `${total.toLocaleString()} IQD`;
         }
 
+        window.showRevenueBreakdown = async () => {
+            const statsRef = doc(db, "stats", "daily_revenue");
+            const snap = await getDoc(statsRef);
+            const total = snap.exists() ? snap.data().total : 0;
+            alert(`💰 إجمالي إلتزامات ومقبوضات الوردية الحالية: ${total.toLocaleString()} IQD\n\n💡 يمكنك النقر على زر "تصفير اليومية" في القائمة عند انتهاء الوردية لبدء يوم جديد.`);
+        };
+
         // --- STRATEGIC PULSE FEATURE ---
         function calculateStrategicPulse(openOrders) {
             let productCounts = {};
             let activeCount = 0;
+            let gamingCount = 0;
+            let alertCount = 0;
+
+            const now = Date.now();
+
             Object.values(openOrders).forEach(order => {
                 activeCount++;
+                let hasGaming = false;
                 order.items.forEach(item => {
-                    productCounts[item.name] = (productCounts[item.name] || 0) + 1;
+                    productCounts[item.name] = (productCounts[item.name] || 0) + item.qty;
+                    if (item.name.includes("بلي") || item.name.includes("بلايستيشن") || item.name.includes("تنس") || item.duration > 0) hasGaming = true;
                 });
+                if (hasGaming) gamingCount++;
+                if (order.duration > 0 && order.startTime && (order.startTime + order.duration * 1000 <= now)) {
+                    alertCount++;
+                }
             });
 
             // Star Product
             let star = "لا توجد طلبات نشطة حالياً";
             let max = 0;
             for(let prod in productCounts) {
-                if(productCounts[prod] > max) { max = productCounts[prod]; star = `النجم الساطع الآن: ${prod} 🚀`; }
+                if(productCounts[prod] > max) { max = productCounts[prod]; star = `🌟 النجم الساطع الآن: ${prod} (${max} طلب)`; }
             }
             document.getElementById('star-product').innerText = star;
+            document.getElementById('active-units-count').innerText = `نشط: ${activeCount} / ${allTablesList.length} وحدة`;
+
+            // Update Counts Pills
+            document.getElementById('count-all').innerText = allTablesList.length;
+            document.getElementById('count-active').innerText = activeCount;
+            document.getElementById('count-empty').innerText = allTablesList.length - activeCount;
+            document.getElementById('count-gaming').innerText = gamingCount;
+            document.getElementById('count-alert').innerText = alertCount;
 
             // Rush Mode Logic
-            const rushThreshold = allTablesList.length * 0.7; 
+            const rushThreshold = Math.max(4, allTablesList.length * 0.65); 
             const body = document.getElementById('main-body');
             const status = document.getElementById('rush-status');
             if(activeCount >= rushThreshold) {
                 body.classList.add('rush-mode');
                 status.innerText = "STATUS: RUSH MODE ACTIVE 🔥";
-                status.className = "px-4 py-1 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse";
+                status.className = "px-4 py-1.5 rounded-full text-xs font-black bg-neonRed text-white font-orbitron animate-pulse border border-red-400";
             } else {
                 body.classList.remove('rush-mode');
-                status.innerText = "STATUS: STABLE";
-                status.className = "px-4 py-1 rounded-full text-xs font-black bg-gray-800 text-gray-400 font-orbitron";
+                status.innerText = "STATUS: STABLE 🟢";
+                status.className = "px-4 py-1.5 rounded-full text-xs font-black bg-gray-800 text-gray-300 font-orbitron border border-white/10";
             }
         }
 
-        async function loadDailyLog() {
-            const logBody = document.getElementById('log-body');
-            logBody.innerHTML = '<div class="p-10 text-center text-gray-500 font-orbitron">جاري استخراج البيانات من السحابة...</div>';
-            const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
-            const snap = await getDocs(q);
-            logBody.innerHTML = '';
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                const time = new Date(data.timestamp).toLocaleTimeString('ar-IQ');
-                const items = data.items.map(i => i.name).join(', ');
-                logBody.innerHTML += `<tr class="border-b border-white/5 hover:bg-white/5 transition-all">
-                    <td class="p-6 text-xs text-gray-400 font-orbitron">${time}</td><td class="p-6 font-bold">${data.table}</td>
-                    <td class="p-6 text-xs text-gray-500">${items}</td><td class="p-6 text-neonCyan font-black font-orbitron">${data.total.toLocaleString()} IQD</td></tr>`;
+        window.filterTables = (type) => {
+            currentFilter = type;
+            document.querySelectorAll('.filter-pill').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('filter-' + type).classList.add('active');
+            renderMap();
+        };
+
+        window.applyMapFilters = () => renderMap();
+
+        function renderMap() {
+            const grid = document.getElementById('view-map');
+            const searchVal = (document.getElementById('map-search-input')?.value || "").trim().toLowerCase();
+            const now = Date.now();
+            
+            grid.innerHTML = '';
+            
+            allTablesList.forEach(tableName => {
+                const data = openOrdersData[tableName];
+                const isOpen = !!data;
+                let isGaming = false;
+                let isAlert = false;
+                let timerDisplay = '';
+
+                if (isOpen) {
+                    data.items.forEach(i => { if (i.duration > 0 || i.name.includes("بلي") || i.name.includes("تنس")) isGaming = true; });
+                    if (data.duration > 0 && data.startTime) {
+                        isGaming = true;
+                        const diff = (data.startTime + data.duration * 1000) - now;
+                        if (diff <= 0) {
+                            isAlert = true;
+                            timerDisplay = `<span class="text-neonRed font-bold bg-neonRed/20 px-2 py-0.5 rounded-lg animate-pulse">⏰ انتهى الوقت!</span>`;
+                        } else {
+                            const m = Math.floor(diff / 60000);
+                            timerDisplay = `<span class="text-neonCyan font-mono bg-black/50 px-2 py-0.5 rounded-lg">⏳ باقي ${m} دقيقة</span>`;
+                        }
+                    }
+                }
+
+                // Apply current filter pill
+                if (currentFilter === 'active' && !isOpen) return;
+                if (currentFilter === 'empty' && isOpen) return;
+                if (currentFilter === 'gaming' && !isGaming) return;
+                if (currentFilter === 'alert' && !isAlert) return;
+
+                // Apply search filter
+                if (searchVal) {
+                    const matchTable = tableName.toLowerCase().includes(searchVal);
+                    const matchCustomer = isOpen && data.customer && data.customer.toLowerCase().includes(searchVal);
+                    const matchItems = isOpen && data.items.some(i => i.name.toLowerCase().includes(searchVal));
+                    if (!matchTable && !matchCustomer && !matchItems) return;
+                }
+
+                // Card class
+                let cardClass = isOpen ? (isAlert ? 'table-alert' : 'table-open') : 'table-empty';
+
+                // Items summary pills
+                let itemsSummary = '';
+                if (isOpen && data.items.length > 0) {
+                    const topItems = data.items.slice(0, 3);
+                    itemsSummary = `<div class="flex flex-wrap gap-1 my-3">` + topItems.map(i => `<span class="text-[10px] bg-black/60 px-2 py-0.5 rounded-md border border-white/10 text-gray-200">${i.qty}x ${i.name}</span>`).join('') + (data.items.length > 3 ? `<span class="text-[10px] bg-black/60 px-2 py-0.5 rounded-md text-neonCyan">+${data.items.length - 3}</span>` : '') + `</div>`;
+                } else if (!isOpen) {
+                    itemsSummary = `<div class="my-4 text-gray-500 text-xs italic font-orbitron">جاهزة لاستقبال الزبائن 🎯</div>`;
+                }
+
+                grid.innerHTML += `
+                    <div onclick="showDetail('${tableName}')" class="table-card p-6 rounded-[2rem] ${cardClass} glass-panel shadow-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-2xl font-black tracking-tight font-orbitron text-white">${tableName}</h3>
+                                    ${timerDisplay ? `<div class="mt-1 text-xs">${timerDisplay}</div>` : ''}
+                                </div>
+                                <span class="text-[11px] px-3 py-1 rounded-full ${isOpen ? (isAlert ? 'bg-neonRed text-white font-bold' : 'bg-neonCyan text-black font-bold') : 'bg-gray-800 text-gray-400'}">
+                                    ${isOpen ? (isAlert ? 'انتهى الوقت' : 'نشط') : 'فارغ'}
+                                </span>
+                            </div>
+                            ${itemsSummary}
+                        </div>
+                        
+                        <div class="pt-3 border-t border-white/10 flex justify-between items-end mt-2">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-gray-400 uppercase font-orbitron">الزبون</span>
+                                <span class="text-xs font-bold text-gray-200 truncate max-w-[120px]">${isOpen ? (data.customer || 'زبون عام') : '---'}</span>
+                            </div>
+                            <div class="text-left">
+                                <span class="text-neonCyan font-black text-2xl font-orbitron block drop-shadow-[0_0_8px_rgba(0,242,255,0.4)]">${isOpen ? data.total.toLocaleString() : '0'} <span class="text-xs font-sans">IQD</span></span>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
         }
 
-        async function loadMenu() {
+        // --- FETCH OR SYNC PRODUCTS FOR QUICK MENU ---
+        async function loadAllProducts() {
+            try {
+                const snap = await getDocs(collection(db, "products"));
+                allProductsList = [];
+                snap.forEach(docSnap => {
+                    allProductsList.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                if (allProductsList.length === 0) {
+                    // if firestore products is empty, load DEFAULT_MENU in memory
+                    allProductsList = [...DEFAULT_MENU];
+                }
+            } catch (e) {
+                allProductsList = [...DEFAULT_MENU];
+            }
+        }
+
+        window.syncDefaultMenu = async () => {
+            if (!confirm("هل ترغب برفع وتحديث 40 صنف من المنيو الافتراضي إلى قاعدة بيانات الصالة؟")) return;
+            try {
+                const batch = writeBatch(db);
+                for (const item of DEFAULT_MENU) {
+                    const newDoc = doc(collection(db, "products"));
+                    batch.set(newDoc, item);
+                }
+                await batch.commit();
+                alert("تم رفع المنيو الافتراضي إلى قاعدة البيانات بنجاح! ✅");
+                loadAllProducts();
+                if (!document.getElementById('view-menu-container').classList.contains('hidden')) loadMenuAdmin();
+            } catch (e) {
+                alert("حدث خطأ أثناء المزامنة: " + e.message);
+            }
+        };
+
+        // --- ADMIN MENU TAB MANAGEMENT ---
+        async function loadMenuAdmin() {
+            const list = document.getElementById('menu-list');
+            list.innerHTML = '<div class="text-center p-8 text-gray-500">جاري تحميل عناصر المنيو من السحابة...</div>';
+            
+            await loadAllProducts();
+            
+            document.getElementById('menu-items-count').innerText = allProductsList.length;
+            renderAdminMenuList(allProductsList);
+        }
+
+        function renderAdminMenuList(products) {
             const list = document.getElementById('menu-list');
             list.innerHTML = '';
-            const snap = await getDocs(collection(db, "products"));
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                list.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/10 hover:border-neonRed/50 transition-all">
-                    <span class="text-sm font-bold">${data.name} <span class="text-xs text-gray-500 font-orbitron">(${data.price} IQD)</span></span>
-                    <button onclick="deleteProduct('${docSnap.id}')" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
+            if (products.length === 0) {
+                list.innerHTML = '<div class="text-center p-8 text-gray-500">المنيو فارغ حالياً. يمكنك إضافة أصناف جديدة أو النقر على استعادة المنيو الافتراضي.</div>';
+                return;
+            }
+            
+            products.forEach(item => {
+                list.innerHTML += `
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/40 transition-all gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-black/60 flex items-center justify-center font-bold text-neonCyan text-lg">
+                                ${item.category === 'ازبري' ? '🍧' : item.category === 'ساخن وتسالي' ? '☕' : item.category === 'عصائر طبيعية' ? '🍹' : item.category === 'أراكيل ريسبون' ? '💨' : item.category === 'صالة الألعاب' ? '🎮' : '🧃'}
+                            </div>
+                            <div>
+                                <span class="font-bold text-sm text-white block">${item.name}</span>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="text-[11px] bg-white/10 px-2 py-0.5 rounded text-gray-300">${item.category || 'عام'}</span>
+                                    ${item.duration > 0 ? `<span class="text-[11px] bg-neonViolet/20 text-neonViolet px-2 py-0.5 rounded font-mono">⏱️ ${Math.round(item.duration/60)} دقيقة</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-black text-neonCyan font-orbitron text-base">${item.price.toLocaleString()} <span class="text-xs">IQD</span></span>
+                            <button onclick="deleteProduct('${item.id}', '${item.name}')" class="text-red-400 hover:text-white bg-red-500/15 hover:bg-red-500 p-2.5 rounded-xl transition-all" title="حذف الصنف">✕</button>
+                        </div>
+                    </div>
+                `;
             });
         }
+
+        window.filterAdminMenu = () => {
+            const val = (document.getElementById('menu-search-input')?.value || "").trim().toLowerCase();
+            const filtered = allProductsList.filter(p => p.name.toLowerCase().includes(val) || (p.category && p.category.toLowerCase().includes(val)));
+            renderAdminMenuList(filtered);
+        };
 
         window.saveProduct = async () => {
-            const name = document.getElementById('m-name').value;
+            const name = document.getElementById('m-name').value.trim();
             const price = parseInt(document.getElementById('m-price').value);
-            const cat = document.getElementById('m-cat').value;
-            if(!name || !price) return alert("يرجى إكمال البيانات!");
-            await addDoc(collection(db, "products"), { name, price, category: cat });
-            alert("تم الحفظ بنجاح ✅");
-            loadMenu();
-            document.getElementById('m-name').value = ''; document.getElementById('m-price').value = '';
-        };
-
-        window.deleteProduct = async (id) => {
-            if(!confirm("حذف هذا المنتج نهائياً؟")) return;
-            await deleteDoc(doc(db, "products", id));
-            loadMenu();
-        };
-
-        onSnapshot(collection(db, "orders"), async (snap) => {
-            const openOrders = {};
-            snap.forEach(docSnap => {
-                const data = docSnap.data();
-                if (data.status === "open") {
-                    const tName = data.table;
-                    if (!openOrders[tName]) openOrders[tName] = { items: [], total: 0, customer: data.customer, startTime: data.startTime, duration: data.duration };
-                    openOrders[tName].items.push(...data.items);
-                    openOrders[tName].total += data.total;
+            const duration = parseInt(document.getElementById('m-duration').value || "0");
+            const catSelect = document.getElementById('m-cat-select');
+            let cat = catSelect.value;
+            if (cat === 'custom') {
+                cat = document.getElementById('m-cat-custom').value.trim() || "عام";
+            }
+            if(!name || isNaN(price)) return alert("يرجى إدخال اسم المنتج والسعر بشكل صحيح!");
+            
+            try {
+                await addDoc(collection(db, "products"), { name, price, category: cat, duration: duration || 0 });
+                alert("تم الحفظ والمزامنة بنجاح! ✅");
+                document.getElementById('m-name').value = ''; 
+                document.getElementById('m-price').value = '';
+                document.getElementById('m-duration').value = '0';
+                if (catSelect.value === 'custom') {
+                    document.getElementById('m-cat-custom').value = '';
+                    document.getElementById('m-cat-custom').classList.add('hidden');
+                    catSelect.value = 'ازبري';
                 }
-            });
-            const tableSnap = await getDocs(collection(db, "tables"));
-            const dynamic = [];
-            tableSnap.forEach(doc => dynamic.push(doc.data().name));
-            allTablesList = [...new Set([...BASE_TABLES, ...dynamic])];
-            renderMap(openOrders);
-            calculateStrategicPulse(openOrders);
-        });
+                loadMenuAdmin();
+            } catch (e) {
+                alert("خطأ أثناء حفظ الصنف: " + e.message);
+            }
+        };
 
-        function renderMap(openOrders) {
-            const grid = document.getElementById('view-map');
-            grid.innerHTML = '';
-            allTablesList.forEach(tableName => {
-                const data = openOrders[tableName];
-                const isOpen = !!data;
-                grid.innerHTML += `<div onclick="showDetail('${tableName}')" class="table-card p-8 rounded-[2.5rem] ${isOpen ? 'table-open' : 'table-empty'} glass-panel shadow-2xl">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-2xl font-black tracking-tighter font-orbitron">${tableName}</h3>
-                        <span class="text-[10px] px-3 py-1 rounded-full ${isOpen ? 'bg-neonCyan text-black font-bold' : 'bg-gray-700 text-gray-300'}">
-                            ${isOpen ? 'نشط' : 'فارغ'}
-                        </span>
-                    </div>
-                    ${isOpen ? `<div class="mt-8 flex justify-between items-end">
-                        <span class="text-xs text-gray-400 font-bold uppercase">${data.customer || 'زبون'}</span>
-                        <span class="text-neonCyan font-black text-2xl font-orbitron">${data.total.toLocaleString()} <span class="text-xs">IQD</span></span>
-                    </div>` : `<div class="mt-8 text-gray-600 text-xs italic font-medium font-orbitron">جاهزة للاستقبال</div>`}
-                </div>`;
-            });
+        window.deleteProduct = async (id, name) => {
+            if (!id) return alert("هذا الصنف محمل افتراضياً، يرجى مزامنته مع قاعدة البيانات أولاً لحذفه.");
+            if (!confirm(`هل أنت متأكد من حذف (${name}) نهائياً من المنيو؟`)) return;
+            try {
+                await deleteDoc(doc(db, "products", id));
+                loadMenuAdmin();
+            } catch (e) {
+                alert("خطأ في الحذف: " + e.message);
+            }
+        };
+
+        // --- OPERATIONS LOG & ANALYTICS ---
+        async function loadDailyLog() {
+            const logBody = document.getElementById('log-body');
+            logBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500 font-orbitron">جاري استخراج وتحليل البيانات السحابية...</td></tr>';
+            
+            try {
+                const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+                const snap = await getDocs(q);
+                let allOrders = [];
+                snap.forEach(docSnap => {
+                    allOrders.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                
+                renderLogTable(allOrders);
+            } catch (e) {
+                // Fallback if index not ready
+                const snap = await getDocs(collection(db, "orders"));
+                let allOrders = [];
+                snap.forEach(docSnap => {
+                    allOrders.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                allOrders.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+                renderLogTable(allOrders);
+            }
         }
 
+        function renderLogTable(orders) {
+            const logBody = document.getElementById('log-body');
+            const searchVal = (document.getElementById('log-search-input')?.value || "").trim().toLowerCase();
+            const dateFilter = document.getElementById('log-date-filter')?.value || "today";
+            const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
+            
+            let filtered = orders.filter(o => {
+                if (dateFilter === 'today' && o.timestamp && o.timestamp < startOfDay.getTime()) return false;
+                if (searchVal) {
+                    const matchTable = (o.table || "").toLowerCase().includes(searchVal);
+                    const matchCust = (o.customer || "").toLowerCase().includes(searchVal);
+                    const matchItems = (o.items || []).some(i => i.name.toLowerCase().includes(searchVal));
+                    if (!matchTable && !matchCust && !matchItems) return false;
+                }
+                return true;
+            });
+
+            // Calculate stats
+            let totalRev = 0;
+            let count = filtered.length;
+            filtered.forEach(o => totalRev += (o.total || 0));
+            
+            document.getElementById('log-stat-revenue').innerText = `${totalRev.toLocaleString()} IQD`;
+            document.getElementById('log-stat-count').innerText = count;
+            document.getElementById('log-stat-avg').innerText = count > 0 ? `${Math.round(totalRev / count).toLocaleString()} IQD` : "0 IQD";
+
+            logBody.innerHTML = '';
+            if (filtered.length === 0) {
+                logBody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500 font-orbitron">لا توجد عمليات تطابق البحث أو الفلتر الحالي.</td></tr>';
+                return;
+            }
+
+            filtered.forEach(data => {
+                const timeStr = data.timestamp ? new Date(data.timestamp).toLocaleTimeString('ar-IQ', {hour: '2-digit', minute:'2-digit'}) : '--:--';
+                const itemsStr = (data.items || []).map(i => `${i.qty}x ${i.name}`).join(' ، ');
+                const isStatusOpen = data.status === 'open';
+
+                logBody.innerHTML += `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition-all">
+                        <td class="p-5 text-xs text-gray-400 font-orbitron">${timeStr}</td>
+                        <td class="p-5 font-bold text-white flex items-center gap-2">
+                            <span>${data.table}</span>
+                            ${isStatusOpen ? `<span class="bg-neonCyan/20 text-neonCyan text-[10px] px-2 py-0.5 rounded">مفتوح حالياً</span>` : ''}
+                        </td>
+                        <td class="p-5 text-xs text-gray-300 font-bold">${data.customer || 'زبون عام'}</td>
+                        <td class="p-5 text-xs text-gray-400 max-w-md truncate" title="${itemsStr}">${itemsStr}</td>
+                        <td class="p-5 text-neonCyan font-black font-orbitron text-base">${(data.total || 0).toLocaleString()} IQD</td>
+                        <td class="p-5 text-center">
+                            <button onclick="deleteSingleOrder('${data.id}')" class="text-gray-500 hover:text-red-400 p-1.5 transition-all" title="حذف هذا السجل">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            window.currentFilteredLogs = filtered;
+        }
+
+        window.filterDailyLog = () => {
+            loadDailyLog();
+        };
+
+        window.deleteSingleOrder = async (id) => {
+            if (!confirm("هل أنت متأكد من حذف هذا السجل من قاعدة البيانات؟")) return;
+            await deleteDoc(doc(db, "orders", id));
+            loadDailyLog();
+        };
+
+        window.exportLogToCSV = () => {
+            const logs = window.currentFilteredLogs || [];
+            if (logs.length === 0) return alert("لا توجد بيانات لتصديرها.");
+            
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "التاريخ والوقت,الوحدة,الزبون,الطلبات,المجموع بالدينار\n";
+            
+            logs.forEach(o => {
+                const time = o.timestamp ? new Date(o.timestamp).toLocaleString('ar-IQ') : '';
+                const items = (o.items || []).map(i => `${i.qty}x ${i.name}`).join(' + ');
+                csvContent += `"${time}","${o.table}","${o.customer || '---'}","${items}",${o.total || 0}\n`;
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Respawn_Report_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        // --- SERVICE ALERTS TAB & TOAST NOTIFICATIONS ---
+        async function loadAlerts() {
+            const list = document.getElementById('alerts-list');
+            list.innerHTML = '<div class="text-center p-8 text-gray-500">جاري استدعاء نداءات الخدمة...</div>';
+            
+            const snap = await getDocs(collection(db, "alerts"));
+            list.innerHTML = '';
+            let count = 0;
+            
+            snap.forEach(docSnap => {
+                const a = { id: docSnap.id, ...docSnap.data() };
+                count++;
+                const time = a.timestamp ? new Date(a.timestamp).toLocaleTimeString('ar-IQ') : '';
+                list.innerHTML += `
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-neonRed flex justify-between items-center gap-4 animate__animated animate__fadeIn">
+                        <div class="flex items-center gap-4">
+                            <span class="text-3xl animate-bounce">🔔</span>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">${a.table} <span class="text-xs font-normal text-gray-400">(${time})</span></h4>
+                                <p class="text-neonYellow font-bold text-sm mt-0.5">${a.message || 'طلب خدمة أو فحم'}</p>
+                            </div>
+                        </div>
+                        <button onclick="resolveAlert('${a.id}')" class="bg-neonGreen text-black px-5 py-2.5 rounded-xl font-black text-xs hover:scale-105 transition-all shadow-[0_0_15px_#00ff66]">
+                            تم التلبية ✅
+                        </button>
+                    </div>
+                `;
+            });
+            
+            if (count === 0) {
+                list.innerHTML = '<div class="text-center p-12 text-gray-500 font-orbitron">لا توجد نداءات خدمة معلقة حالياً، كل الطاولات مخدومة 🟢</div>';
+            }
+        }
+
+        window.resolveAlert = async (id) => {
+            await deleteDoc(doc(db, "alerts", id));
+            loadAlerts();
+        };
+
+        window.clearAllAlerts = async () => {
+            const snap = await getDocs(collection(db, "alerts"));
+            const batch = writeBatch(db);
+            snap.forEach(d => batch.delete(doc(db, "alerts", d.id)));
+            await batch.commit();
+            loadAlerts();
+        };
+
+        // Listen for new alerts live
+        onSnapshot(collection(db, "alerts"), (snap) => {
+            const count = snap.size;
+            const badge = document.getElementById('alerts-count-badge');
+            const quickBtn = document.getElementById('quick-alert-btn');
+            const quickText = document.getElementById('quick-alert-text');
+            
+            if (count > 0) {
+                badge.innerText = count; badge.classList.remove('hidden');
+                quickBtn.classList.remove('hidden'); quickText.innerText = `تنبيه خدمة جديد (${count})`;
+                playAlertSound('alarm');
+            } else {
+                badge.classList.add('hidden'); quickBtn.classList.add('hidden');
+            }
+            if (!document.getElementById('view-alerts-container').classList.contains('hidden')) {
+                loadAlerts();
+            }
+        });
+
+        // --- TABLE DETAILS & QUICK MENU ACTIONS ---
         window.addNewTable = async () => {
-            const name = prompt("أدخل اسم الطاولة الجديدة:");
+            const name = prompt("أدخل اسم أو رقم الوحدة/الطاولة الجديدة (مثلاً: طاولة 15 أو VIP 1):");
             if(!name) return;
             await addDoc(collection(db, "tables"), { name: name });
-            alert("تمت الإضافة بنجاح ✅");
+            alert("تمت إضافة الوحدة بنجاح! ✅");
         };
 
         window.showDetail = async (tableName) => {
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            currentActiveTable = tableName;
+            await loadAllProducts();
+
+            const q = query(collection(db, "orders"), where("table", "==", tableName), where("status", "==", "open"));
             const snap = await getDocs(q);
-            if(snap.empty) return alert("هذه الطاولة فارغة!");
-            let items = []; let total = 0; let startTime = null; let duration = 0;
+            
+            let items = []; let total = 0; let startTime = null; let duration = 0; let customer = null;
+            
             snap.forEach(d => {
                 const data = d.data();
-                items.push(...data.items); total += data.total;
-                if(data.startTime) startTime = data.startTime; if(data.duration) duration = data.duration;
+                data.items.forEach(i => {
+                    const exist = items.find(x => x.name === i.name && x.price === i.price);
+                    if (exist) exist.qty += (i.qty || 1);
+                    else items.push({ ...i, qty: (i.qty || 1) });
+                });
+                total += data.total;
+                if(data.startTime) startTime = data.startTime; 
+                if(data.duration > 0) duration = data.duration;
+                if(data.customer) customer = data.customer;
             });
+
             document.getElementById('detail-title').innerText = tableName;
-            document.getElementById('detail-total').innerText = `${total.toLocaleString()} IQD`;
-            const itemsDiv = document.getElementById('detail-items');
-            itemsDiv.innerHTML = '';
-            items.forEach((item) => {
-                itemsDiv.innerHTML += `<div class="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/50 transition-all">
-                    <span class="text-sm font-bold">${item.name} <span class="text-xs text-gray-500 font-orbitron">(${item.price} IQD)</span></span>
-                    <button onclick="deleteItem('${tableName}', '${item.name}', ${item.price})" class="text-red-500 hover:text-white bg-red-500/10 p-2 rounded-lg transition-all">✕</button></div>`;
-            });
+            document.getElementById('detail-customer').innerText = `👤 الزبون: ${customer || 'زبون عام / غير محدد'}`;
+            
+            // Set status badge
+            const statusBadge = document.getElementById('detail-status-badge');
+            if (snap.empty) {
+                statusBadge.innerText = 'فارغ جاهز للحجز';
+                statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-gray-700 text-gray-300';
+            } else {
+                statusBadge.innerText = 'نشط ومفتوح';
+                statusBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-neonCyan text-black';
+            }
+
+            renderDetailItemsUI(items);
+            
+            // Timer control inside modal
             const timerSection = document.getElementById('timer-section');
-            if(duration > 0 && startTime) { timerSection.classList.remove('hidden'); startAdminTimer(startTime, duration); }
-            else { timerSection.classList.add('hidden'); clearInterval(timerInterval); }
+            const noTimerSection = document.getElementById('no-timer-section');
+            
+            if(duration > 0 && startTime) { 
+                timerSection.classList.remove('hidden'); 
+                noTimerSection.classList.add('hidden');
+                startModalTimerDisplay(startTime, duration);
+            } else { 
+                timerSection.classList.add('hidden'); 
+                noTimerSection.classList.remove('hidden');
+                clearInterval(timerIntervals['modal']); 
+            }
+
+            // Populate quick menu selector
+            renderQuickMenuSelector();
+
             document.getElementById('btn-close').onclick = () => closeTable(tableName);
             document.getElementById('btn-transfer').onclick = () => openTransferModal(tableName);
-            document.getElementById('btn-add-item').onclick = () => addItemToTable(tableName);
+            document.getElementById('btn-add-item').onclick = () => addItemToTableManual(tableName);
             document.getElementById('btn-delete-table').onclick = () => deleteTablePermanently(tableName);
+            
             document.getElementById('detail-modal').classList.remove('hidden');
+        };
+
+        function renderDetailItemsUI(items) {
+            const itemsDiv = document.getElementById('detail-items');
+            itemsDiv.innerHTML = '';
+            
+            if (items.length === 0) {
+                itemsDiv.innerHTML = '<div class="p-6 text-center text-gray-500 font-orbitron text-xs">لا توجد أصناف مسجلة على هذا الحساب حالياً. يمكنك الإضافة من المنيو السريع بالأسفل ⚡</div>';
+            } else {
+                items.forEach((item) => {
+                    const itemTotal = (item.price || 0) * (item.qty || 1);
+                    itemsDiv.innerHTML += `
+                        <div class="flex justify-between items-center p-3.5 bg-white/5 rounded-2xl border border-white/10 hover:border-neonCyan/40 transition-all gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center bg-black/60 rounded-xl p-1 gap-1 border border-white/10">
+                                    <button onclick="changeItemQty('${currentActiveTable}', '${item.name}', -1)" class="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-lg font-bold text-xs flex items-center justify-center">-</button>
+                                    <span class="w-6 text-center text-xs font-bold font-mono">${item.qty || 1}</span>
+                                    <button onclick="changeItemQty('${currentActiveTable}', '${item.name}', 1)" class="w-6 h-6 bg-neonCyan text-black rounded-lg font-bold text-xs flex items-center justify-center">+</button>
+                                </div>
+                                <div>
+                                    <span class="text-sm font-bold text-white block">${item.name}</span>
+                                    <span class="text-[11px] text-gray-400 font-mono">${(item.price || 0).toLocaleString()} IQD للمفرد</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="font-bold text-neonCyan font-mono text-sm">${itemTotal.toLocaleString()} IQD</span>
+                                <button onclick="removeItemCompletely('${currentActiveTable}', '${item.name}')" class="text-red-400 hover:text-white bg-red-500/15 hover:bg-red-500 p-2 rounded-xl transition-all text-xs" title="حذف الصنف نهائياً">✕</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            window.currentModalItems = items;
+            calculateDetailTotals();
         }
 
-        function startAdminTimer(startTime, duration) {
-            clearInterval(timerInterval);
+        window.calculateDetailTotals = () => {
+            const items = window.currentModalItems || [];
+            let subtotal = 0;
+            items.forEach(i => subtotal += (i.price || 0) * (i.qty || 1));
+            
+            document.getElementById('detail-subtotal').innerText = `${subtotal.toLocaleString()} IQD`;
+            
+            // Calculate discount
+            const discVal = (document.getElementById('detail-discount-input')?.value || "").trim();
+            let discountAmount = 0;
+            if (discVal.includes('%')) {
+                const pct = parseFloat(discVal.replace('%',''));
+                if (!isNaN(pct)) discountAmount = Math.round((subtotal * pct) / 100);
+            } else {
+                const num = parseFloat(discVal);
+                if (!isNaN(num)) discountAmount = num;
+            }
+            
+            const finalTotal = Math.max(0, subtotal - discountAmount);
+            document.getElementById('detail-total').innerText = `${finalTotal.toLocaleString()} IQD`;
+            window.currentModalFinalTotal = finalTotal;
+            window.currentModalDiscount = discountAmount;
+        };
+
+        function startModalTimerDisplay(startTime, duration) {
+            clearInterval(timerIntervals['modal']);
             const endTime = startTime + (duration * 1000);
-            timerInterval = setInterval(() => {
-                const now = Date.now(); const diff = endTime - now;
-                if (diff <= 0) { document.getElementById('detail-timer').innerText = "00:00:00"; clearInterval(timerInterval); return; }
-                const h = Math.floor(diff / 3600000); const m = Math.floor((diff % 3600000) / 60000); const s = Math.floor((diff % 60000) / 1000);
-                document.getElementById('detail-timer').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            const startStr = new Date(startTime).toLocaleTimeString('ar-IQ', {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('timer-info-text').innerText = `بدأ في ${startStr} - ينتهي بعد ${Math.round(duration/60)} دقيقة`;
+            
+            timerIntervals['modal'] = setInterval(() => {
+                const now = Date.now(); 
+                const diff = endTime - now;
+                const timerEl = document.getElementById('detail-timer');
+                if (!timerEl) return;
+                
+                if (diff <= 0) { 
+                    timerEl.innerText = "00:00:00"; 
+                    timerEl.className = "font-mono text-3xl lg:text-4xl font-black text-neonRed animate-pulse bg-red-950/80 px-4 py-1 rounded-2xl border border-red-500";
+                    return; 
+                }
+                timerEl.className = "font-mono text-3xl lg:text-4xl font-black text-neonCyan tracking-wider bg-black/60 px-4 py-1 rounded-2xl border border-white/10";
+                const h = Math.floor(diff / 3600000); 
+                const m = Math.floor((diff % 3600000) / 60000); 
+                const s = Math.floor((diff % 60000) / 1000);
+                timerEl.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }, 1000);
         }
 
-        window.addItemToTable = async (tableName) => {
-            const name = document.getElementById('add-item-name').value;
-            const price = parseInt(document.getElementById('add-item-price').value);
-            if(!name || !price) return alert("أدخل الاسم والسعر!");
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+        window.addTableTime = async (extraSeconds) => {
+            if (!currentActiveTable) return;
+            const q = query(collection(db, "orders"), where("table", "==", currentActiveTable), where("status", "==", "open"));
             const snap = await getDocs(q);
+            if (snap.empty) return alert("يرجى إضافة صنف أولاً أو تشغيل مؤقت!");
+            
             const batch = writeBatch(db);
             snap.forEach(d => {
                 const data = d.data();
-                const newItems = [...data.items, {name, price, qty:1}];
-                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total + price });
+                batch.update(doc(db, "orders", d.id), { duration: (data.duration || 0) + extraSeconds });
             });
             await batch.commit();
-            document.getElementById('add-item-name').value = ''; document.getElementById('add-item-price').value = '';
-            showDetail(tableName);
-            alert("تم الإضافة بنجاح ✅");
-        }
+            showDetail(currentActiveTable);
+        };
 
-        window.deleteItem = async (tableName, itemName, itemPrice) => {
-            if(!confirm(`حذف ${itemName}؟`)) return;
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+        window.startManualTimer = async (seconds) => {
+            if (!currentActiveTable) return;
+            const q = query(collection(db, "orders"), where("table", "==", currentActiveTable), where("status", "==", "open"));
+            const snap = await getDocs(q);
+            
+            if (snap.empty) {
+                // Create an order doc just for this gaming session
+                await addDoc(collection(db, "orders"), {
+                    table: currentActiveTable,
+                    items: [{ name: seconds === 3600 ? "جلسة ألعاب - ساعة" : "جلسة ألعاب - نصف ساعة", price: seconds === 3600 ? 4000 : 2000, qty: 1 }],
+                    total: seconds === 3600 ? 4000 : 2000,
+                    status: "open",
+                    timestamp: Date.now(),
+                    startTime: Date.now(),
+                    duration: seconds
+                });
+            } else {
+                const batch = writeBatch(db);
+                snap.forEach(d => {
+                    batch.update(doc(db, "orders", d.id), { startTime: Date.now(), duration: seconds });
+                });
+                await batch.commit();
+            }
+            showDetail(currentActiveTable);
+        };
+
+        window.resetTableTimer = async () => {
+            if (!confirm("هل ترغب بتصفير أو إلغاء مؤقت الألعاب لهذه الطاولة؟")) return;
+            const q = query(collection(db, "orders"), where("table", "==", currentActiveTable), where("status", "==", "open"));
             const snap = await getDocs(q);
             const batch = writeBatch(db);
+            snap.forEach(d => batch.update(doc(db, "orders", d.id), { duration: 0 }));
+            await batch.commit();
+            showDetail(currentActiveTable);
+        };
+
+        // --- QUICK MENU SELECTOR inside detail modal ---
+        function renderQuickMenuSelector() {
+            const tabsDiv = document.getElementById('quick-menu-tabs');
+            const gridDiv = document.getElementById('quick-menu-grid');
+            
+            // Get distinct categories
+            const cats = [...new Set(allProductsList.map(p => p.category || 'عام'))];
+            tabsDiv.innerHTML = `<button onclick="showQuickCategory('الكل')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-neonCyan text-black">الكل</button>` + 
+                cats.map(c => `<button onclick="showQuickCategory('${c}')" class="quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 text-gray-300">${c}</button>`).join('');
+            
+            showQuickCategory('الكل');
+        }
+
+        window.showQuickCategory = (catName) => {
+            document.querySelectorAll('.quick-cat-btn').forEach(b => {
+                if (b.innerText === catName) {
+                    b.className = "quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-neonCyan text-black";
+                } else {
+                    b.className = "quick-cat-btn px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/10 hover:bg-white/20 text-gray-300";
+                }
+            });
+
+            const gridDiv = document.getElementById('quick-menu-grid');
+            const filtered = catName === 'الكل' ? allProductsList : allProductsList.filter(p => p.category === catName);
+            
+            gridDiv.innerHTML = filtered.map(p => `
+                <button onclick="addItemToTableQuick('${currentActiveTable}', '${p.name}', ${p.price}, ${p.duration || 0})" class="quick-item-btn p-2 bg-white/5 rounded-xl border border-white/10 text-right flex flex-col justify-between">
+                    <span class="font-bold text-xs text-white truncate w-full block">${p.name}</span>
+                    <span class="text-neonCyan font-mono text-[10px] mt-1 block">${p.price.toLocaleString()} IQD</span>
+                </button>
+            `).join('');
+        };
+
+        window.addItemToTableQuick = async (tableName, name, price, duration) => {
+            await addItemToTableCore(tableName, name, price, duration);
+        };
+
+        async function addItemToTableManual(tableName) {
+            const name = document.getElementById('add-item-name').value.trim();
+            const price = parseInt(document.getElementById('add-item-price').value);
+            if(!name || isNaN(price)) return alert("أدخل اسم الصنف والسعر!");
+            
+            await addItemToTableCore(tableName, name, price, 0);
+            document.getElementById('add-item-name').value = ''; 
+            document.getElementById('add-item-price').value = '';
+        }
+
+        async function addItemToTableCore(tableName, name, price, duration) {
+            const q = query(collection(db, "orders"), where("table", "==", tableName), where("status", "==", "open"));
+            const snap = await getDocs(q);
+            
+            if (snap.empty) {
+                // First item ordered on this table
+                await addDoc(collection(db, "orders"), {
+                    table: tableName,
+                    items: [{ name, price, qty: 1, duration: duration || 0 }],
+                    total: price,
+                    status: "open",
+                    timestamp: Date.now(),
+                    startTime: duration > 0 ? Date.now() : null,
+                    duration: duration || 0
+                });
+            } else {
+                const batch = writeBatch(db);
+                snap.forEach(d => {
+                    const data = d.data();
+                    let newItems = [...data.items];
+                    const exist = newItems.find(i => i.name === name && i.price === price);
+                    if (exist) exist.qty = (exist.qty || 1) + 1;
+                    else newItems.push({ name, price, qty: 1, duration: duration || 0 });
+                    
+                    let updates = { items: newItems, total: (data.total || 0) + price };
+                    if (duration > 0 && !data.duration) {
+                        updates.startTime = Date.now();
+                        updates.duration = duration;
+                    }
+                    batch.update(doc(db, "orders", d.id), updates);
+                });
+                await batch.commit();
+            }
+            showDetail(tableName);
+        }
+
+        window.changeItemQty = async (tableName, itemName, delta) => {
+            const q = query(collection(db, "orders"), where("table", "==", tableName), where("status", "==", "open"));
+            const snap = await getDocs(q);
+            const batch = writeBatch(db);
+            
+            snap.forEach(d => {
+                const data = d.data();
+                let newItems = [];
+                let newTotal = 0;
+                
+                data.items.forEach(i => {
+                    if (i.name === itemName) {
+                        const updatedQty = (i.qty || 1) + delta;
+                        if (updatedQty > 0) {
+                            newItems.push({ ...i, qty: updatedQty });
+                            newTotal += i.price * updatedQty;
+                        }
+                    } else {
+                        newItems.push(i);
+                        newTotal += i.price * (i.qty || 1);
+                    }
+                });
+                batch.update(doc(db, "orders", d.id), { items: newItems, total: newTotal });
+            });
+            await batch.commit();
+            showDetail(tableName);
+        };
+
+        window.removeItemCompletely = async (tableName, itemName) => {
+            const q = query(collection(db, "orders"), where("table", "==", tableName), where("status", "==", "open"));
+            const snap = await getDocs(q);
+            const batch = writeBatch(db);
+            
             snap.forEach(d => {
                 const data = d.data();
                 const newItems = data.items.filter(i => i.name !== itemName);
-                batch.update(doc(db, "orders", d.id), { items: newItems, total: data.total - itemPrice });
+                let newTotal = 0;
+                newItems.forEach(i => newTotal += i.price * (i.qty || 1));
+                batch.update(doc(db, "orders", d.id), { items: newItems, total: newTotal });
             });
             await batch.commit();
             showDetail(tableName);
-        }
+        };
 
-        window.closeDetail = () => { document.getElementById('detail-modal').classList.add('hidden'); clearInterval(timerInterval); }
+        window.closeDetail = () => { 
+            document.getElementById('detail-modal').classList.add('hidden'); 
+            clearInterval(timerIntervals['modal']); 
+        };
+
+        // --- THERMAL RECEIPT PRINTING ---
+        window.printTableReceipt = () => {
+            const items = window.currentModalItems || [];
+            if (items.length === 0) return alert("لا توجد أصناف لطباعة الفاتورة!");
+            
+            const table = currentActiveTable;
+            const nowStr = new Date().toLocaleString('ar-IQ');
+            const subtotal = document.getElementById('detail-subtotal').innerText;
+            const discount = window.currentModalDiscount || 0;
+            const total = window.currentModalFinalTotal || 0;
+            const container = document.getElementById('print-receipt-container');
+            
+            container.innerHTML = `
+                <div style="text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
+                    <h2 style="font-size: 24px; font-weight: 900; margin: 0;">RESPAWN LOUNGE</h2>
+                    <p style="font-size: 12px; margin: 4px 0;">مركز القيادة الكوني للألعاب والأراكيل</p>
+                    <p style="font-size: 11px; margin: 0;">${nowStr}</p>
+                    <h3 style="font-size: 18px; margin: 8px 0 0 0; background: #eee; padding: 4px;">الوحدة: ${table}</h3>
+                </div>
+                <table style="width: 100%; font-size: 13px; text-align: right; border-collapse: collapse; margin-bottom: 10px;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #000;">
+                            <th style="padding: 4px;">الصنف</th>
+                            <th style="padding: 4px; text-align: center;">العدد</th>
+                            <th style="padding: 4px; text-align: left;">المجموع</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${items.map(i => `
+                            <tr>
+                                <td style="padding: 4px;">${i.name}</td>
+                                <td style="padding: 4px; text-align: center;">${i.qty || 1}</td>
+                                <td style="padding: 4px; text-align: left;">${(i.price * (i.qty || 1)).toLocaleString()}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+                <div style="border-top: 2px dashed #000; padding-top: 8px; font-size: 14px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>المجموع الفرعي:</span>
+                        <span>${subtotal}</span>
+                    </div>
+                    ${discount > 0 ? `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; color: #666;">
+                            <span>الخصم:</span>
+                            <span>- ${discount.toLocaleString()} IQD</span>
+                        </div>
+                    ` : ''}
+                    <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 900; border-top: 1px solid #000; padding-top: 6px; margin-top: 6px;">
+                        <span>المطلوب دفعه:</span>
+                        <span>${total.toLocaleString()} IQD</span>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 15px; font-size: 11px; border-top: 1px dotted #ccc; padding-top: 10px;">
+                    <p>شكراً لزيارتكم RESPAWN!</p>
+                    <p>نتمنى لكم تجربة لعب ممتعة 🎮</p>
+                </div>
+            `;
+            
+            window.print();
+        };
 
         window.closeTable = async (tableName) => {
-            if(!confirm(`إغلاق حساب ${tableName}؟`)) return;
-            const q = query(collection(db, "orders"), where("table", "==", tableName));
+            if(!confirm(`هل أنت متأكد من إغلاق حساب (${tableName}) وتحصيل المبلغ نهائياً؟`)) return;
+            
+            const finalTotal = window.currentModalFinalTotal !== undefined ? window.currentModalFinalTotal : 0;
+            
+            const q = query(collection(db, "orders"), where("table", "==", tableName), where("status", "==", "open"));
             const snap = await getDocs(q);
-            let finalTotal = 0; snap.forEach(d => finalTotal += d.data().total);
+            
+            // Add to daily revenue
             const statsRef = doc(db, "stats", "daily_revenue");
             const statsSnap = await getDoc(statsRef);
             const currentRev = statsSnap.exists() ? statsSnap.data().total : 0;
             await setDoc(statsRef, { total: currentRev + finalTotal });
-            snap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
-            closeDetail(); updateRevenue();
-            alert("تم إغلاق الحساب وتحصيل المبلغ ✅");
+            
+            // Instead of deleting the orders, we update status to "closed" and set final total so log history works!
+            const batch = writeBatch(db);
+            let first = true;
+            snap.forEach(d => {
+                if (first) {
+                    batch.update(doc(db, "orders", d.id), { status: "closed", closedAt: Date.now(), total: finalTotal });
+                    first = false;
+                } else {
+                    // if multiple open docs existed, delete extra or close them
+                    batch.delete(doc(db, "orders", d.id));
+                }
+            });
+            await batch.commit();
+            
+            closeDetail(); 
+            updateRevenue();
+            alert("تم إغلاق الحساب وتحصيل المبلغ وإضافته للوردية! ✅");
         };
 
         window.openTransferModal = (tableName) => {
             currentTransferSource = tableName;
+            document.getElementById('transfer-source-text').innerText = `نقل جميع الطلبات والمؤقت من: (${tableName})`;
             const select = document.getElementById('transfer-target');
-            select.innerHTML = '<option value="">اختر الطاولة الهدف...</option>';
+            select.innerHTML = '<option value="">🎯 اختر الطاولة الهدف...</option>';
             allTablesList.forEach(t => { if(t !== currentTransferSource) select.innerHTML += `<option value="${t}">${t}</option>`; });
             document.getElementById('transfer-modal').classList.remove('hidden');
-        }
+        };
 
-        window.closeTransfer = () => { document.getElementById('transfer-modal').classList.add('hidden'); }
+        window.closeTransfer = () => { document.getElementById('transfer-modal').classList.add('hidden'); };
 
         document.getElementById('confirm-transfer').onclick = async () => {
             const toTable = document.getElementById('transfer-target').value;
-            if(!toTable) return alert("يرجى اختيار طاولة!");
-            const q = query(collection(db, "orders"), where("table", "==", currentTransferSource));
+            if(!toTable) return alert("يرجى اختيار الطاولة الهدف!");
+            
+            const q = query(collection(db, "orders"), where("table", "==", currentTransferSource), where("status", "==", "open"));
             const snap = await getDocs(q);
             const batch = writeBatch(db);
             snap.forEach(d => batch.update(doc(db, "orders", d.id), { table: toTable }));
             await batch.commit();
+            
             closeTransfer(); closeDetail();
-            alert("تم تحويل الحساب بنجاح 🔄");
+            alert(`تم تحويل الحساب بنجاح من (${currentTransferSource}) إلى (${toTable}) 🔄`);
         };
 
         window.deleteTablePermanently = async (tableName) => {
-            if(!confirm(`حذف ${tableName} من النظام بالكامل؟`)) return;
+            if(!confirm(`هل أنت متأكد من مسح (${tableName}) من خريطة الصالة بالكامل؟`)) return;
             const q = query(collection(db, "tables"), where("name", "==", tableName));
             const snap = await getDocs(q);
             snap.forEach(async (d) => await deleteDoc(doc(db, "tables", d.id)));
-            const ordersQ = query(collection(db, "orders"), where("table", "==", tableName));
-            const ordersSnap = await getDocs(ordersQ);
-            ordersSnap.forEach(async (d) => await deleteDoc(doc(db, "orders", d.id)));
             closeDetail();
-            alert("تم الحذف نهائياً ✅");
+            alert("تم حذف الطاولة من النظام! ✅");
+        };
+
+        window.resetDailyRevenueConfirm = async () => {
+            if(!confirm("⚠️ هل أنت متأكد من تصفير إيرادات الوردية (إغلاق اليومية)؟ سيتم تصفير عداد المبالغ وبدء وردية جديدة.")) return;
+            const statsRef = doc(db, "stats", "daily_revenue");
+            await setDoc(statsRef, { total: 0 });
+            updateRevenue();
+            alert("تم إغلاق الوردية وتصفير الإيرادات اليومية بنجاح! 🔄");
         };
 
         window.closeAllTables = async () => {
-            if(!confirm("تصفير جميع حسابات الصالة؟")) return;
-            const snap = await getDocs(collection(db, "orders"));
+            if(!confirm("⚠️ تحذير شديد: هل ترغب بتصفير أو إغلاق جميع الحسابات المفتوحة في الصالة حالياً دفعة واحدة؟")) return;
+            const snap = await getDocs(query(collection(db, "orders"), where("status", "==", "open")));
             const batch = writeBatch(db);
-            snap.forEach(d => batch.delete(doc(db, "orders", d.id)));
+            snap.forEach(d => batch.update(doc(db, "orders", d.id), { status: "closed", closedAt: Date.now() }));
             await batch.commit();
-            alert("تم تصفير الصالة بنجاح ✅");
+            alert("تم تصفير جميع طاولات الصالة! ✅");
         };
 
-        window.onload = () => { updateRevenue(); switchTab('map'); };
+        // --- REAL-TIME ORDERS SNAPSHOT ---
+        onSnapshot(collection(db, "orders"), async (snap) => {
+            const openOrders = {};
+            let currentOpenOrdersCount = 0;
+
+            snap.forEach(docSnap => {
+                const data = docSnap.data();
+                if (data.status === "open") {
+                    currentOpenOrdersCount++;
+                    const tName = data.table;
+                    if (!openOrders[tName]) {
+                        openOrders[tName] = { items: [], total: 0, customer: data.customer, startTime: data.startTime, duration: data.duration };
+                    }
+                    if (data.items && Array.isArray(data.items)) {
+                        openOrders[tName].items.push(...data.items);
+                    }
+                    openOrders[tName].total += (data.total || 0);
+                    if (data.startTime && !openOrders[tName].startTime) openOrders[tName].startTime = data.startTime;
+                    if (data.duration > 0) openOrders[tName].duration = data.duration;
+                }
+            });
+
+            // Trigger sound on new order arrived
+            if (currentOpenOrdersCount > previousOpenOrdersCount && previousOpenOrdersCount > 0) {
+                playAlertSound('bell');
+            }
+            previousOpenOrdersCount = currentOpenOrdersCount;
+
+            openOrdersData = openOrders;
+
+            // Load tables list dynamically
+            const tableSnap = await getDocs(collection(db, "tables"));
+            const dynamic = [];
+            tableSnap.forEach(doc => dynamic.push(doc.data().name));
+            allTablesList = [...new Set([...BASE_TABLES, ...dynamic])];
+            
+            renderMap();
+            calculateStrategicPulse(openOrders);
+        });
+
+        window.onload = () => { 
+            updateRevenue(); 
+            loadAllProducts();
+            switchTab('map'); 
+        };
     </script>
 </body>
 </html>
